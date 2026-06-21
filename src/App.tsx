@@ -10,17 +10,17 @@ export default function App() {
     <div className="h-screen w-full flex overflow-hidden bg-[#0B0F14]">
       {/* Background Image & Overlay */}
       <div className="fixed inset-0 z-0">
-        <img 
-          src="https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?auto=format&fit=crop&q=80&w=2400" 
-          alt="Atmospheric Background" 
-          className="w-full h-full object-cover opacity-[0.15]"
+        <img
+          src="/fotofront.png"
+          alt="Atmospheric Background"
+          className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0B0F14]/40 via-[#0B0F14]/80 to-[#0B0F14]"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F14] via-[#0B0F14]/80 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0B0F14]/20 to-[#0B0F14]"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F14]/90 via-[#0B0F14]/30 to-transparent"></div>
       </div>
 
       <Sidebar />
-      
+
       <main className="flex-1 flex flex-col h-full overflow-y-auto overflow-x-hidden custom-scrollbar">
         <div className="max-w-6xl w-full mx-auto flex flex-col min-h-full">
           <TopBar />

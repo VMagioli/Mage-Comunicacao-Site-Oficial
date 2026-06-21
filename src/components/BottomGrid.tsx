@@ -3,61 +3,63 @@ import { ArrowUpRight } from 'lucide-react';
 
 export function BottomGrid() {
   return (
-    <section className="px-8 mt-12 mb-12 relative z-20">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <section className="px-8 mt-6 mb-12 relative z-20">
+      <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6">
         
-        {/* Metrics Box */}
-        <div className="bg-white/[0.03] border border-white/5 rounded-xl p-8 backdrop-blur-sm lg:col-span-2 flex flex-col justify-between">
-          <div className="font-mono text-xs text-slate-500 mb-8 uppercase tracking-widest border-b border-white/5 pb-4">
-            <span className="text-emerald-400 mr-2">//</span>
-            nosso propósito: Menos ruído. Mais clareza. Melhores experiências.
-          </div>
+        {/* Metrics & Purpose Box */}
+        <div className="col-span-1 md:col-span-4 lg:col-span-4 bg-white/[0.02] border border-white/5 rounded-xl p-8 backdrop-blur-sm flex flex-col md:flex-row justify-between items-stretch gap-8 hover:border-white/10 transition-all duration-300">
           
-          <div className="grid grid-cols-3 gap-4">
+          {/* Left: Purpose */}
+          <div className="flex-1 flex flex-col justify-between relative">
             <div>
-              <div className="text-3xl font-medium text-white mb-1">+30</div>
-              <div className="text-xs text-slate-400 uppercase tracking-wider font-light">Projetos entregues</div>
+              <div className="flex justify-between items-center">
+                <span className="font-mono text-[10px] text-slate-500 tracking-wider uppercase">// nosso propósito</span>
+                {/* Code icon brackets */}
+                <span className="font-mono text-xs text-slate-600 select-none">&lt;/&gt;</span>
+              </div>
+              <h4 className="text-lg md:text-xl font-medium text-white tracking-tight mt-6 leading-relaxed max-w-[320px]">
+                Menos ruído. Mais clareza.<br />Melhores experiências.
+              </h4>
             </div>
-            <div>
-              <div className="text-3xl font-medium text-white mb-1">12</div>
-              <div className="text-xs text-slate-400 uppercase tracking-wider font-light">Clientes parceiros</div>
-            </div>
-            <div>
-              <div className="text-3xl font-medium text-white mb-1">98%</div>
-              <div className="text-xs text-slate-400 uppercase tracking-wider font-light">Satisfação</div>
+          </div>
+
+          {/* Divider */}
+          <div className="hidden md:block w-[1px] bg-white/5 self-stretch my-2"></div>
+
+          {/* Right: Metrics Grid */}
+          <div className="flex-1 flex flex-col justify-center">
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+                <div className="text-2xl font-medium text-white mb-2">+30</div>
+                <div className="text-[10px] text-slate-400 uppercase tracking-wider font-light leading-snug">Projetos entregues</div>
+              </div>
+              <div>
+                <div className="text-2xl font-medium text-white mb-2">12</div>
+                <div className="text-[10px] text-slate-400 uppercase tracking-wider font-light leading-snug">Clientes parceiros</div>
+              </div>
+              <div>
+                <div className="text-2xl font-medium text-white mb-2">98%</div>
+                <div className="text-[10px] text-slate-400 uppercase tracking-wider font-light leading-snug">Satisfação média</div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col gap-6">
-          {/* Featured Project */}
-          <div className="relative h-40 rounded-xl overflow-hidden border border-white/10 group cursor-pointer">
-            <img 
-              src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=800" 
-              alt="Northpeak Project" 
-              className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 group-hover:scale-105 transition-all duration-700"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-            <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
-              <div>
-                <div className="text-xs text-blue-300 font-mono mb-1">Projeto em destaque</div>
-                <div className="text-lg font-medium text-white">Northpeak</div>
-              </div>
-              <div className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:bg-white text-white group-hover:text-black transition-all">
-                <ArrowUpRight size={16} />
-              </div>
-            </div>
+        {/* CTA Box (Próximo Passo) */}
+        <div className="col-span-1 md:col-span-4 lg:col-span-2 bg-white/[0.02] border border-white/5 rounded-xl p-8 backdrop-blur-sm flex flex-col justify-between min-h-[160px] relative overflow-hidden group cursor-pointer hover:border-blue-500/20 transition-all duration-300">
+          <div>
+            <span className="text-slate-500 text-[10px] font-semibold tracking-widest uppercase">Próximo passo</span>
           </div>
-
-          {/* CTA Box */}
-          <div className="bg-gradient-to-br from-blue-900/40 to-[#0B0F14] border border-blue-500/20 rounded-xl p-6 flex flex-row items-center justify-between group cursor-pointer hover:border-blue-400/40 transition-colors">
-            <div className="pr-4">
-              <div className="text-xs text-blue-300/70 font-mono mb-2 uppercase tracking-wider">Próximo passo</div>
-              <div className="text-white font-medium leading-snug">Vamos construir algo incrível juntos?</div>
+          
+          <div className="flex items-end justify-between mt-6">
+            <h4 className="text-slate-200 text-sm md:text-base font-medium leading-relaxed max-w-[180px] group-hover:text-white transition-colors duration-300">
+              Vamos construir algo incrível juntos?
+            </h4>
+            
+            {/* Glowing button with Arrow */}
+            <div className="w-11 h-11 shrink-0 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all duration-300 group-hover:bg-blue-500 group-hover:text-white group-hover:shadow-[0_0_25px_rgba(59,130,246,0.5)]">
+              <ArrowUpRight size={18} />
             </div>
-             <div className="w-10 h-10 shrink-0 rounded-full bg-blue-500 text-white shadow-[0_0_15px_rgba(59,130,246,0.4)] flex items-center justify-center group-hover:bg-white group-hover:text-blue-600 transition-all duration-300">
-                <ArrowUpRight size={20} />
-              </div>
           </div>
         </div>
 
