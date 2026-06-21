@@ -1,0 +1,6 @@
+{
+  "name": "MAGE Agency Dashboard",
+  "description": "Dark mode, atmospheric, minimal dashboard for MAGE agency focusing on 'technology with tranquility'.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
