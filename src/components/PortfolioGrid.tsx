@@ -4,8 +4,9 @@ import { ArrowRight, ExternalLink } from 'lucide-react';
 const PROJECTS = [
   {
     id: 1,
-    url: 'mage.agency/cases/magiolli',
-    image: '/magiolli-site.png',
+    url: 'fabriciomagioli.com.br',
+    realUrl: 'https://www.fabriciomagioli.com.br/',
+    image: '/images/site-fabriciomagioli.webp',
     label: 'HIGH-PERFORMANCE WEB DEVELOPMENT',
     title: 'Plataforma Imobiliária Fabrício Magiolli',
     description: 'Plataforma de alto padrão com busca inteligente de propriedades de luxo, mapas interativos e otimização SEO de extrema performance.',
@@ -16,8 +17,9 @@ const PROJECTS = [
   },
   {
     id: 2,
-    url: 'mage.agency/cases/dra-ingrid',
-    image: '/ingrid-site.png',
+    url: 'ingrydcarolnutri.com.br',
+    realUrl: 'https://www.ingrydcarolnutri.com.br/',
+    image: '/images/site-ingrydcarolnutri.webp',
     label: 'BRAND STRATEGY & IDENTITY',
     title: 'Posicionamento & Plataforma Dra. Ingrid',
     description: 'Desenvolvimento de identidade de marca premium, estratégia de conteúdo integrado e portal de agendamentos exclusivo de alta conversão.',
@@ -48,7 +50,12 @@ export function PortfolioGrid() {
           >
             <div>
               {/* Browser Window Simulation */}
-              <div className="w-full bg-[#0B0F14]/90 border border-white/10 rounded-xl overflow-hidden shadow-2xl mb-6">
+              <a 
+                href={project.realUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full bg-[#0B0F14]/90 border border-white/10 rounded-xl overflow-hidden shadow-2xl mb-6 hover:border-white/20 transition-colors cursor-pointer group/browser"
+              >
                 {/* Browser Header / Tab Bar */}
                 <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-[#0B0F14]">
                   {/* Left Controls */}
@@ -65,7 +72,7 @@ export function PortfolioGrid() {
 
                   {/* Right Spacing / Icon */}
                   <div className="w-[30px] flex justify-end">
-                    <ExternalLink size={10} className="text-slate-600" />
+                    <ExternalLink size={10} className="text-slate-600 group-hover/browser:text-slate-300 transition-colors" />
                   </div>
                 </div>
 
@@ -80,7 +87,7 @@ export function PortfolioGrid() {
                   {/* Glass overlay at the bottom to give depth */}
                   <div className="absolute inset-x-0 bottom-0 h-4 bg-gradient-to-t from-[#0B0F14]/80 to-transparent pointer-events-none"></div>
                 </div>
-              </div>
+              </a>
 
               {/* Project Metadados */}
               <div className="px-2">
@@ -118,7 +125,9 @@ export function PortfolioGrid() {
 
                 {/* Link "Ver Projeto" */}
                 <a 
-                  href="#"
+                  href={project.realUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`flex items-center gap-1.5 text-xs font-medium font-mono group-hover:underline transition-colors ${project.accentColor}`}
                 >
                   Ver Projeto
