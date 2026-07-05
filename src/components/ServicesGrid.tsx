@@ -1,5 +1,6 @@
 import React from 'react';
 import { Compass, Palette, Cpu, Sparkles, ArrowUpRight } from 'lucide-react';
+import { PROJECTS } from '../data/projects';
 
 const SERVICES = [
   {
@@ -32,7 +33,14 @@ const SERVICES = [
   }
 ];
 
-export function ServicesGrid() {
+interface ServicesGridProps {
+  setActiveTab: (tab: string) => void;
+}
+
+export function ServicesGrid({ setActiveTab }: ServicesGridProps) {
+  // Get the last project inserted
+  const lastProject = PROJECTS.length > 0 ? PROJECTS[PROJECTS.length - 1] : null;
+
   return (
     <section className="px-4 md:px-8 mt-4 relative z-20">
       <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6">
@@ -65,36 +73,49 @@ export function ServicesGrid() {
           
           {/* Header Row */}
           <div className="flex items-center justify-between">
-            <span className="text-slate-500 text-[10px] font-semibold tracking-widest uppercase">PROJETOS EM DESTAQUE</span>
-            <a href="#" className="text-slate-400 hover:text-white transition-colors duration-300 text-[11px] font-medium flex items-center gap-1">
+            <span className="text-slate-500 text-[10px] font-semibold tracking-widest uppercase">PROJETO EM DESTAQUE</span>
+            <button 
+              onClick={() => setActiveTab('projetos')}
+              className="text-slate-400 hover:text-white transition-colors duration-300 text-[11px] font-medium flex items-center gap-1 cursor-pointer"
+            >
               Ver todos <ArrowUpRight size={14} className="inline" />
-            </a>
+            </button>
           </div>
 
           {/* Center Row: Split into Title/Description and Image */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 my-4">
-            <div className="flex-1">
-              <h4 className="text-xl font-medium text-white mb-2">Northpeak</h4>
-              <p className="text-slate-400 text-xs leading-relaxed font-light tracking-wide">
-                Plataforma digital para experiências ao ar livre.
-              </p>
-            </div>
-            
-            {/* Image Container with Hover Effect */}
-            <div className="relative w-full sm:w-36 h-36 sm:h-24 shrink-0 rounded-lg overflow-hidden border border-white/10 group-hover:border-white/20 transition-colors duration-300">
-              <img 
-                src="/fotofront.png" 
-                alt="Northpeak Project" 
-                className="w-full h-full object-cover opacity-75 group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-              
-              {/* Overlapping arrow button on image */}
-              <div className="absolute bottom-1.5 right-1.5 w-6 h-6 rounded-full border border-blue-500/30 bg-blue-950/80 text-blue-400 flex items-center justify-center shadow-[0_0_10px_rgba(59,130,246,0.3)] transition-all duration-300 hover:bg-blue-500 hover:text-white">
-                <ArrowUpRight size={12} />
+          {lastProject ? (
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 my-4">
+              <div className="flex-1">
+                <span className="text-blue-400 text-[9px] font-mono tracking-wider block mb-1 uppercase font-medium">Último Caso</span>
+                <h4 className="text-xl font-medium text-white mb-2 line-clamp-1">{lastProject.title}</h4>
+                <p className="text-slate-400 text-xs leading-relaxed font-light tracking-wide line-clamp-3">
+                  {lastProject.description}
+                </p>
               </div>
+              
+              {/* Image Container with Hover Effect */}
+              <a 
+                href={lastProject.realUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative w-full sm:w-36 h-36 sm:h-24 shrink-0 rounded-lg overflow-hidden border border-white/10 group-hover:border-white/20 transition-colors duration-300 block"
+              >
+                <img 
+                  src={lastProject.image} 
+                  alt={lastProject.title} 
+                  className="w-full h-full object-cover opacity-75 group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                
+                {/* Overlapping arrow button on image */}
+                <div className="absolute bottom-1.5 right-1.5 w-6 h-6 rounded-full border border-blue-500/30 bg-blue-950/80 text-blue-400 flex items-center justify-center shadow-[0_0_10px_rgba(59,130,246,0.3)] transition-all duration-300 hover:bg-blue-500 hover:text-white">
+                  <ArrowUpRight size={12} />
+                </div>
+              </a>
             </div>
-          </div>
+          ) : (
+            <div className="my-4 text-slate-500 font-mono text-xs">Nenhum projeto cadastrado.</div>
+          )}
 
           {/* Footer Indicators */}
           <div className="flex gap-1.5 items-center">
@@ -109,3 +130,4 @@ export function ServicesGrid() {
     </section>
   );
 }
+

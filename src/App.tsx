@@ -6,6 +6,12 @@ import { ServicesGrid } from './components/ServicesGrid';
 import { PortfolioGrid } from './components/PortfolioGrid';
 import { BottomGrid } from './components/BottomGrid';
 
+// Import New Pages
+import { ServicesPage } from './components/ServicesPage';
+import { ProcessesPage } from './components/ProcessesPage';
+import { AboutPage } from './components/AboutPage';
+import { ContactPage } from './components/ContactPage';
+
 export default function App() {
   const [activeTab, setActiveTab] = useState<string>('inicio');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(() => {
@@ -60,7 +66,7 @@ export default function App() {
           {activeTab === 'inicio' && (
             <>
               <Hero />
-              <ServicesGrid />
+              <ServicesGrid setActiveTab={setActiveTab} />
             </>
           )}
 
@@ -68,10 +74,20 @@ export default function App() {
             <PortfolioGrid />
           )}
 
-          {activeTab !== 'inicio' && activeTab !== 'projetos' && (
-            <div className="flex-1 flex items-center justify-center relative z-20 text-slate-500 font-mono text-sm py-20">
-              Página em desenvolvimento...
-            </div>
+          {activeTab === 'servicos' && (
+            <ServicesPage />
+          )}
+
+          {activeTab === 'processos' && (
+            <ProcessesPage />
+          )}
+
+          {activeTab === 'sobre' && (
+            <AboutPage />
+          )}
+
+          {activeTab === 'contato' && (
+            <ContactPage />
           )}
 
           <div className="flex-grow"></div>
@@ -81,4 +97,5 @@ export default function App() {
     </div>
   );
 }
+
 

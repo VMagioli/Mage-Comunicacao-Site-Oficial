@@ -46,7 +46,12 @@ export function BottomGrid() {
         </div>
 
         {/* CTA Box (Próximo Passo) */}
-        <div className="col-span-1 md:col-span-4 lg:col-span-2 bg-white/[0.02] border border-white/5 rounded-xl p-6 md:p-8 backdrop-blur-sm flex flex-col justify-between min-h-[160px] relative overflow-hidden group cursor-pointer hover:border-blue-500/20 transition-all duration-300">
+        <a 
+          href="https://wa.me/5500000000000?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20MAGE."
+          target="_blank"
+          rel="noopener noreferrer"
+          className="col-span-1 md:col-span-4 lg:col-span-2 bg-white/[0.02] border border-white/5 rounded-xl p-6 md:p-8 backdrop-blur-sm flex flex-col justify-between min-h-[160px] relative overflow-hidden group cursor-pointer hover:border-blue-500/20 transition-all duration-300 block text-left"
+        >
           <div>
             <span className="text-slate-500 text-[10px] font-semibold tracking-widest uppercase">Próximo passo</span>
           </div>
@@ -61,7 +66,7 @@ export function BottomGrid() {
               <ArrowUpRight size={18} />
             </div>
           </div>
-        </div>
+        </a>
 
       </div>
     </section>
