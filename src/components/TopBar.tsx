@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Bell, Menu } from 'lucide-react';
+import { Bell, Menu, Instagram, Linkedin } from 'lucide-react';
 
 interface TopBarProps {
   onMenuToggle: () => void;
@@ -40,6 +40,28 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
       </div>
 
       <div className="flex items-center gap-4 md:gap-6 shrink-0">
+        {/* Social Icons */}
+        <div className="flex items-center gap-3 mr-2">
+          <a 
+            href="https://instagram.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-slate-400 hover:text-white transition-colors cursor-pointer p-1"
+            aria-label="Instagram da MAGE"
+          >
+            <Instagram size={18} />
+          </a>
+          <a 
+            href="https://linkedin.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-slate-400 hover:text-white transition-colors cursor-pointer p-1"
+            aria-label="LinkedIn da MAGE"
+          >
+            <Linkedin size={18} />
+          </a>
+        </div>
+
         <span className="text-xs md:text-sm font-mono text-slate-400">{time || '00:00 AM'}</span>
         <button className="relative text-slate-400 hover:text-white transition-colors cursor-pointer">
           <Bell size={20} />
@@ -49,4 +71,5 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
     </header>
   );
 }
+
 
