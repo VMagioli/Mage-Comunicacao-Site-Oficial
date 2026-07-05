@@ -87,7 +87,7 @@ export function ServicesGrid({ setActiveTab }: ServicesGridProps) {
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 my-4">
               <div className="flex-1">
                 <span className="text-blue-400 text-[9px] font-mono tracking-wider block mb-1 uppercase font-medium">Último Caso</span>
-                <h4 className="text-xl font-medium text-white mb-2 line-clamp-1">{lastProject.title}</h4>
+                <h4 className="text-lg md:text-xl font-medium text-white mb-2 leading-snug">{lastProject.title}</h4>
                 <p className="text-slate-400 text-xs leading-relaxed font-light tracking-wide line-clamp-3">
                   {lastProject.description}
                 </p>
@@ -103,7 +103,7 @@ export function ServicesGrid({ setActiveTab }: ServicesGridProps) {
                 <img 
                   src={lastProject.image} 
                   alt={lastProject.title} 
-                  className="w-full h-full object-cover opacity-75 group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-cover object-top opacity-75 group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 

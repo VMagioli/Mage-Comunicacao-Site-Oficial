@@ -38,5 +38,18 @@ export const PROJECTS: Project[] = [
     colorClass: 'text-emerald-400 border-emerald-500/20 bg-emerald-500/5 hover:border-emerald-400/30 hover:shadow-[0_0_12px_rgba(16,185,129,0.15)]',
     tagColorClass: 'text-emerald-400/90 bg-emerald-500/10 border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.05)]',
     accentColor: 'text-emerald-400'
+  },
+  {
+    id: 3,
+    url: 'projetoreputacaodigital.com.br',
+    realUrl: '#',
+    image: '/images/site-reputacaodigital.png',
+    label: 'PERSONAL BRANDING & INFLUENCE',
+    title: 'Projeto Reputação Digital',
+    description: 'Landing page de altíssima conversão focada na venda de mentorias e construção de autoridade digital por meio de posicionamento de alto valor.',
+    tags: ['Branding', 'Copywriting', 'Conversion', 'React'],
+    colorClass: 'text-pink-400 border-pink-500/20 bg-pink-500/5 hover:border-pink-400/30 hover:shadow-[0_0_12px_rgba(236,72,153,0.15)]',
+    tagColorClass: 'text-pink-400/90 bg-pink-500/10 border-pink-500/20 shadow-[0_0_10px_rgba(236,72,153,0.05)]',
+    accentColor: 'text-pink-400'
   }
 ];
