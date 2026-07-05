@@ -11,6 +11,12 @@ import { ServicesPage } from './components/ServicesPage';
 import { ProcessesPage } from './components/ProcessesPage';
 import { AboutPage } from './components/AboutPage';
 import { ContactPage } from './components/ContactPage';
+import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
+import { TermsPage } from './components/TermsPage';
+
+// Import Global Footer and Cookie Consent
+import { Footer } from './components/Footer';
+import { CookieConsent } from './components/CookieConsent';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<string>('inicio');
@@ -90,12 +96,25 @@ export default function App() {
             <ContactPage />
           )}
 
+          {activeTab === 'privacidade' && (
+            <PrivacyPolicyPage />
+          )}
+
+          {activeTab === 'termos' && (
+            <TermsPage />
+          )}
+
           <div className="flex-grow"></div>
           <BottomGrid />
+          <Footer setActiveTab={setActiveTab} />
         </div>
       </main>
+
+      {/* Cookie Consent Toast */}
+      <CookieConsent setActiveTab={setActiveTab} />
     </div>
   );
 }
+
 
 

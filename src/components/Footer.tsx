@@ -1,0 +1,42 @@
+import React from 'react';
+
+interface FooterProps {
+  setActiveTab: (tab: string) => void;
+}
+
+export function Footer({ setActiveTab }: FooterProps) {
+  return (
+    <footer className="mt-auto py-8 px-4 md:px-8 border-t border-white/5 bg-[#0B0F14]/40 backdrop-blur-sm relative z-20">
+      <div className="max-w-6xl w-full mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+        {/* Left Side: Copyright */}
+        <div className="text-[11px] font-mono text-slate-500 tracking-wider">
+          © {new Date().getFullYear()} MAGE COMUNICAÇÃO. TODOS OS DIREITOS RESERVADOS.
+        </div>
+
+        {/* Right Side: Links */}
+        <div className="flex items-center gap-6 text-[11px] font-mono">
+          <button 
+            onClick={() => {
+              setActiveTab('privacidade');
+              // Smooth scroll to top of main container when changing tab
+              document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="text-slate-500 hover:text-white transition-colors cursor-pointer"
+          >
+            Política de Privacidade
+          </button>
+          
+          <button 
+            onClick={() => {
+              setActiveTab('termos');
+              document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="text-slate-500 hover:text-white transition-colors cursor-pointer"
+          >
+            Termos de Uso
+          </button>
+        </div>
+      </div>
+    </footer>
+  );
+}
