@@ -32,9 +32,9 @@ const PROJECTS = [
 
 export function PortfolioGrid() {
   return (
-    <section className="px-8 py-10 relative z-20">
+    <section className="px-4 md:px-8 py-8 md:py-10 relative z-20">
       {/* Title / Section Header */}
-      <div className="mb-10">
+      <div className="mb-8 md:mb-10">
         <span className="text-slate-500 text-[10px] font-mono tracking-widest uppercase">// cases de sucesso</span>
         <h2 className="text-3xl font-medium text-white tracking-tight mt-2">
           Nossos Projetos
@@ -42,11 +42,11 @@ export function PortfolioGrid() {
       </div>
 
       {/* Grid of Portfolio Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
         {PROJECTS.map((project) => (
           <div 
             key={project.id}
-            className="group bg-[#111923]/60 backdrop-blur-md border border-white/5 rounded-2xl p-6 transition-all duration-300 hover:border-white/10 hover:shadow-[0_0_40px_rgba(0,0,0,0.3)] flex flex-col justify-between"
+            className="group bg-[#111923]/60 backdrop-blur-md border border-white/5 rounded-2xl p-4 sm:p-6 transition-all duration-300 hover:border-white/10 hover:shadow-[0_0_40px_rgba(0,0,0,0.3)] flex flex-col justify-between"
           >
             <div>
               {/* Browser Window Simulation */}

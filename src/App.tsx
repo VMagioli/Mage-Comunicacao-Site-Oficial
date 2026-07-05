@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { TopBar } from './components/TopBar';
 import { Hero } from './components/Hero';
@@ -8,6 +8,19 @@ import { BottomGrid } from './components/BottomGrid';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<string>('inicio');
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(() => {
+    const saved = localStorage.getItem('sidebar-collapsed');
+    return saved === 'true';
+  });
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarCollapsed(prev => {
+      const next = !prev;
+      localStorage.setItem('sidebar-collapsed', String(next));
+      return next;
+    });
+  };
 
   return (
     <div className="h-screen w-full flex overflow-hidden bg-[#0B0F14]">
@@ -22,11 +35,26 @@ export default function App() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F14]/90 via-[#0B0F14]/30 to-transparent"></div>
       </div>
 
-      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      {/* Backdrop overlay for mobile menu */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
 
-      <main className="flex-1 flex flex-col h-full overflow-y-auto overflow-x-hidden custom-scrollbar">
+      <Sidebar 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab} 
+        isCollapsed={isSidebarCollapsed}
+        setIsCollapsed={toggleSidebar}
+        isMobileOpen={isMobileMenuOpen}
+        setIsMobileOpen={setIsMobileMenuOpen}
+      />
+
+      <main className="flex-1 flex flex-col h-full overflow-y-auto overflow-x-hidden custom-scrollbar relative z-10">
         <div className="max-w-6xl w-full mx-auto flex flex-col min-h-full">
-          <TopBar />
+          <TopBar onMenuToggle={() => setIsMobileMenuOpen(true)} />
           
           {/* Dynamic Content Switching */}
           {activeTab === 'inicio' && (
@@ -53,3 +81,4 @@ export default function App() {
     </div>
   );
 }
+

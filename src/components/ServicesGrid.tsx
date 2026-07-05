@@ -34,14 +34,14 @@ const SERVICES = [
 
 export function ServicesGrid() {
   return (
-    <section className="px-8 mt-4 relative z-20">
+    <section className="px-4 md:px-8 mt-4 relative z-20">
       <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6">
         {SERVICES.map((service, index) => {
           const Icon = service.icon;
           return (
             <div 
               key={index}
-              className="col-span-1 md:col-span-2 lg:col-span-1 bg-white/[0.02] border border-white/5 rounded-xl p-6 backdrop-blur-sm flex flex-col justify-between min-h-[300px] relative group hover:border-white/10 transition-all duration-300"
+              className="col-span-1 md:col-span-2 lg:col-span-1 bg-white/[0.02] border border-white/5 rounded-xl p-6 backdrop-blur-sm flex flex-col justify-between min-h-[280px] md:min-h-[300px] relative group hover:border-white/10 transition-all duration-300"
             >
               <div>
                 <div className={`w-12 h-12 rounded-full border flex items-center justify-center mb-6 ${service.iconContainerClass}`}>
@@ -61,7 +61,7 @@ export function ServicesGrid() {
         })}
 
         {/* Featured Project Card (Projetos em Destaque) */}
-        <div className="col-span-1 md:col-span-4 lg:col-span-2 bg-white/[0.02] border border-white/5 rounded-xl p-8 backdrop-blur-sm flex flex-col justify-between min-h-[300px] relative group hover:border-white/10 transition-all duration-300">
+        <div className="col-span-1 md:col-span-4 lg:col-span-2 bg-white/[0.02] border border-white/5 rounded-xl p-6 md:p-8 backdrop-blur-sm flex flex-col justify-between min-h-[300px] relative group hover:border-white/10 transition-all duration-300">
           
           {/* Header Row */}
           <div className="flex items-center justify-between">
@@ -72,7 +72,7 @@ export function ServicesGrid() {
           </div>
 
           {/* Center Row: Split into Title/Description and Image */}
-          <div className="flex items-center gap-6 my-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 my-4">
             <div className="flex-1">
               <h4 className="text-xl font-medium text-white mb-2">Northpeak</h4>
               <p className="text-slate-400 text-xs leading-relaxed font-light tracking-wide">
@@ -81,7 +81,7 @@ export function ServicesGrid() {
             </div>
             
             {/* Image Container with Hover Effect */}
-            <div className="relative w-36 h-24 shrink-0 rounded-lg overflow-hidden border border-white/10 group-hover:border-white/20 transition-colors duration-300">
+            <div className="relative w-full sm:w-36 h-36 sm:h-24 shrink-0 rounded-lg overflow-hidden border border-white/10 group-hover:border-white/20 transition-colors duration-300">
               <img 
                 src="/fotofront.png" 
                 alt="Northpeak Project" 
