@@ -41,9 +41,9 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 3,
-    url: 'projetoreputacaodigital.com.br',
-    realUrl: '#',
-    image: '/images/site-reputacaodigital.png',
+    url: 'reputacaodigital.laizeandreatta.vercel.app',
+    realUrl: 'https://reputacaodigital.laizeandreatta.vercel.app/',
+    image: '/images/screencapture-reputacaodigital-laizeandreatta-vercel-app-2026-07-05-00_31_55.webp',
     label: 'PERSONAL BRANDING & INFLUENCE',
     title: 'Projeto Reputação Digital',
     description: 'Landing page de altíssima conversão focada na venda de mentorias e construção de autoridade digital por meio de posicionamento de alto valor.',
