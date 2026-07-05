@@ -73,6 +73,7 @@ export default function App() {
             <>
               <Hero />
               <ServicesGrid setActiveTab={setActiveTab} />
+              <BottomGrid />
             </>
           )}
 
@@ -105,7 +106,6 @@ export default function App() {
           )}
 
           <div className="flex-grow"></div>
-          <BottomGrid />
           <Footer setActiveTab={setActiveTab} />
         </div>
       </main>
