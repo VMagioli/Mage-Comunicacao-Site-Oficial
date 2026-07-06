@@ -1,6 +1,10 @@
 import React from 'react';
 
-export function Hero() {
+interface HeroProps {
+  setActiveTab: (tab: string) => void;
+}
+
+export function Hero({ setActiveTab }: HeroProps) {
   return (
     <section className="relative z-20 flex flex-col lg:flex-row items-center justify-between px-4 md:px-8 py-8 md:py-12 gap-12">
       <div className="max-w-2xl w-full">
@@ -15,14 +19,22 @@ export function Hero() {
         </p>
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6">
-          <button className="px-6 py-3 bg-blue-500/10 border border-blue-500/30 text-blue-300 rounded-lg font-medium hover:bg-blue-500/20 hover:border-blue-400/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer">
+          <button 
+            onClick={() => setActiveTab('projetos')}
+            className="px-6 py-3 bg-blue-500/10 border border-blue-500/30 text-blue-300 rounded-lg font-medium hover:bg-blue-500/20 hover:border-blue-400/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
+          >
             Ver projetos <span className="font-mono text-lg leading-none">&rarr;</span>
           </button>
           
-          <button className="group flex items-center justify-center gap-3 text-slate-300 hover:text-white transition-colors duration-300 font-medium py-2 cursor-pointer">
+          <a 
+            href="https://wa.me/5500000000000?text=Olá!%20Gostaria%20de%20falar%20com%20o%20time%20da%20MAGE."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center justify-center gap-3 text-slate-300 hover:text-white transition-colors duration-300 font-medium py-2 cursor-pointer"
+          >
             <span className="h-2 w-2 rounded-full bg-emerald-500/50 group-hover:bg-emerald-400 group-hover:shadow-[0_0_10px_rgba(16,185,129,0.8)] transition-all duration-300"></span>
             Falar com o time
-          </button>
+          </a>
         </div>
       </div>
 

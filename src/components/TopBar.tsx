@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Bell, Menu, Instagram, Linkedin } from 'lucide-react';
+import { Menu, Instagram, Linkedin, User } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { createClient } from '@/lib/supabase-client';
 
 interface TopBarProps {
   onMenuToggle: () => void;
 }
 
 export function TopBar({ onMenuToggle }: TopBarProps) {
+  const router = useRouter();
   const [time, setTime] = useState<string>('');
+  const [session, setSession] = useState<any>(null);
 
   useEffect(() => {
     const updateClock = () => {
@@ -17,6 +21,27 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
     const interval = setInterval(updateClock, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleClientAreaClick = () => {
+    if (session) {
+      router.push('/portal');
+    } else {
+      router.push('/login');
+    }
+  };
 
   return (
     <header className="flex items-center justify-between py-4 px-4 md:py-6 md:px-8 relative z-20 gap-4">
@@ -43,7 +68,7 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
         {/* Social Icons */}
         <div className="flex items-center gap-3 mr-2">
           <a 
-            href="https://instagram.com/"
+            href="https://www.instagram.com/magecomunicacao/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-slate-400 hover:text-white transition-colors cursor-pointer p-1"
@@ -63,9 +88,13 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
         </div>
 
         <span className="text-xs md:text-sm font-mono text-slate-400">{time || '00:00 AM'}</span>
-        <button className="relative text-slate-400 hover:text-white transition-colors cursor-pointer">
-          <Bell size={20} />
-          <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-blue-500 border border-[#0B0F14]"></span>
+        <button 
+          onClick={handleClientAreaClick}
+          className="px-3 py-1.5 md:px-4 md:py-2 bg-blue-500/10 border border-blue-500/20 hover:border-blue-500/40 text-blue-300 hover:text-blue-200 rounded-lg text-xs md:text-sm font-medium transition-all duration-300 flex items-center gap-2 cursor-pointer hover:bg-blue-500/20 hover:shadow-[0_0_15px_rgba(59,130,246,0.15)]"
+        >
+          <User size={14} className="text-blue-400" />
+          <span className="hidden sm:inline">{session ? 'Ir para o Portal' : 'Área do Cliente'}</span>
+          <span className="sm:hidden">{session ? 'Portal' : 'Login'}</span>
         </button>
       </div>
     </header>

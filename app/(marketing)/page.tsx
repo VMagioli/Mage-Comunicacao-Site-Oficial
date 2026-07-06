@@ -1,30 +1,37 @@
+"use client";
+
 import React, { useState, useEffect } from 'react';
-import { Sidebar } from './components/Sidebar';
-import { TopBar } from './components/TopBar';
-import { Hero } from './components/Hero';
-import { ServicesGrid } from './components/ServicesGrid';
-import { PortfolioGrid } from './components/PortfolioGrid';
-import { BottomGrid } from './components/BottomGrid';
+import { Sidebar } from '@/src/components/Sidebar';
+import { TopBar } from '@/src/components/TopBar';
+import { Hero } from '@/src/components/Hero';
+import { ServicesGrid } from '@/src/components/ServicesGrid';
+import { PortfolioGrid } from '@/src/components/PortfolioGrid';
+import { BottomGrid } from '@/src/components/BottomGrid';
 
 // Import New Pages
-import { ServicesPage } from './components/ServicesPage';
-import { ProcessesPage } from './components/ProcessesPage';
-import { AboutPage } from './components/AboutPage';
-import { ContactPage } from './components/ContactPage';
-import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
-import { TermsPage } from './components/TermsPage';
+import { ServicesPage } from '@/src/components/ServicesPage';
+import { ProcessesPage } from '@/src/components/ProcessesPage';
+import { AboutPage } from '@/src/components/AboutPage';
+import { ContactPage } from '@/src/components/ContactPage';
+import { PrivacyPolicyPage } from '@/src/components/PrivacyPolicyPage';
+import { TermsPage } from '@/src/components/TermsPage';
 
 // Import Global Footer and Cookie Consent
-import { Footer } from './components/Footer';
-import { CookieConsent } from './components/CookieConsent';
+import { Footer } from '@/src/components/Footer';
+import { CookieConsent } from '@/src/components/CookieConsent';
 
-export default function App() {
+export default function MarketingPage() {
   const [activeTab, setActiveTab] = useState<string>('inicio');
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(() => {
-    const saved = localStorage.getItem('sidebar-collapsed');
-    return saved === 'true';
-  });
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    // Only access localStorage on client-side
+    const saved = localStorage.getItem('sidebar-collapsed');
+    if (saved === 'true') {
+      setIsSidebarCollapsed(true);
+    }
+  }, []);
 
   const toggleSidebar = () => {
     setIsSidebarCollapsed(prev => {
@@ -71,7 +78,7 @@ export default function App() {
           {/* Dynamic Content Switching */}
           {activeTab === 'inicio' && (
             <>
-              <Hero />
+              <Hero setActiveTab={setActiveTab} />
               <ServicesGrid setActiveTab={setActiveTab} />
               <BottomGrid />
             </>
@@ -115,6 +122,3 @@ export default function App() {
     </div>
   );
 }
-
-
-
