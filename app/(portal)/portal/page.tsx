@@ -16,7 +16,7 @@ interface ClientePerfil {
   pacote_foundation: boolean;
   pacote_management: boolean;
   pacote_authority: boolean;
-  google_drive_link: string;
+  url_google_drive: string;
   tempo_permanencia_meses: number;
 }
 
@@ -50,7 +50,7 @@ export default function DashboardPortal() {
           pacote_foundation: true,
           pacote_management: true,
           pacote_authority: true,
-          google_drive_link: "https://drive.google.com/drive/folders/shared-mage-folder",
+          url_google_drive: "https://drive.google.com/drive/folders/shared-mage-folder",
           tempo_permanencia_meses: 12
         });
         setPosts([
@@ -319,7 +319,7 @@ export default function DashboardPortal() {
               </div>
               
               <a 
-                href={profile.google_drive_link}
+                href={profile.url_google_drive}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full px-3 py-2.5 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 text-blue-300 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 transition duration-300 group"
@@ -439,7 +439,7 @@ export default function DashboardPortal() {
                       <p className="text-[11px] text-slate-400 font-light leading-relaxed mb-4">Arquivos pesados e filmagens brutas em 4K. Enviando diretamente no link do Drive compartilhado mantemos custo de storage zero no portal.</p>
                     </div>
                     <a 
-                      href={profile.google_drive_link} 
+                      href={profile.url_google_drive} 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="w-full py-3 bg-white/5 hover:bg-white/10 text-xs font-semibold text-slate-200 border border-white/5 rounded-lg text-center transition flex items-center justify-center gap-2 cursor-pointer"

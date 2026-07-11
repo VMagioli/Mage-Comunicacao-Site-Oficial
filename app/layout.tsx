@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className="h-full scroll-smooth">
-      <body className="h-full antialiased bg-[#0B0F14] text-slate-400">
+      <body className="h-full antialiased bg-[#0B0F14] text-slate-400" suppressHydrationWarning>
         {children}
       </body>
     </html>
