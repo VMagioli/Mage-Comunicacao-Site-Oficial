@@ -8,10 +8,8 @@ export async function GET(request: Request) {
   const type = searchParams.get('type') as any
 
   if (token_hash && type) {
-    // A mágica do Next.js 15 acontece aqui: o 'await' antes do cookies()
     const cookieStore = await cookies()
     
-    // Inicia o cliente do Supabase com o novo padrão getAll e setAll
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -26,14 +24,14 @@ export async function GET(request: Request) {
                 cookieStore.set(name, value, options)
               )
             } catch {
-              // Ignorar erros se for chamado de um Server Component
+              // Ignorar erros em Server Components
             }
           },
         },
       }
     )
 
-    // Troca o token seguro por uma sessão logada
+    // Tenta trocar o token seguro por uma sessão logada
     const { error } = await supabase.auth.verifyOtp({
       type,
       token_hash,
@@ -42,7 +40,12 @@ export async function GET(request: Request) {
     if (!error) {
       // Sucesso! Manda o cliente para o painel
       return NextResponse.redirect(`${origin}/portal`)
+    } else {
+      // CAPTURANDO O VILÃO: Imprime o erro exato no terminal do VS Code
+      console.error("🚨 ERRO DO SUPABASE NO CALLBACK:", error.message)
     }
+  } else {
+    console.error("🚨 FALTAM PARÂMETROS NA URL:", { token_hash, type })
   }
 
   // Se der erro, volta para o login
