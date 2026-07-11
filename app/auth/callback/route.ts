@@ -1,4 +1,4 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
@@ -8,22 +8,26 @@ export async function GET(request: Request) {
   const type = searchParams.get('type') as any
 
   if (token_hash && type) {
+    // A mágica do Next.js 15 acontece aqui: o 'await' antes do cookies()
     const cookieStore = await cookies()
     
-    // Inicia o cliente do Supabase no lado do Servidor
+    // Inicia o cliente do Supabase com o novo padrão getAll e setAll
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       {
         cookies: {
-          get(name: string) {
-            return cookieStore.get(name)?.value
+          getAll() {
+            return cookieStore.getAll()
           },
-          set(name: string, value: string, options: CookieOptions) {
-            cookieStore.set({ name, value, ...options })
-          },
-          remove(name: string, options: CookieOptions) {
-            cookieStore.set({ name, value: '', ...options })
+          setAll(cookiesToSet) {
+            try {
+              cookiesToSet.forEach(({ name, value, options }) =>
+                cookieStore.set(name, value, options)
+              )
+            } catch {
+              // Ignorar erros se for chamado de um Server Component
+            }
           },
         },
       }
@@ -41,6 +45,6 @@ export async function GET(request: Request) {
     }
   }
 
-  // Se o token for inválido, expirado ou a URL estiver errada, volta para o login
+  // Se der erro, volta para o login
   return NextResponse.redirect(`${origin}/login?error=auth-callback-failed`)
 }
