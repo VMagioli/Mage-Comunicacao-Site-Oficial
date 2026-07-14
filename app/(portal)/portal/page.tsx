@@ -6,8 +6,10 @@ import { createClient } from "@/lib/supabase-client";
 import { 
   User, CheckCircle, Clock, Copy, Download, 
   Send, ArrowUpRight, CheckSquare, LogOut,
-  Settings, FolderKanban, ShieldCheck, HelpCircle, HardDrive
+  Settings, FolderKanban, ShieldCheck, HelpCircle, HardDrive,
+  ChevronLeft, ChevronRight, X
 } from "lucide-react";
+import { TermsPage } from "@/src/components/TermsPage";
 
 interface ClientePerfil {
   id?: string;
@@ -22,10 +24,42 @@ interface ClientePerfil {
 
 export default function DashboardPortal() {
   const router = useRouter();
+
+  const getInitials = (name: string) => {
+    if (!name) return "US";
+    const cleanName = name.replace(/\s*\(.*?\)\s*/g, "").trim();
+    const parts = cleanName.split(/\s+/);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return parts[0][0].toUpperCase();
+  };
+
   const [profile, setProfile] = useState<ClientePerfil | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<string>("visao_geral");
   const [copiedHex, setCopiedHex] = useState<string | null>(null);
+  
+  // Custom states for interactive headers and retractable sidebar
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [showHelpModal, setShowHelpModal] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("portal-sidebar-collapsed");
+    if (saved === "true") {
+      setIsSidebarCollapsed(true);
+    }
+  }, []);
+
+  const toggleSidebar = () => {
+    setIsSidebarCollapsed(prev => {
+      const next = !prev;
+      localStorage.setItem("portal-sidebar-collapsed", String(next));
+      return next;
+    });
+  };
 
   // Form inputs
   const [chamadoTitulo, setChamadoTitulo] = useState("");
@@ -137,6 +171,31 @@ export default function DashboardPortal() {
           if (roadmapData) setRoadmap(roadmapData);
         }
       }
+      else {
+        // CORREÇÃO: O usuário logou, mas não tem cadastro na tabela clientes ainda. 
+        // Vamos forçar o perfil com os dados de demonstração para a tela abrir!
+        setProfile({
+          nome_empresa: "Mage Tech Solutions (Sua Empresa)",
+          email: session.user.email || "contato@empresa.com",
+          pacote_foundation: true,
+          pacote_management: true,
+          pacote_authority: true,
+          url_google_drive: "https://drive.google.com",
+          tempo_permanencia_meses: 12
+        });
+        setPosts([
+          {
+            id: "demo-1",
+            titulo: "Bem-vindo ao Portal MAGE",
+            copy_post: "Aguardando cadastro completo do seu perfil na base de dados.",
+            tipo_midia: "imagem_r2",
+            url_midia: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop",
+            status: "pendente"
+          }
+        ]);
+        setChamados([]);
+        setRoadmap([]);
+      }
       setLoading(false);
     };
 
@@ -238,105 +297,181 @@ export default function DashboardPortal() {
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
             <span className="text-slate-400 font-mono text-[10px]">CONEXÃO ATIVA</span>
           </div>
-          <div className="flex items-center gap-2 text-slate-400 hover:text-white transition">
-            <User size={16} />
-            <span className="text-xs font-medium">{profile.email}</span>
+          
+          <div className="relative">
+            <button 
+              onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+              className="flex items-center gap-3 bg-white/[0.02] hover:bg-white/[0.06] active:bg-white/[0.08] border border-white/5 hover:border-white/10 rounded-full pl-3 pr-2 py-1.5 text-xs text-slate-300 hover:text-white transition-all cursor-pointer select-none"
+            >
+              <span className="font-medium tracking-tight max-w-[150px] truncate">{profile.nome_empresa}</span>
+              <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center font-bold text-[10px] text-white shadow-sm border border-white/10">
+                {getInitials(profile.nome_empresa)}
+              </div>
+            </button>
+
+            {showProfileDropdown && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setShowProfileDropdown(false)} />
+                <div className="absolute right-0 mt-2 w-64 bg-[#0F1424] border border-white/10 rounded-2xl p-4 shadow-[0_10px_30px_rgba(0,0,0,0.5)] z-50 animate-fadeIn space-y-4">
+                  <div className="flex flex-col items-center text-center pb-3 border-b border-white/5">
+                    <div className="h-12 w-12 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center font-bold text-base text-white mb-2 shadow-[0_0_15px_rgba(59,130,246,0.3)] border border-white/10">
+                      {getInitials(profile.nome_empresa)}
+                    </div>
+                    <span className="font-semibold text-sm text-white tracking-tight leading-tight block">{profile.nome_empresa}</span>
+                    <span className="text-[10px] text-slate-500 font-mono mt-0.5 truncate max-w-full">{profile.email}</span>
+                  </div>
+
+                  <div className="space-y-1">
+                    <button 
+                      onClick={() => {
+                        setShowProfileDropdown(false);
+                        setShowHelpModal(true);
+                      }}
+                      className="w-full text-left px-3 py-2 rounded-lg text-xs text-slate-300 hover:text-white hover:bg-white/[0.04] transition flex items-center gap-2 cursor-pointer"
+                    >
+                      <HelpCircle size={14} className="text-blue-400" />
+                      Ajuda e Suporte
+                    </button>
+                    
+                    <button 
+                      onClick={() => {
+                        setShowProfileDropdown(false);
+                        setShowTermsModal(true);
+                      }}
+                      className="w-full text-left px-3 py-2 rounded-lg text-xs text-slate-300 hover:text-white hover:bg-white/[0.04] transition flex items-center gap-2 cursor-pointer"
+                    >
+                      <ShieldCheck size={14} className="text-emerald-400" />
+                      Termos de Uso
+                    </button>
+                  </div>
+
+                  <div className="pt-2 border-t border-white/5">
+                    <button 
+                      onClick={handleLogout}
+                      className="w-full py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 transition cursor-pointer"
+                    >
+                      <LogOut size={13} />
+                      Sair do Portal
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </header>
 
       <div className="flex-1 flex flex-col lg:flex-row">
         {/* Menu Lateral Inteligente e Condicional */}
-        <aside className="w-full lg:w-64 border-r border-white/5 bg-[#0C1121]/50 p-6 flex flex-col gap-6 shrink-0 justify-between">
+        <aside className={`w-full border-r border-white/5 bg-[#0C1121]/50 flex flex-col gap-6 shrink-0 justify-between transition-all duration-300 ease-in-out relative ${
+          isSidebarCollapsed ? "lg:w-[76px] p-4 lg:px-2" : "lg:w-64 p-6"
+        }`}>
+          {/* Collapse Toggle Button (Desktop only) */}
+          <button
+            onClick={toggleSidebar}
+            className="hidden lg:flex absolute top-6 -right-3 w-6 h-6 rounded-full bg-[#111923] border border-white/10 hover:border-white/20 text-slate-400 hover:text-white items-center justify-center transition-all duration-300 cursor-pointer z-30 shadow-[0_0_10px_rgba(0,0,0,0.5)]"
+            aria-label={isSidebarCollapsed ? "Expandir menu" : "Recolher menu"}
+          >
+            {isSidebarCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+          </button>
+
           <div className="space-y-6">
             <div>
-              <span className="text-[10px] font-semibold tracking-widest text-slate-500 uppercase block mb-3">// Navegação</span>
+              {!isSidebarCollapsed ? (
+                <span className="text-[10px] font-semibold tracking-widest text-slate-500 uppercase block mb-3">// Navegação</span>
+              ) : (
+                <div className="h-4" />
+              )}
               <nav className="flex flex-col gap-1.5">
                 <button 
                   onClick={() => setActiveTab("visao_geral")}
-                  className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium transition duration-200 flex items-center gap-2 cursor-pointer ${
+                  title={isSidebarCollapsed ? "Painel Geral" : undefined}
+                  className={`w-full transition duration-200 flex items-center rounded-lg cursor-pointer ${
+                    isSidebarCollapsed 
+                      ? "justify-center p-2.5" 
+                      : "text-left px-3 py-2 gap-2 text-xs font-medium"
+                  } ${
                     activeTab === "visao_geral" 
                       ? "bg-blue-500/10 border border-blue-500/20 text-blue-300 shadow-[0_0_15px_rgba(59,130,246,0.1)]" 
                       : "border border-transparent text-slate-400 hover:text-slate-200 hover:bg-white/[0.02]"
                   }`}
                 >
-                  <FolderKanban size={14} />
-                  Painel Geral
+                  <FolderKanban size={16} />
+                  {!isSidebarCollapsed && <span>Painel Geral</span>}
                 </button>
 
                 {profile.pacote_foundation && (
                   <button 
                     onClick={() => setActiveTab("foundation")}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium transition duration-200 flex items-center gap-2 cursor-pointer ${
+                    title={isSidebarCollapsed ? "MAGE Foundation" : undefined}
+                    className={`w-full transition duration-200 flex items-center rounded-lg cursor-pointer ${
+                      isSidebarCollapsed 
+                        ? "justify-center p-2.5" 
+                        : "text-left px-3 py-2 gap-2 text-xs font-medium"
+                    } ${
                       activeTab === "foundation" 
                         ? "bg-blue-500/10 border border-blue-500/20 text-blue-300 shadow-[0_0_15px_rgba(59,130,246,0.1)]" 
                         : "border border-transparent text-slate-400 hover:text-slate-200 hover:bg-white/[0.02]"
                     }`}
                   >
-                    <ShieldCheck size={14} />
-                    MAGE Foundation
+                    <ShieldCheck size={16} />
+                    {!isSidebarCollapsed && <span>MAGE Foundation</span>}
                   </button>
                 )}
 
                 {profile.pacote_management && (
                   <button 
                     onClick={() => setActiveTab("management")}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium transition duration-200 flex items-center gap-2 cursor-pointer ${
+                    title={isSidebarCollapsed ? "MAGE Management" : undefined}
+                    className={`w-full transition duration-200 flex items-center rounded-lg cursor-pointer ${
+                      isSidebarCollapsed 
+                        ? "justify-center p-2.5" 
+                        : "text-left px-3 py-2 gap-2 text-xs font-medium"
+                    } ${
                       activeTab === "management" 
                         ? "bg-blue-500/10 border border-blue-500/20 text-blue-300 shadow-[0_0_15px_rgba(59,130,246,0.1)]" 
                         : "border border-transparent text-slate-400 hover:text-slate-200 hover:bg-white/[0.02]"
                     }`}
                   >
-                    <CheckSquare size={14} />
-                    MAGE Management
+                    <CheckSquare size={16} />
+                    {!isSidebarCollapsed && <span>MAGE Management</span>}
                   </button>
                 )}
 
                 {profile.pacote_authority && (
                   <button 
                     onClick={() => setActiveTab("authority")}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium transition duration-200 flex items-center gap-2 cursor-pointer ${
+                    title={isSidebarCollapsed ? "MAGE Authority" : undefined}
+                    className={`w-full transition duration-200 flex items-center rounded-lg cursor-pointer ${
+                      isSidebarCollapsed 
+                        ? "justify-center p-2.5" 
+                        : "text-left px-3 py-2 gap-2 text-xs font-medium"
+                    } ${
                       activeTab === "authority" 
                         ? "bg-blue-500/10 border border-blue-500/20 text-blue-300 shadow-[0_0_15px_rgba(59,130,246,0.1)]" 
                         : "border border-transparent text-slate-400 hover:text-slate-200 hover:bg-white/[0.02]"
                     }`}
                   >
-                    <Settings size={14} />
-                    MAGE Authority
+                    <Settings size={16} />
+                    {!isSidebarCollapsed && <span>MAGE Authority</span>}
                   </button>
                 )}
               </nav>
             </div>
 
             {/* Resumo do Contrato Geral */}
-            <div className="pt-6 border-t border-white/5 space-y-4">
-              <div className="bg-white/[0.01] border border-white/5 rounded-xl p-4">
-                <span className="text-[9px] font-mono text-slate-500 uppercase block mb-1">FIDELIDADE CONTRATUAL</span>
-                <p className="text-xs text-slate-300 font-medium">{profile.tempo_permanencia_meses} meses restantes</p>
-                <div className="w-full bg-white/5 h-1.5 rounded-full mt-2 overflow-hidden">
-                  <div className="bg-emerald-500/80 h-full w-[45%] rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+            {!isSidebarCollapsed && (
+              <div className="pt-6 border-t border-white/5 space-y-4">
+                <div className="bg-white/[0.01] border border-white/5 rounded-xl p-4">
+                  <span className="text-[9px] font-mono text-slate-500 uppercase block mb-1">FIDELIDADE CONTRATUAL</span>
+                  <p className="text-xs text-slate-300 font-medium">{profile.tempo_permanencia_meses} meses restantes</p>
+                  <div className="w-full bg-white/5 h-1.5 rounded-full mt-2 overflow-hidden">
+                    <div className="bg-emerald-500/80 h-full w-[45%] rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+                  </div>
                 </div>
               </div>
-              
-              <a 
-                href={profile.url_google_drive}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full px-3 py-2.5 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 text-blue-300 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 transition duration-300 group"
-              >
-                <HardDrive size={13} className="group-hover:translate-y-[-1px] transition-transform" />
-                Upload no Google Drive
-              </a>
-            </div>
+            )}
           </div>
-
-          <button 
-            onClick={handleLogout}
-            className="w-full mt-6 py-2.5 bg-red-500/5 hover:bg-red-500/15 border border-red-500/10 hover:border-red-500/30 text-red-400 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 transition cursor-pointer"
-          >
-            <LogOut size={13} />
-            Sair do Portal
-          </button>
         </aside>
 
         {/* Área Central de Conteúdo */}
@@ -759,6 +894,97 @@ export default function DashboardPortal() {
           )}
         </main>
       </div>
+
+      {/* Help Modal */}
+      {showHelpModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-[#0C1121] border border-white/10 w-full max-w-lg rounded-2xl flex flex-col shadow-[0_20px_50px_rgba(0,0,0,0.6)] relative overflow-hidden">
+            {/* Modal Header */}
+            <div className="px-6 py-4 border-b border-white/5 flex justify-between items-center bg-[#0F1424]">
+              <div>
+                <h3 className="text-sm font-semibold text-white tracking-tight">Central de Ajuda e Suporte</h3>
+                <p className="text-[10px] text-slate-500 font-mono tracking-wider">// Atendimento & FAQ MAGE</p>
+              </div>
+              <button 
+                onClick={() => setShowHelpModal(false)}
+                className="text-slate-400 hover:text-white p-1 rounded-lg border border-white/5 hover:border-white/10 transition cursor-pointer"
+              >
+                <X size={16} />
+              </button>
+            </div>
+            
+            {/* Scrollable Content */}
+            <div className="p-6 space-y-6 text-slate-300">
+              <div className="space-y-4">
+                <h4 className="text-xs font-semibold text-white uppercase tracking-wider font-mono">// Como podemos ajudar?</h4>
+                
+                <div className="space-y-3">
+                  <div className="bg-white/[0.02] border border-white/5 p-4 rounded-xl space-y-1">
+                    <span className="text-xs font-semibold text-white block">Aprovação de Conteúdos</span>
+                    <p className="text-xs text-slate-400 font-light leading-relaxed">
+                      Na aba <strong className="text-blue-400">MAGE Management</strong>, avalie as publicações e copys preparadas. Você pode aprovar ou solicitar ajustes preenchendo as alterações no campo de texto.
+                    </p>
+                  </div>
+                  
+                  <div className="bg-white/[0.02] border border-white/5 p-4 rounded-xl space-y-1">
+                    <span className="text-xs font-semibold text-white block">Suporte Técnico</span>
+                    <p className="text-xs text-slate-400 font-light leading-relaxed">
+                      Para correções técnicas, atualizações ou novos recursos em seu site, abra um chamado técnico diretamente na aba <strong className="text-blue-400">MAGE Management</strong>.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-white/5 space-y-3">
+                <h4 className="text-xs font-semibold text-white uppercase tracking-wider font-mono">// Canais de Atendimento Direto</h4>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  <a 
+                    href="mailto:suporte@magecomunicacao.com.br"
+                    className="py-2.5 bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl text-center text-xs font-semibold text-white transition flex items-center justify-center gap-2"
+                  >
+                    Suporte por E-mail
+                  </a>
+                  <a 
+                    href="https://wa.me/5531999999999"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-2.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 rounded-xl text-center text-xs font-semibold text-emerald-400 transition flex items-center justify-center gap-2"
+                  >
+                    WhatsApp Oficial
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Terms Modal */}
+      {showTermsModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-[#0C1121] border border-white/10 w-full max-w-4xl max-h-[85vh] rounded-2xl flex flex-col shadow-[0_20px_50px_rgba(0,0,0,0.6)] relative overflow-hidden">
+            {/* Modal Header */}
+            <div className="px-6 py-4 border-b border-white/5 flex justify-between items-center bg-[#0F1424]">
+              <div>
+                <h3 className="text-sm font-semibold text-white tracking-tight">Termos de Uso</h3>
+                <p className="text-[10px] text-slate-500 font-mono tracking-wider">// Termos e condições gerais da MAGE</p>
+              </div>
+              <button 
+                onClick={() => setShowTermsModal(false)}
+                className="text-slate-400 hover:text-white p-1 rounded-lg border border-white/5 hover:border-white/10 transition cursor-pointer"
+              >
+                <X size={16} />
+              </button>
+            </div>
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar">
+              <TermsPage />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
