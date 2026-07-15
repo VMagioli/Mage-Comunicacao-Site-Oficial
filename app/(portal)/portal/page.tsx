@@ -7,7 +7,7 @@ import {
   User, CheckCircle, Clock, Copy, Download, 
   Send, ArrowUpRight, CheckSquare, LogOut,
   Settings, FolderKanban, ShieldCheck, HelpCircle, HardDrive,
-  ChevronLeft, ChevronRight, X
+  ChevronLeft, ChevronRight, X, Menu
 } from "lucide-react";
 import { TermsPage } from "@/src/components/TermsPage";
 
@@ -45,6 +45,7 @@ export default function DashboardPortal() {
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [showHelpModal, setShowHelpModal] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("portal-sidebar-collapsed");
@@ -261,6 +262,7 @@ export default function DashboardPortal() {
   const handleLogout = async () => {
     const supabase = createClient();
     await supabase.auth.signOut();
+    document.cookie = "mage_mock_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     router.refresh();
     router.push('/login');
   };
@@ -283,6 +285,13 @@ export default function DashboardPortal() {
       {/* Top Header do Portal */}
       <header className="border-b border-white/5 bg-[#0F1424]/40 backdrop-blur-md sticky top-0 z-30 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
+          <button 
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="lg:hidden text-slate-400 hover:text-white p-2 border border-white/5 hover:border-white/10 rounded-lg transition-colors cursor-pointer shrink-0"
+            aria-label="Abrir menu"
+          >
+            <Menu size={18} />
+          </button>
           <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-emerald-500 flex items-center justify-center font-bold text-white tracking-wider text-sm shadow-[0_0_15px_rgba(59,130,246,0.3)]">
             M
           </div>
@@ -361,11 +370,29 @@ export default function DashboardPortal() {
         </div>
       </header>
 
+      {/* Backdrop overlay for mobile menu */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
       <div className="flex-1 flex flex-col lg:flex-row">
         {/* Menu Lateral Inteligente e Condicional */}
-        <aside className={`w-full border-r border-white/5 bg-[#0C1121]/50 flex flex-col gap-6 shrink-0 justify-between transition-all duration-300 ease-in-out relative ${
-          isSidebarCollapsed ? "lg:w-[76px] p-4 lg:px-2" : "lg:w-64 p-6"
-        }`}>
+        <aside className={`fixed inset-y-0 left-0 z-50 lg:static flex flex-col justify-between py-6 px-5 shrink-0 bg-[#0C1121]/95 lg:bg-[#0C1121]/50 backdrop-blur-md lg:backdrop-blur-none border-r border-white/5 transition-all duration-300 ease-in-out
+          ${isSidebarCollapsed ? "lg:w-[76px] p-4 lg:px-2" : "lg:w-64 p-6"}
+          ${isMobileMenuOpen ? "translate-x-0 w-64" : "-translate-x-full lg:translate-x-0"}
+        `}>
+          {/* Close button (Mobile only) */}
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="lg:hidden absolute top-4 right-4 text-slate-400 hover:text-white p-1.5 rounded-lg border border-white/5 hover:border-white/10 transition-colors cursor-pointer"
+            aria-label="Fechar menu"
+          >
+            <X size={16} />
+          </button>
+
           {/* Collapse Toggle Button (Desktop only) */}
           <button
             onClick={toggleSidebar}
@@ -384,7 +411,10 @@ export default function DashboardPortal() {
               )}
               <nav className="flex flex-col gap-1.5">
                 <button 
-                  onClick={() => setActiveTab("visao_geral")}
+                  onClick={() => {
+                    setActiveTab("visao_geral");
+                    setIsMobileMenuOpen(false);
+                  }}
                   title={isSidebarCollapsed ? "Painel Geral" : undefined}
                   className={`w-full transition duration-200 flex items-center rounded-lg cursor-pointer ${
                     isSidebarCollapsed 
@@ -402,7 +432,10 @@ export default function DashboardPortal() {
 
                 {profile.pacote_foundation && (
                   <button 
-                    onClick={() => setActiveTab("foundation")}
+                    onClick={() => {
+                      setActiveTab("foundation");
+                      setIsMobileMenuOpen(false);
+                    }}
                     title={isSidebarCollapsed ? "MAGE Foundation" : undefined}
                     className={`w-full transition duration-200 flex items-center rounded-lg cursor-pointer ${
                       isSidebarCollapsed 
@@ -421,7 +454,10 @@ export default function DashboardPortal() {
 
                 {profile.pacote_management && (
                   <button 
-                    onClick={() => setActiveTab("management")}
+                    onClick={() => {
+                      setActiveTab("management");
+                      setIsMobileMenuOpen(false);
+                    }}
                     title={isSidebarCollapsed ? "MAGE Management" : undefined}
                     className={`w-full transition duration-200 flex items-center rounded-lg cursor-pointer ${
                       isSidebarCollapsed 
@@ -440,7 +476,10 @@ export default function DashboardPortal() {
 
                 {profile.pacote_authority && (
                   <button 
-                    onClick={() => setActiveTab("authority")}
+                    onClick={() => {
+                      setActiveTab("authority");
+                      setIsMobileMenuOpen(false);
+                    }}
                     title={isSidebarCollapsed ? "MAGE Authority" : undefined}
                     className={`w-full transition duration-200 flex items-center rounded-lg cursor-pointer ${
                       isSidebarCollapsed 
@@ -631,7 +670,7 @@ export default function DashboardPortal() {
                 {/* Paleta Hex */}
                 <div className="bg-[#0F1424]/40 border border-white/5 rounded-2xl p-6">
                   <h3 className="text-sm font-semibold text-white mb-4">Cores Corporativas</h3>
-                  <div className="flex items-center gap-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     {[
                       { hex: "#0B0F19", name: "Midnight" },
                       { hex: "#3B82F6", name: "Classic Blue" },

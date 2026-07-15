@@ -20,6 +20,14 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
+    // Development bypass for demo purposes
+    if (email === 'cliente@mage.com' && password === 'mage123') {
+      document.cookie = "mage_mock_session=true; path=/";
+      router.refresh();
+      router.push('/portal');
+      return;
+    }
+
     const supabase = createClient();
     const { error: authError } = await supabase.auth.signInWithPassword({
       email,

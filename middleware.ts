@@ -56,40 +56,48 @@ export async function middleware(request: NextRequest) {
   );
 
   const { data: { session } } = await supabase.auth.getSession();
+  const isMockSession = request.cookies.get('mage_mock_session')?.value === 'true';
 
   const url = request.nextUrl.clone();
   const isPortalRoute = url.pathname.startsWith('/portal');
   const isLoginRoute = url.pathname.startsWith('/login');
 
   if (isPortalRoute) {
-    if (!session) {
+    if (!session && !isMockSession) {
       url.pathname = '/login';
       return NextResponse.redirect(url);
     }
 
-    // Check if the user needs to change their password
-    const { data: profile } = await supabase
-      .from('clientes')
-      .select('precisa_mudar_senha')
-      .eq('id', session.user.id)
-      .single();
+    if (session) {
+      // Check if the user needs to change their password
+      const { data: profile } = await supabase
+        .from('clientes')
+        .select('precisa_mudar_senha')
+        .eq('id', session.user.id)
+        .single();
 
-    const isFirstAccessRoute = url.pathname === '/portal/primeiro-acesso';
+      const isFirstAccessRoute = url.pathname === '/portal/primeiro-acesso';
 
-    if (profile?.precisa_mudar_senha) {
-      if (!isFirstAccessRoute) {
-        url.pathname = '/portal/primeiro-acesso';
-        return NextResponse.redirect(url);
+      if (profile?.precisa_mudar_senha) {
+        if (!isFirstAccessRoute) {
+          url.pathname = '/portal/primeiro-acesso';
+          return NextResponse.redirect(url);
+        }
+      } else {
+        if (isFirstAccessRoute) {
+          url.pathname = '/portal';
+          return NextResponse.redirect(url);
+        }
       }
     } else {
-      if (isFirstAccessRoute) {
+      if (url.pathname === '/portal/primeiro-acesso') {
         url.pathname = '/portal';
         return NextResponse.redirect(url);
       }
     }
   }
 
-  if (isLoginRoute && session) {
+  if (isLoginRoute && (session || isMockSession)) {
     url.pathname = '/portal';
     return NextResponse.redirect(url);
   }
