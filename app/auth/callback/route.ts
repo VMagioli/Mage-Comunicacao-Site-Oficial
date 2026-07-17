@@ -38,16 +38,16 @@ export async function GET(request: Request) {
     })
 
     if (!error) {
-      // Sucesso! Manda o cliente para o painel
-      return NextResponse.redirect(`${origin}/portal`)
+      // Sucesso! Manda o cliente para o painel ou primeiro acesso
+      const targetPath = type === 'invite' ? '/portal/primeiro-acesso' : '/portal'
+      return NextResponse.redirect(`${origin}${targetPath}`)
     } else {
       // CAPTURANDO O VILÃO: Imprime o erro exato no terminal do VS Code
       console.error("🚨 ERRO DO SUPABASE NO CALLBACK:", error.message)
+      return NextResponse.redirect(`${origin}/login?error=auth-callback-failed&message=${encodeURIComponent(error.message)}`)
     }
   } else {
     console.error("🚨 FALTAM PARÂMETROS NA URL:", { token_hash, type })
+    return NextResponse.redirect(`${origin}/login?error=auth-callback-failed&message=Missing+params`)
   }
-
-  // Se der erro, volta para o login
-  return NextResponse.redirect(`${origin}/login?error=auth-callback-failed`)
 }

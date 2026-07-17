@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-client";
+import { obterPerfilClienteAction } from "./primeiro-acesso/actions";
 import { 
   User, CheckCircle, Clock, Copy, Download, 
   Send, ArrowUpRight, CheckSquare, LogOut,
@@ -119,15 +120,15 @@ export default function DashboardPortal() {
         return;
       }
 
-      // Fetch profile
-      const { data: profileData } = await supabase
-        .from('clientes')
-        .select('*')
-        .eq('id', session.user.id)
-        .single();
+      // Fetch profile securely via Server Action
+      const result = await obterPerfilClienteAction();
+      const profileData = result.success ? result.profile : null;
 
       if (profileData) {
-        setProfile(profileData);
+        setProfile({
+          ...profileData,
+          url_google_drive: profileData.google_drive_link || ''
+        });
 
         // Fetch posts
         const { data: postsData } = await supabase
@@ -526,67 +527,55 @@ export default function DashboardPortal() {
               {/* Grid dos Módulos Contratados */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 {/* Card Foundation */}
-                <div className={`p-5 rounded-2xl border transition-all duration-300 flex flex-col justify-between ${
-                  profile.pacote_foundation 
-                    ? "bg-[#0F1528]/50 border-white/5 hover:border-blue-500/20" 
-                    : "bg-black/10 border-white/5 opacity-40 select-none"
-                }`}>
-                  <div>
-                    <div className="flex justify-between items-start mb-4">
-                      <span className="text-[9px] font-mono text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full uppercase">Setup</span>
-                      {profile.pacote_foundation ? <CheckCircle size={16} className="text-emerald-500" /> : <Clock size={16} className="text-slate-600" />}
+                {profile.pacote_foundation && (
+                  <div className="p-5 rounded-2xl border border-white/5 hover:border-blue-500/20 bg-[#0F1528]/50 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                      <div className="flex justify-between items-start mb-4">
+                        <span className="text-[9px] font-mono text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full uppercase">Setup</span>
+                        <CheckCircle size={16} className="text-emerald-500" />
+                      </div>
+                      <h3 className="text-sm font-semibold text-white">MAGE Foundation</h3>
+                      <p className="text-xs text-slate-400 font-light mt-2 leading-relaxed">Configuração da identidade visual da marca, paleta de cores primárias e Landing Page dedicada de alta conversão.</p>
                     </div>
-                    <h3 className="text-sm font-semibold text-white">MAGE Foundation</h3>
-                    <p className="text-xs text-slate-400 font-light mt-2 leading-relaxed">Configuração da identidade visual da marca, paleta de cores primárias e Landing Page dedicada de alta conversão.</p>
-                  </div>
-                  {profile.pacote_foundation && (
                     <button onClick={() => setActiveTab("foundation")} className="mt-5 w-full py-2 bg-white/5 hover:bg-white/10 text-xs rounded-lg transition duration-200 border border-white/5 font-medium cursor-pointer text-center">
                       Acessar Setup
                     </button>
-                  )}
-                </div>
+                  </div>
+                )}
 
                 {/* Card Management */}
-                <div className={`p-5 rounded-2xl border transition-all duration-300 flex flex-col justify-between ${
-                  profile.pacote_management 
-                    ? "bg-[#0F1528]/50 border-white/5 hover:border-blue-500/20" 
-                    : "bg-black/10 border-white/5 opacity-40 select-none"
-                }`}>
-                  <div>
-                    <div className="flex justify-between items-start mb-4">
-                      <span className="text-[9px] font-mono text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded-full uppercase">Recorrência</span>
-                      {profile.pacote_management ? <CheckCircle size={16} className="text-emerald-500" /> : <Clock size={16} className="text-slate-600" />}
+                {profile.pacote_management && (
+                  <div className="p-5 rounded-2xl border border-white/5 hover:border-blue-500/20 bg-[#0F1528]/50 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                      <div className="flex justify-between items-start mb-4">
+                        <span className="text-[9px] font-mono text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded-full uppercase">Recorrência</span>
+                        <CheckCircle size={16} className="text-emerald-500" />
+                      </div>
+                      <h3 className="text-sm font-semibold text-white">MAGE Management</h3>
+                      <p className="text-xs text-slate-400 font-light mt-2 leading-relaxed">Gestão contínua de publicações nas redes sociais da empresa, relatórios e suporte com chamados técnicos ilimitados.</p>
                     </div>
-                    <h3 className="text-sm font-semibold text-white">MAGE Management</h3>
-                    <p className="text-xs text-slate-400 font-light mt-2 leading-relaxed">Gestão contínua de publicações nas redes sociais da empresa, relatórios e suporte com chamados técnicos ilimitados.</p>
-                  </div>
-                  {profile.pacote_management && (
                     <button onClick={() => setActiveTab("management")} className="mt-5 w-full py-2 bg-white/5 hover:bg-white/10 text-xs rounded-lg transition duration-200 border border-white/5 font-medium cursor-pointer text-center">
                       Acessar Gestão
                     </button>
-                  )}
-                </div>
+                  </div>
+                )}
 
                 {/* Card Authority */}
-                <div className={`p-5 rounded-2xl border transition-all duration-300 flex flex-col justify-between ${
-                  profile.pacote_authority 
-                    ? "bg-[#0F1528]/50 border-white/5 hover:border-blue-500/20" 
-                    : "bg-black/10 border-white/5 opacity-40 select-none"
-                }`}>
-                  <div>
-                    <div className="flex justify-between items-start mb-4">
-                      <span className="text-[9px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full uppercase">Escala</span>
-                      {profile.pacote_authority ? <CheckCircle size={16} className="text-emerald-500" /> : <Clock size={16} className="text-slate-600" />}
+                {profile.pacote_authority && (
+                  <div className="p-5 rounded-2xl border border-white/5 hover:border-blue-500/20 bg-[#0F1528]/50 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                      <div className="flex justify-between items-start mb-4">
+                        <span className="text-[9px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full uppercase">Escala</span>
+                        <CheckCircle size={16} className="text-emerald-500" />
+                      </div>
+                      <h3 className="text-sm font-semibold text-white">MAGE Authority</h3>
+                      <p className="text-xs text-slate-400 font-light mt-2 leading-relaxed">Posicionamento estratégico completo de SEO corporativo avançado e roadmap ágil de novas sprints de software.</p>
                     </div>
-                    <h3 className="text-sm font-semibold text-white">MAGE Authority</h3>
-                    <p className="text-xs text-slate-400 font-light mt-2 leading-relaxed">Posicionamento estratégico completo de SEO corporativo avançado e roadmap ágil de novas sprints de software.</p>
-                  </div>
-                  {profile.pacote_authority && (
                     <button onClick={() => setActiveTab("authority")} className="mt-5 w-full py-2 bg-white/5 hover:bg-white/10 text-xs rounded-lg transition duration-200 border border-white/5 font-medium cursor-pointer text-center">
                       Acessar Roadmap
                     </button>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
 
               {/* Armazenamento Híbrido R2 & Google Drive */}

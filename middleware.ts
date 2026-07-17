@@ -69,21 +69,35 @@ export async function middleware(request: NextRequest) {
     }
 
     if (session) {
-      // Check if the user needs to change their password
-      const { data: profile } = await supabase
+      // Usar a service role key no middleware para evitar erros de RLS e permissões de tabelas
+      const supabaseAdmin = createServerClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        {
+          cookies: {
+            getAll() {
+              return request.cookies.getAll();
+            },
+          },
+        }
+      );
+
+      const { data: profile, error: profileError } = await supabaseAdmin
         .from('clientes')
         .select('precisa_mudar_senha')
         .eq('id', session.user.id)
         .single();
 
+      console.log("🕵️ MIDDLEWARE DEBUG - Profile:", profile, "Error:", profileError?.message);
+
       const isFirstAccessRoute = url.pathname === '/portal/primeiro-acesso';
 
-      if (profile?.precisa_mudar_senha) {
+      if (profile?.precisa_mudar_senha === true) {
         if (!isFirstAccessRoute) {
           url.pathname = '/portal/primeiro-acesso';
           return NextResponse.redirect(url);
         }
-      } else {
+      } else if (profile?.precisa_mudar_senha === false) {
         if (isFirstAccessRoute) {
           url.pathname = '/portal';
           return NextResponse.redirect(url);
@@ -98,7 +112,9 @@ export async function middleware(request: NextRequest) {
   }
 
   if (isLoginRoute && (session || isMockSession)) {
-    url.pathname = '/portal';
+    const nextPath = url.searchParams.get('next') || '/portal';
+    url.pathname = nextPath;
+    url.search = ''; // Limpar parâmetros de busca para evitar loops
     return NextResponse.redirect(url);
   }
 

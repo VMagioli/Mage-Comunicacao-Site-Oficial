@@ -41,7 +41,9 @@ export default function LoginPage() {
       setLoading(false);
     } else {
       router.refresh();
-      router.push('/portal');
+      const searchParams = new URLSearchParams(window.location.search);
+      const nextPath = searchParams.get('next') || '/portal';
+      router.push(nextPath);
     }
   };
 

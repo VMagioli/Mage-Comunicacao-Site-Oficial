@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase-client';
 import { ShieldAlert, Lock, Eye, EyeOff, CheckCircle2 } from 'lucide-react';
+import { completarPrimeiroAcessoAction } from './actions';
 
 export default function PrimeiroAcessoPage() {
   const router = useRouter();
@@ -43,19 +44,13 @@ export default function PrimeiroAcessoPage() {
         return;
       }
 
-      // 2. Update precisa_mudar_senha flag to false in client database profile
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user) {
-        const { error: dbError } = await supabase
-          .from('clientes')
-          .update({ precisa_mudar_senha: false })
-          .eq('id', session.user.id);
+      // 2. Update precisa_mudar_senha flag to false in client database profile via Server Action
+      const result = await completarPrimeiroAcessoAction();
 
-        if (dbError) {
-          setError('Erro ao salvar status no banco de dados, mas a senha foi atualizada. Contate o suporte.');
-          setLoading(false);
-          return;
-        }
+      if (!result.success) {
+        setError(result.error || 'Erro ao salvar status no banco de dados, mas a senha foi atualizada. Contate o suporte.');
+        setLoading(false);
+        return;
       }
 
       setSuccess(true);

@@ -23,9 +23,9 @@ export default async function AdminLayout({
 
   const { data: { session } } = await supabase.auth.getSession();
 
-  // Se não tem ninguém logado, manda pro login
+  // Se não tem ninguém logado, manda pro login com parâmetro next
   if (!session) {
-    redirect('/login');
+    redirect('/login?next=/admin');
   }
 
   // Lista VIP de acessos (Aqui entram os e-mails corporativos de vocês)
