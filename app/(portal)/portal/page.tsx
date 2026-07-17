@@ -589,10 +589,23 @@ export default function DashboardPortal() {
                   <div className="bg-[#0B0F19]/60 border border-white/5 hover:border-white/10 p-5 rounded-xl transition duration-300">
                     <h4 className="text-xs font-semibold text-slate-200 mb-2">Upload de Imagens e Logos (R2)</h4>
                     <p className="text-[11px] text-slate-400 font-light mb-4 leading-relaxed">Artes de referência ou imagens leves de produtos de até 15MB. Os arquivos são armazenados no R2 da agência.</p>
-                    <div className="border border-dashed border-white/10 hover:border-blue-500/40 rounded-lg p-6 flex flex-col items-center justify-center gap-2 cursor-pointer transition bg-white/[0.01]">
-                      <Download size={20} className="text-slate-500 rotate-180" />
-                      <span className="text-[10px] text-slate-400 font-mono">SELECIONAR ARQUIVOS</span>
-                    </div>
+                    <label className="border border-dashed border-white/10 hover:border-blue-500/40 rounded-lg p-6 flex flex-col items-center justify-center gap-2 cursor-pointer transition bg-white/[0.01] relative block">
+                      {/* O input real fica invisível, mas a label toda se torna clicável */}
+                      <input 
+                        type="file" 
+                        className="hidden" 
+                        accept="image/png, image/jpeg, image/svg+xml, application/pdf"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            console.log("Arquivo selecionado:", file.name);
+                            // A função de enviar para o R2 vai entrar aqui!
+                          }
+                        }}
+                      />
+                      <Download size={20} className="text-slate-500 rotate-180 mx-auto" />
+                      <span className="text-[10px] text-slate-400 font-mono text-center block">SELECIONAR ARQUIVOS</span>
+                    </label>
                   </div>
 
                   {/* Drive para pesados */}
