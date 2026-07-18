@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-client";
 import { obterPerfilClienteAction } from "./primeiro-acesso/actions";
+import { gerarUrlDeUpload, registrarArquivoAction } from './actions';
 import { 
   User, CheckCircle, Clock, Copy, Download, 
   Send, ArrowUpRight, CheckSquare, LogOut,
@@ -25,6 +26,7 @@ interface ClientePerfil {
 
 export default function DashboardPortal() {
   const router = useRouter();
+  const [isUploading, setIsUploading] = useState(false);
 
   const getInitials = (name: string) => {
     if (!name) return "US";
@@ -589,23 +591,58 @@ export default function DashboardPortal() {
                   <div className="bg-[#0B0F19]/60 border border-white/5 hover:border-white/10 p-5 rounded-xl transition duration-300">
                     <h4 className="text-xs font-semibold text-slate-200 mb-2">Upload de Imagens e Logos (R2)</h4>
                     <p className="text-[11px] text-slate-400 font-light mb-4 leading-relaxed">Artes de referência ou imagens leves de produtos de até 15MB. Os arquivos são armazenados no R2 da agência.</p>
-                    <label className="border border-dashed border-white/10 hover:border-blue-500/40 rounded-lg p-6 flex flex-col items-center justify-center gap-2 cursor-pointer transition bg-white/[0.01] relative block">
-                      {/* O input real fica invisível, mas a label toda se torna clicável */}
+                    <label className={`border border-dashed border-white/10 hover:border-blue-500/40 rounded-lg p-6 flex flex-col items-center justify-center gap-2 transition bg-white/[0.01] relative ${isUploading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}>
                       <input 
                         type="file" 
                         className="hidden" 
+                        disabled={isUploading}
                         accept="image/png, image/jpeg, image/svg+xml, application/pdf"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            console.log("Arquivo selecionado:", file.name);
-                            // A função de enviar para o R2 vai entrar aqui!
-                          }
-                        }}
-                      />
-                      <Download size={20} className="text-slate-500 rotate-180 mx-auto" />
-                      <span className="text-[10px] text-slate-400 font-mono text-center block">SELECIONAR ARQUIVOS</span>
-                    </label>
+                        onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+
+                        setIsUploading(true);
+                        try {
+                          // 1. Pede a permissão e a "pasta mágica" pro servidor
+                          const res = await gerarUrlDeUpload(file.name, file.type);
+                          if (!res.success) throw new Error(res.error);
+
+                          // 2. Dispara o arquivo DIRETO do navegador pro Cloudflare R2
+                          const uploadRes = await fetch(res.signedUrl, {
+                            method: "PUT",
+                            headers: { "Content-Type": file.type },
+                            body: file,
+                          });
+
+                          if (!uploadRes.ok) throw new Error("A nuvem rejeitou o arquivo. Verifique o CORS.");
+
+                          // 3. Registra o link na tabela nova do Supabase via Server Action
+                          const regRes = await registrarArquivoAction(file.name, res.publicUrl);
+                          if (!regRes.success) throw new Error(regRes.error);
+
+                          alert(`Sucesso! Arquivo enviado e salvo no seu cofre.`);
+
+                        } catch (err: any) {
+                          alert(`Erro: ${err.message}`);
+                        } finally {
+                          setIsUploading(false);
+                          e.target.value = ""; // Limpa o botão para o próximo envio
+                        }
+                      }}
+                    />
+                    
+                    {isUploading ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                        <span className="text-[10px] text-blue-400 font-mono font-semibold">ENVIANDO PARA A NUVEM...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Download size={20} className="text-slate-500 rotate-180" />
+                        <span className="text-[10px] text-slate-400 font-mono">SELECIONAR ARQUIVOS</span>
+                      </>
+                    )}
+                  </label>  
                   </div>
 
                   {/* Drive para pesados */}
