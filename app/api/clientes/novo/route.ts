@@ -3,88 +3,195 @@ import { createClient } from '@supabase/supabase-js';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
+import { verificarSeEhAdmin } from '@/lib/admin-auth';
+
 export async function POST(request: Request) {
   try {
     const cookieStore = await cookies();
+
     const supabaseAuth = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       {
         cookies: {
-          getAll() { return cookieStore.getAll() }
-        }
+          getAll() {
+            return cookieStore.getAll();
+          },
+        },
       }
     );
 
-    // CORREÇÃO: Usar getUser() em vez de getSession() para rotas de API no Next.js 15
-    const { data: { user }, error: authError } = await supabaseAuth.auth.getUser();
-    
-    // DEBUG: Imprime no terminal do VS Code quem o servidor acha que está logado
-    console.log("🕵️ DEBUG API - Email Logado:", user?.email);
-    if (authError) console.log("🕵️ DEBUG API - Erro de Auth:", authError.message);
+    // Valida o usuário autenticado diretamente com o Supabase.
+    const {
+      data: { user },
+      error: authError,
+    } = await supabaseAuth.auth.getUser();
 
-    // LISTA VIP (Certifique-se de preencher corretamente aqui)
-    const adminsAutorizados = [
-      'vitor@magecomunicacao.com.br', 
-      'lana@magecomunicacao.com.br',
-    ];
-    
-    const emailLogado = user?.email?.toLowerCase() ?? '';
+    console.log('🕵️ DEBUG API - Email logado:', user?.email);
 
-    // Se falhar, a API agora vai te avisar exatamente O POR QUÊ falhou no balão de erro
-    if (!user || !adminsAutorizados.includes(emailLogado)) {
-      console.log(`🚨 BLOQUEADO: O email '${emailLogado}' tentou acessar, mas não está na lista.`);
-      return NextResponse.json({ 
-        error: `Acesso Negado. O servidor identificou o email: ${emailLogado || 'Nenhum'}` 
-      }, { status: 403 });
+    if (authError) {
+      console.error(
+        '🕵️ DEBUG API - Erro de autenticação:',
+        authError.message
+      );
+
+      return NextResponse.json(
+        { error: 'Não foi possível validar sua autenticação.' },
+        { status: 401 }
+      );
     }
 
-    const { 
-      email, 
+    const emailLogado = user?.email?.trim().toLowerCase() ?? '';
+
+    // A lista de administradores agora fica centralizada em lib/admin-auth.ts.
+    if (!user || !verificarSeEhAdmin(emailLogado)) {
+      console.warn(
+        `🚨 BLOQUEADO: O e-mail '${emailLogado || 'Nenhum'}' tentou cadastrar um cliente.`
+      );
+
+      return NextResponse.json(
+        {
+          error: `Acesso negado. O servidor identificou o e-mail: ${
+            emailLogado || 'Nenhum'
+          }`,
+        },
+        { status: 403 }
+      );
+    }
+
+    const body = await request.json();
+
+    const {
+      email,
       nome_empresa,
       pacote_foundation,
       pacote_management,
       pacote_authority,
       url_google_drive,
       google_drive_link,
-      tempo_permanencia_meses 
-    } = await request.json();
+      tempo_permanencia_meses,
+    } = body;
 
-    if (!email || !nome_empresa) {
-      return NextResponse.json({ error: 'E-mail e nome da empresa são obrigatórios.' }, { status: 400 });
+    const emailCliente =
+      typeof email === 'string' ? email.trim().toLowerCase() : '';
+
+    const nomeEmpresa =
+      typeof nome_empresa === 'string' ? nome_empresa.trim() : '';
+
+    if (!emailCliente || !nomeEmpresa) {
+      return NextResponse.json(
+        { error: 'E-mail e nome da empresa são obrigatórios.' },
+        { status: 400 }
+      );
     }
 
     const supabaseAdmin = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!,
       {
-        auth: { autoRefreshToken: false, persistSession: false }
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false,
+        },
       }
     );
 
-    const { data: inviteData, error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(email);
+    /*
+     * Primeiro cria o usuário no Supabase Auth.
+     */
+    const { data: inviteData, error: inviteError } =
+      await supabaseAdmin.auth.admin.inviteUserByEmail(emailCliente);
 
-    if (inviteError) throw new Error(`Erro ao convidar: ${inviteError.message}`);
+    if (inviteError) {
+      throw new Error(`Erro ao convidar cliente: ${inviteError.message}`);
+    }
 
+    const usuarioConvidado = inviteData.user;
+
+    if (!usuarioConvidado?.id) {
+      throw new Error(
+        'O Supabase enviou o convite, mas não retornou o ID do usuário.'
+      );
+    }
+
+    /*
+     * Depois tenta criar o registro correspondente na tabela clientes.
+     */
     const { error: dbError } = await supabaseAdmin
       .from('clientes')
       .insert({
-        id: inviteData.user.id,
-        email: email,
-        nome_empresa: nome_empresa,
-        pacote_foundation: !!pacote_foundation,
-        pacote_management: !!pacote_management,
-        pacote_authority: !!pacote_authority,
-        google_drive_link: google_drive_link || url_google_drive || '',
-        tempo_permanencia_meses: tempo_permanencia_meses ?? 12
+        id: usuarioConvidado.id,
+        email: emailCliente,
+        nome_empresa: nomeEmpresa,
+        pacote_foundation: Boolean(pacote_foundation),
+        pacote_management: Boolean(pacote_management),
+        pacote_authority: Boolean(pacote_authority),
+        google_drive_link:
+          google_drive_link?.trim?.() ||
+          url_google_drive?.trim?.() ||
+          '',
+        tempo_permanencia_meses: tempo_permanencia_meses ?? 12,
       });
 
-    if (dbError) throw new Error(`Erro ao salvar no banco: ${dbError.message}`);
+    if (dbError) {
+      console.error(
+        '🚨 Erro ao inserir cliente. Iniciando rollback do usuário:',
+        {
+          userId: usuarioConvidado.id,
+          dbError: dbError.message,
+        }
+      );
 
-    return NextResponse.json({ message: 'Cliente cadastrado com sucesso!' }, { status: 200 });
+      /*
+       * ROLLBACK:
+       * Se o usuário foi criado no Auth, mas o registro em clientes falhou,
+       * remove o usuário para evitar registros órfãos.
+       */
+      const { error: rollbackError } =
+        await supabaseAdmin.auth.admin.deleteUser(usuarioConvidado.id);
 
-  } catch (error: any) {
-    console.error("🚨 FALHA NA API DE NOVO CLIENTE:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+      if (rollbackError) {
+        console.error(
+          '🚨 O insert falhou e o rollback também falhou:',
+          {
+            userId: usuarioConvidado.id,
+            dbError: dbError.message,
+            rollbackError: rollbackError.message,
+          }
+        );
+
+        throw new Error(
+          `Erro ao salvar o cliente no banco: ${dbError.message}. ` +
+            `Além disso, não foi possível remover o usuário criado: ${rollbackError.message}`
+        );
+      }
+
+      console.log(
+        `✅ Rollback concluído: usuário ${usuarioConvidado.id} removido do Auth.`
+      );
+
+      throw new Error(`Erro ao salvar o cliente no banco: ${dbError.message}`);
+    }
+
+    return NextResponse.json(
+      {
+        message: 'Cliente cadastrado com sucesso!',
+        cliente: {
+          id: usuarioConvidado.id,
+          email: emailCliente,
+          nome_empresa: nomeEmpresa,
+        },
+      },
+      { status: 201 }
+    );
+  } catch (error: unknown) {
+    console.error('🚨 FALHA NA API DE NOVO CLIENTE:', error);
+
+    const mensagem =
+      error instanceof Error
+        ? error.message
+        : 'Ocorreu um erro inesperado ao cadastrar o cliente.';
+
+    return NextResponse.json({ error: mensagem }, { status: 500 });
   }
 }
