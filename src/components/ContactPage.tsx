@@ -1,43 +1,65 @@
 import React, { useState } from 'react';
 import { Mail, MessageSquare, Phone, Send, ExternalLink } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-const BUDGET_RANGES = [
-  'Até R$ 5k',
-  'R$ 5k - R$ 15k',
-  'R$ 15k - R$ 30k',
-  'R$ 30k+'
-];
+const BUDGET_RANGES = ['Até R$ 5k', 'R$ 5k - R$ 15k', 'R$ 15k - R$ 30k', 'R$ 30k+'];
+
+/* ---------------------------  Schema de validação -------------------------- */
+const ContactSchema = z.object({
+  name: z.string().min(2, 'Informe seu nome.'),
+  email: z.string().email('E-mail inválido.'),
+  phone: z
+    .string()
+    .regex(/^\d{10,15}$/, 'Telefone deve ter entre 10 e 15 dígitos.'),
+  projectType: z.string(),              // selecionado por botões
+  budget: z.string(),                   // idem
+  message: z.string().min(10, 'Descreva seu projeto.'),
+});
+
+type ContactFormInputs = z.infer<typeof ContactSchema>;
 
 export function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    projectType: 'web',
-    budget: 'R$ 5k - R$ 15k',
-    message: ''
+  /* ---------------------------  RHF – inicialização --------------------------- */
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<ContactFormInputs>({
+    resolver: zodResolver(ContactSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      phone: '',
+      projectType: 'web',
+      budget: 'R$ 5k - R$ 15k',
+      message: '',
+    },
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    // Simulate API submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-      setFormData({ name: '', email: '', projectType: 'web', budget: 'R$ 5k - R$ 15k', message: '' });
-    }, 1500);
+  const [submitted, setSubmitted] = useState(false);
+  const projectType = watch('projectType');
+  const budget = watch('budget');
+
+  /* ---------------------------  Submissão assíncrona -------------------------- */
+  const onSubmit = async (data: ContactFormInputs) => {
+    console.log('✅ Form data (validação passou):', data);
+    setSubmitted(true);
+    reset();                            // limpa formulário
   };
 
-  const whatsappNumber = '5500000000000'; // Placeholder to be edited later by the user
+  const whatsappNumber = '5500000000000'; // Placeholder
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Olá!%20Gostaria%20de%20solicitar%20um%20orçamento%20de%20projeto.`;
 
   return (
     <section className="px-4 md:px-8 py-8 md:py-10 relative z-20">
-      {/* Page Header */}
+      {/* Header */}
       <div className="mb-12">
-        <span className="text-slate-500 text-[10px] font-mono tracking-widest uppercase">// start a conversation</span>
+        <span className="text-slate-500 text-[10px] font-mono uppercase tracking-widest">// start a conversation</span>
         <h2 className="text-3xl sm:text-4xl font-medium text-white tracking-tight mt-2">
           Entre em Contato
         </h2>
@@ -47,18 +69,19 @@ export function ContactPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
-        {/* Contact Form Section */}
-        <div className="lg:col-span-3 bg-[#111923]/60 backdrop-blur-md border border-white/5 rounded-2xl p-6 md:p-8 hover:border-white/10 transition-colors duration-300">
+        {/* Formulário */}
+        <div className="lg:col-span-3 bg-[#111923]/60 backdrop-blur-md border border-white/5 rounded-2xl p-6 md:p-8 hover:border-white/10 transition-colors">
           {submitted ? (
+            /* --------------- Tela de sucesso --------------- */
             <div className="py-12 text-center space-y-4">
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-4 animate-bounce">
                 <Send size={20} />
               </div>
               <h3 className="text-xl font-medium text-white">Mensagem Enviada!</h3>
               <p className="text-slate-400 text-sm max-w-xs mx-auto font-light leading-relaxed">
-                Agradecemos o contato. Nossa equipe analisará seus dados e entrará em contato em menos de 24 horas úteis.
+                Agradecemos o contato. Nossa equipe analisará seus dados e retornará em até 24&nbsp;h úteis.
               </p>
-              <button 
+              <button
                 onClick={() => setSubmitted(false)}
                 className="mt-6 text-xs text-blue-400 hover:text-blue-300 underline font-mono cursor-pointer"
               >
@@ -66,38 +89,55 @@ export function ContactPage() {
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
+            /* ------------------ Form ------------------ */
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {/* Name field */}
+                {/* Nome */}
                 <div className="space-y-2">
                   <label htmlFor="name" className="block text-xs font-mono text-slate-400 uppercase tracking-wide">Seu Nome</label>
                   <input
-                    type="text"
                     id="name"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full bg-[#0B0F14]/80 border border-white/10 focus:border-blue-500 rounded-lg px-4 py-3 text-sm text-white focus:outline-none transition-colors duration-300"
+                    className="w-full bg-[#0B0F14]/80 border border-white/10 focus:border-blue-500 rounded-lg px-4 py-3 text-sm text-white outline-none transition-colors"
                     placeholder="Ex: João Silva"
+                    {...register('name')}
                   />
+                  {errors.name && (
+                    <p className="text-xs text-red-400 mt-1">{errors.name.message}</p>
+                  )}
                 </div>
 
-                {/* Email field */}
+                {/* E-mail */}
                 <div className="space-y-2">
                   <label htmlFor="email" className="block text-xs font-mono text-slate-400 uppercase tracking-wide">Seu E-mail</label>
                   <input
-                    type="email"
                     id="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-[#0B0F14]/80 border border-white/10 focus:border-blue-500 rounded-lg px-4 py-3 text-sm text-white focus:outline-none transition-colors duration-300"
+                    type="email"
+                    className="w-full bg-[#0B0F14]/80 border border-white/10 focus:border-blue-500 rounded-lg px-4 py-3 text-sm text-white outline-none transition-colors"
                     placeholder="Ex: joao@empresa.com"
+                    {...register('email')}
                   />
+                  {errors.email && (
+                    <p className="text-xs text-red-400 mt-1">{errors.email.message}</p>
+                  )}
                 </div>
               </div>
 
-              {/* Project Type */}
+              {/* Telefone */}
+              <div className="space-y-2">
+                <label htmlFor="phone" className="block text-xs font-mono text-slate-400 uppercase tracking-wide">Telefone (WhatsApp)</label>
+                <input
+                  id="phone"
+                  type="tel"
+                  className="w-full bg-[#0B0F14]/80 border border-white/10 focus:border-blue-500 rounded-lg px-4 py-3 text-sm text-white outline-none transition-colors"
+                  placeholder="Ex: 21987654321"
+                  {...register('phone')}
+                />
+                {errors.phone && (
+                  <p className="text-xs text-red-400 mt-1">{errors.phone.message}</p>
+                )}
+              </div>
+
+              {/* Tipo de Projeto */}
               <div className="space-y-2">
                 <label className="block text-xs font-mono text-slate-400 uppercase tracking-wide">Tipo de Projeto</label>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -106,14 +146,14 @@ export function ContactPage() {
                     { id: 'design', label: 'Design UI/UX' },
                     { id: 'landing', label: 'Landing Page' },
                     { id: 'branding', label: 'Identidade Visual' },
-                    { id: 'other', label: 'Outro' }
+                    { id: 'other', label: 'Outro' },
                   ].map((type) => (
                     <button
                       key={type.id}
                       type="button"
-                      onClick={() => setFormData({ ...formData, projectType: type.id })}
-                      className={`px-3 py-2.5 rounded-lg border text-xs font-medium transition-all duration-300 text-center cursor-pointer ${
-                        formData.projectType === type.id
+                      onClick={() => setValue('projectType', type.id)}
+                      className={`px-3 py-2.5 rounded-lg border text-xs font-medium transition-all text-center cursor-pointer ${
+                        projectType === type.id
                           ? 'bg-blue-500/10 text-blue-400 border-blue-500/30 shadow-[0_0_12px_rgba(59,130,246,0.1)]'
                           : 'bg-white/5 text-slate-400 border-white/5 hover:border-white/10 hover:text-white'
                       }`}
@@ -124,7 +164,7 @@ export function ContactPage() {
                 </div>
               </div>
 
-              {/* Budget selector */}
+              {/* Investimento */}
               <div className="space-y-2">
                 <label className="block text-xs font-mono text-slate-400 uppercase tracking-wide">Estimativa de Investimento</label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -132,9 +172,9 @@ export function ContactPage() {
                     <button
                       key={range}
                       type="button"
-                      onClick={() => setFormData({ ...formData, budget: range })}
-                      className={`px-3 py-2.5 rounded-lg border text-xs font-medium transition-all duration-300 text-center cursor-pointer ${
-                        formData.budget === range
+                      onClick={() => setValue('budget', range)}
+                      className={`px-3 py-2.5 rounded-lg border text-xs font-medium transition-all text-center cursor-pointer ${
+                        budget === range
                           ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.1)]'
                           : 'bg-white/5 text-slate-400 border-white/5 hover:border-white/10 hover:text-white'
                       }`}
@@ -145,25 +185,26 @@ export function ContactPage() {
                 </div>
               </div>
 
-              {/* Message field */}
+              {/* Detalhes */}
               <div className="space-y-2">
                 <label htmlFor="message" className="block text-xs font-mono text-slate-400 uppercase tracking-wide">Detalhes do Projeto</label>
                 <textarea
                   id="message"
-                  required
                   rows={4}
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full bg-[#0B0F14]/80 border border-white/10 focus:border-blue-500 rounded-lg px-4 py-3 text-sm text-white focus:outline-none transition-colors duration-300 resize-none"
+                  className="w-full bg-[#0B0F14]/80 border border-white/10 focus:border-blue-500 rounded-lg px-4 py-3 text-sm text-white outline-none transition-colors resize-none"
                   placeholder="Descreva brevemente sua ideia, objetivos e requisitos..."
+                  {...register('message')}
                 />
+                {errors.message && (
+                  <p className="text-xs text-red-400 mt-1">{errors.message.message}</p>
+                )}
               </div>
 
-              {/* Submit button */}
+              {/* Botão Submit */}
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full sm:w-auto px-8 py-3 bg-blue-500/10 border border-blue-500/30 text-blue-300 hover:bg-blue-500/20 hover:border-blue-400/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] rounded-lg font-medium text-sm transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full sm:w-auto px-8 py-3 bg-blue-500/10 border border-blue-500/30 text-blue-300 hover:bg-blue-500/20 hover:border-blue-400/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] rounded-lg font-medium text-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 {isSubmitting ? 'Enviando...' : 'Enviar Briefing'}
                 <Send size={14} />
@@ -172,31 +213,31 @@ export function ContactPage() {
           )}
         </div>
 
-        {/* Contact Info Sidebar */}
+        {/* Lateral de Contato Rápido */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Direct WhatsApp Card */}
+          {/* WhatsApp */}
           <a
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="block bg-emerald-500/5 border border-emerald-500/10 hover:border-emerald-500/20 hover:shadow-[0_0_30px_rgba(16,185,129,0.1)] rounded-2xl p-6 md:p-8 transition-all duration-300 group"
+            className="block bg-emerald-500/5 border border-emerald-500/10 hover:border-emerald-500/20 hover:shadow-[0_0_30px_rgba(16,185,129,0.1)] rounded-2xl p-6 md:p-8 transition-all group"
           >
             <div className="flex items-center gap-3 text-emerald-400 mb-4">
               <Phone size={20} />
               <h3 className="font-medium text-white tracking-tight">Fale direto via WhatsApp</h3>
             </div>
             <p className="text-slate-400 text-xs leading-relaxed font-light mb-6">
-              Prefere bater um papo dinâmico? Clique abaixo e abra uma conversa direto no WhatsApp comercial da MAGE.
+              Prefere bater um papo dinâmico? Clique abaixo e abra uma conversa direta no WhatsApp comercial da MAGE.
             </p>
-            <div className="flex items-center gap-1 text-emerald-400 text-xs font-mono font-medium group-hover:underline">
+            <div className="flex items-center gap-1 text-emerald-400 text-xs font-mono group-hover:underline">
               Conversar Agora <ExternalLink size={12} />
             </div>
           </a>
 
-          {/* Quick info list */}
+          {/* Info Extra */}
           <div className="bg-[#111923]/40 border border-white/5 rounded-2xl p-6 md:p-8 space-y-6">
             <h4 className="text-white font-mono text-xs uppercase tracking-wider">// Informações Adicionais</h4>
-            
+
             <div className="space-y-4">
               <div className="flex items-start gap-4">
                 <div className="w-8 h-8 rounded-lg border border-white/5 bg-white/5 text-slate-400 flex items-center justify-center shrink-0">

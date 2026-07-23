@@ -337,7 +337,7 @@ export default function DashboardPortal() {
                     <button 
                       onClick={() => {
                         setShowProfileDropdown(false);
-                        setShowHelpModal(true);
+                        router.push('/portal/ajuda');
                       }}
                       className="w-full text-left px-3 py-2 rounded-lg text-xs text-slate-300 hover:text-white hover:bg-white/[0.04] transition flex items-center gap-2 cursor-pointer"
                     >
@@ -498,6 +498,22 @@ export default function DashboardPortal() {
                     {!isSidebarCollapsed && <span>MAGE Authority</span>}
                   </button>
                 )}
+
+                <button 
+                  onClick={() => {
+                    router.push('/portal/ajuda');
+                    setIsMobileMenuOpen(false);
+                  }}
+                  title={isSidebarCollapsed ? "Ajuda & Suporte" : undefined}
+                  className={`w-full transition duration-200 flex items-center rounded-lg cursor-pointer ${
+                    isSidebarCollapsed 
+                      ? "justify-center p-2.5" 
+                      : "text-left px-3 py-2 gap-2 text-xs font-medium"
+                  } border border-transparent text-slate-400 hover:text-slate-200 hover:bg-white/[0.02]`}
+                >
+                  <HelpCircle size={16} className="text-blue-400" />
+                  {!isSidebarCollapsed && <span>Ajuda & Suporte</span>}
+                </button>
               </nav>
             </div>
 

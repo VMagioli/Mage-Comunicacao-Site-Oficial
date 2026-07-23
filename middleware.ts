@@ -55,7 +55,7 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { user } } = await supabase.auth.getUser();
   const isMockSession = request.cookies.get('mage_mock_session')?.value === 'true';
 
   const url = request.nextUrl.clone();
@@ -63,12 +63,12 @@ export async function middleware(request: NextRequest) {
   const isLoginRoute = url.pathname.startsWith('/login');
 
   if (isPortalRoute) {
-    if (!session && !isMockSession) {
+    if (!user && !isMockSession) {
       url.pathname = '/login';
       return NextResponse.redirect(url);
     }
 
-    if (session) {
+    if (user) {
       // Usar a service role key no middleware para evitar erros de RLS e permissões de tabelas
       const supabaseAdmin = createServerClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -85,7 +85,7 @@ export async function middleware(request: NextRequest) {
       const { data: profile, error: profileError } = await supabaseAdmin
         .from('clientes')
         .select('precisa_mudar_senha')
-        .eq('id', session.user.id)
+        .eq('id', user.id)
         .single();
 
       console.log("🕵️ MIDDLEWARE DEBUG - Profile:", profile, "Error:", profileError?.message);
@@ -111,7 +111,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  if (isLoginRoute && (session || isMockSession)) {
+  if (isLoginRoute && (user || isMockSession)) {
     const nextPath = url.searchParams.get('next') || '/portal';
     url.pathname = nextPath;
     url.search = ''; // Limpar parâmetros de busca para evitar loops
