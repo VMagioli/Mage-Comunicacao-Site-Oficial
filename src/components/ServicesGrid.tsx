@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { Compass, Palette, Cpu, Sparkles, ArrowUpRight } from 'lucide-react';
 import { PROJECTS } from '../data/projects';
 
@@ -100,10 +101,12 @@ export function ServicesGrid({ setActiveTab }: ServicesGridProps) {
                 rel="noopener noreferrer"
                 className="relative w-full sm:w-36 h-36 sm:h-24 shrink-0 rounded-lg overflow-hidden border border-white/10 group-hover:border-white/20 transition-colors duration-300 block"
               >
-                <img 
+                <Image 
                   src={lastProject.image} 
                   alt={lastProject.title} 
-                  className="w-full h-full object-cover object-top opacity-75 group-hover:scale-105 transition-transform duration-700"
+                  fill
+                  sizes="(max-width: 640px) 100vw, 144px"
+                  className="object-cover object-top opacity-75 group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 

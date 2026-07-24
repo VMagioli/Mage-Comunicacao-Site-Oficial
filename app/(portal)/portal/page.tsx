@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase-client";
 import { obterPerfilClienteAction } from "./primeiro-acesso/actions";
 import { gerarUrlDeUpload, registrarArquivoAction } from './actions';
@@ -787,7 +788,7 @@ export default function DashboardPortal() {
                       {/* Midia Renderizada baseada no R2 ou Iframe do YouTube */}
                       <div className="rounded-xl overflow-hidden mb-4 bg-slate-900 border border-white/5 aspect-video relative flex items-center justify-center">
                         {post.tipo_midia === "imagem_r2" ? (
-                          <img src={post.url_midia} alt={post.titulo} className="w-full h-full object-cover" />
+                          <Image src={post.url_midia} alt={post.titulo} fill unoptimized className="object-cover" />
                         ) : (
                           <iframe 
                             src={post.url_midia} 

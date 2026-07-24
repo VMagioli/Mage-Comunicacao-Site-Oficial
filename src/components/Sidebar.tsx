@@ -56,9 +56,9 @@ export function Sidebar({
         {/* Logo */}
         <div className={`mb-14 px-2 transition-all duration-300 ${isCollapsed ? 'text-center' : ''}`}>
           {isCollapsed ? (
-            <h1 className="text-2xl font-bold tracking-wider text-blue-400 select-none animate-pulse">M</h1>
+            <div className="text-2xl font-bold tracking-wider text-blue-400 select-none animate-pulse">M</div>
           ) : (
-            <h1 className="text-2xl font-bold tracking-[0.3em] text-white select-none">MAGE</h1>
+            <div className="text-2xl font-bold tracking-[0.3em] text-white select-none">MAGE</div>
           )}
         </div>
 

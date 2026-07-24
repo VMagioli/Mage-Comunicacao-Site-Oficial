@@ -1,20 +1,37 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { Sidebar } from '@/src/components/Sidebar';
 import { TopBar } from '@/src/components/TopBar';
 import { Hero } from '@/src/components/Hero';
 import { ServicesGrid } from '@/src/components/ServicesGrid';
-import { PortfolioGrid } from '@/src/components/PortfolioGrid';
 import { BottomGrid } from '@/src/components/BottomGrid';
 
-// Import New Pages
-import { ServicesPage } from '@/src/components/ServicesPage';
-import { ProcessesPage } from '@/src/components/ProcessesPage';
-import { AboutPage } from '@/src/components/AboutPage';
-import { ContactPage } from '@/src/components/ContactPage';
-import { PrivacyPolicyPage } from '@/src/components/PrivacyPolicyPage';
-import { TermsPage } from '@/src/components/TermsPage';
+// Dynamic/Lazy loaded subpages and components
+const PortfolioGrid = dynamic(() => import('@/src/components/PortfolioGrid').then(mod => mod.PortfolioGrid), {
+  loading: () => <div className="h-96 w-full animate-pulse bg-white/[0.02] rounded-2xl border border-white/5" />
+});
+
+const ServicesPage = dynamic(() => import('@/src/components/ServicesPage').then(mod => mod.ServicesPage), {
+  loading: () => <div className="h-96 w-full animate-pulse bg-white/[0.02] rounded-2xl border border-white/5" />
+});
+
+const ProcessesPage = dynamic(() => import('@/src/components/ProcessesPage').then(mod => mod.ProcessesPage), {
+  loading: () => <div className="h-96 w-full animate-pulse bg-white/[0.02] rounded-2xl border border-white/5" />
+});
+
+const AboutPage = dynamic(() => import('@/src/components/AboutPage').then(mod => mod.AboutPage), {
+  loading: () => <div className="h-96 w-full animate-pulse bg-white/[0.02] rounded-2xl border border-white/5" />
+});
+
+const ContactPage = dynamic(() => import('@/src/components/ContactPage').then(mod => mod.ContactPage), {
+  loading: () => <div className="h-96 w-full animate-pulse bg-white/[0.02] rounded-2xl border border-white/5" />
+});
+
+const PrivacyPolicyPage = dynamic(() => import('@/src/components/PrivacyPolicyPage').then(mod => mod.PrivacyPolicyPage));
+const TermsPage = dynamic(() => import('@/src/components/TermsPage').then(mod => mod.TermsPage));
 
 // Import Global Footer and Cookie Consent
 import { Footer } from '@/src/components/Footer';
@@ -45,10 +62,13 @@ export default function MarketingPage() {
     <div className="h-screen w-full flex overflow-hidden bg-[#0B0F14]">
       {/* Background Image & Overlay */}
       <div className="fixed inset-0 z-0">
-        <img
+        <Image
           src="/background-image.png"
           alt="Atmospheric Background"
-          className="absolute inset-0 w-full h-full object-cover"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0B0F14]/20 to-[#0B0F14]"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F14]/90 via-[#0B0F14]/30 to-transparent"></div>

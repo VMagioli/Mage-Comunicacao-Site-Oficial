@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { ArrowRight, ExternalLink } from 'lucide-react';
 import { PROJECTS } from '../data/projects';
 
@@ -52,9 +53,11 @@ export function PortfolioGrid() {
                 {/* Screenshot Container */}
                 <div className="h-72 overflow-hidden relative group/screen bg-[#0d121a]">
                   {/* Scrollable screenshot image */}
-                  <img
+                  <Image
                     src={project.image}
                     alt={project.title}
+                    width={1200}
+                    height={1800}
                     className="absolute top-0 left-0 w-full h-auto object-cover transition-transform duration-[6000ms] ease-in-out transform translate-y-0 group-hover/screen:-translate-y-[calc(100%-18rem)] group-hover:-translate-y-[calc(100%-18rem)]"
                   />
                   {/* Glass overlay at the bottom to give depth */}

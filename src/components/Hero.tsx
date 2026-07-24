@@ -8,12 +8,12 @@ export function Hero({ setActiveTab }: HeroProps) {
   return (
     <section className="relative z-20 flex flex-col lg:flex-row items-center justify-between px-4 md:px-8 py-8 md:py-12 gap-12">
       <div className="max-w-2xl w-full">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium text-white leading-tight mb-4 md:mb-6 tracking-tight">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-medium text-white leading-tight mb-4 md:mb-6 tracking-tight">
           Tecnologia com propósito. <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.2)]">
             Design com clareza.
           </span>
-        </h2>
+        </h1>
         <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-8 md:mb-10 max-w-xl font-light">
           Unimos código e criatividade para construir soluções digitais que conectam, inspiram e geram impacto real.
         </p>

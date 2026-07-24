@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { 
   HelpCircle, ArrowLeft, Mail, Phone, Search, 
   ChevronDown, MessageSquare, ShieldCheck, HardDrive, 
@@ -127,10 +128,13 @@ export default function HelpPage() {
     <div className="min-h-screen bg-[#0B0F19] text-slate-100 font-sans selection:bg-blue-500/30">
       {/* Background Image & Overlay */}
       <div className="fixed inset-0 z-0">
-        <img
+        <Image
           src="/background-image.png"
           alt="Atmospheric Background"
-          className="absolute inset-0 w-full h-full object-cover opacity-10"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-10"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0B0F19]/20 via-[#0B0F19] to-[#0B0F19]"></div>
       </div>
