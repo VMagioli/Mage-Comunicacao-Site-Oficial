@@ -9,7 +9,7 @@ export function PortfolioGrid() {
     <section className="px-4 md:px-8 py-8 md:py-10 relative z-20">
       {/* Title / Section Header */}
       <div className="mb-8 md:mb-10">
-        <span className="text-slate-500 text-[10px] font-mono tracking-widest uppercase">// cases de sucesso</span>
+        <span className="text-slate-500 text-[10px] font-mono tracking-widest uppercase">Cases de Sucesso</span>
         <h2 className="text-3xl font-medium text-white tracking-tight mt-2">
           Nossos Projetos
         </h2>

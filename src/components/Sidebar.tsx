@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Folder, Layers, Activity, Users, Mail, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { Home, Folder, Layers, Activity, Users, Mail, ChevronLeft, ChevronRight, X, Instagram, Linkedin } from 'lucide-react';
 
 const NAV_ITEMS = [
   { id: 'inicio', label: 'Início', icon: Home },
@@ -30,7 +30,7 @@ export function Sidebar({
   return (
     <aside 
       className={`fixed inset-y-0 left-0 z-50 lg:static flex flex-col justify-between py-8 px-5 shrink-0 bg-[#0B0F14]/95 lg:bg-[#0B0F14]/80 backdrop-blur-md border-r border-white/5 transition-all duration-300 ease-in-out
-        ${isCollapsed ? 'w-[76px]' : 'w-64'} 
+        ${isCollapsed ? 'w-64 lg:w-[76px]' : 'w-64'} 
         ${isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}
     >
@@ -54,9 +54,12 @@ export function Sidebar({
 
       <div>
         {/* Logo */}
-        <div className={`mb-14 px-2 transition-all duration-300 ${isCollapsed ? 'text-center' : ''}`}>
+        <div className={`mb-14 px-2 transition-all duration-300 ${isCollapsed ? 'lg:text-center' : ''}`}>
           {isCollapsed ? (
-            <div className="text-2xl font-bold tracking-wider text-blue-400 select-none animate-pulse">M</div>
+            <>
+              <div className="hidden lg:block text-2xl font-bold tracking-wider text-blue-400 select-none animate-pulse">M</div>
+              <div className="lg:hidden text-2xl font-bold tracking-[0.3em] text-white select-none">MAGE</div>
+            </>
           ) : (
             <div className="text-2xl font-bold tracking-[0.3em] text-white select-none">MAGE</div>
           )}
@@ -76,7 +79,7 @@ export function Sidebar({
                 }}
                 title={isCollapsed ? item.label : undefined}
                 className={`w-full flex items-center rounded-lg transition-all duration-300 cursor-pointer ${
-                  isCollapsed ? 'justify-center p-2.5' : 'gap-3 px-3 py-2.5'
+                  isCollapsed ? 'justify-start gap-3 px-3 py-2.5 lg:justify-center lg:p-2.5' : 'gap-3 px-3 py-2.5'
                 } ${
                   isActive
                     ? 'bg-blue-500/10 text-blue-400 shadow-[inset_0_0_12px_rgba(59,130,246,0.1)] font-semibold'
@@ -84,11 +87,11 @@ export function Sidebar({
                 }`}
               >
                 <Icon size={18} className={isActive ? 'text-blue-400' : 'text-slate-500'} />
-                {!isCollapsed && (
-                  <span className="text-sm font-medium tracking-wide whitespace-nowrap overflow-hidden text-ellipsis transition-all duration-300">
-                    {item.label}
-                  </span>
-                )}
+                <span className={`text-sm font-medium tracking-wide whitespace-nowrap overflow-hidden text-ellipsis transition-all duration-300 ${
+                  isCollapsed ? 'lg:hidden' : ''
+                }`}>
+                  {item.label}
+                </span>
               </button>
             );
           })}
@@ -96,31 +99,51 @@ export function Sidebar({
       </div>
 
       {/* Footer / Status */}
-      <div className={`mt-8 pt-6 border-t border-white/5 px-2 transition-all duration-300 ${isCollapsed ? 'flex flex-col items-center' : ''}`}>
+      <div className={`mt-8 pt-6 border-t border-white/5 px-2 transition-all duration-300 ${isCollapsed ? 'lg:flex lg:flex-col lg:items-center' : ''}`}>
         <div className="flex items-center gap-2 mb-4">
           <div className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </div>
-          {!isCollapsed && (
-            <span className="text-xs font-mono text-emerald-500/80 tracking-wider uppercase whitespace-nowrap">
-              Sistema online
-            </span>
-          )}
+          <span className={`text-xs font-mono text-emerald-500/80 tracking-wider uppercase whitespace-nowrap ${
+            isCollapsed ? 'lg:hidden' : ''
+          }`}>
+            Sistema online
+          </span>
         </div>
         
         {/* Fake Sound Wave / Frequency chart */}
-        {!isCollapsed && (
-          <div className="flex items-end gap-[2px] h-6 opacity-30">
-            {[40, 70, 45, 90, 65, 30, 80, 50, 85, 35, 60, 40].map((height, i) => (
-              <div 
-                key={i} 
-                className="w-1 bg-emerald-400 rounded-t-sm transition-all duration-500 animate-pulse" 
-                style={{ height: `${height}%`, animationDelay: `${i * 0.1}s` }}
-              ></div>
-            ))}
-          </div>
-        )}
+        <div className={`flex items-end gap-[2px] h-6 opacity-30 mb-4 ${isCollapsed ? 'lg:hidden' : ''}`}>
+          {[40, 70, 45, 90, 65, 30, 80, 50, 85, 35, 60, 40].map((height, i) => (
+            <div 
+              key={i} 
+              className="w-1 bg-emerald-400 rounded-t-sm transition-all duration-500 animate-pulse" 
+              style={{ height: `${height}%`, animationDelay: `${i * 0.1}s` }}
+            ></div>
+          ))}
+        </div>
+
+        {/* Redes Sociais */}
+        <div className={`flex items-center gap-4 ${isCollapsed ? 'justify-start mt-4 lg:flex-col lg:gap-3 lg:mt-2' : 'justify-start mt-4'}`}>
+          <a
+            href="https://www.instagram.com/magecomunicacao/"
+            className="text-slate-500 hover:text-white p-1 transition-colors"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram da MAGE"
+          >
+            <Instagram size={18} />
+          </a>
+          <a
+            href="https://linkedin.com/"
+            className="text-slate-500 hover:text-white p-1 transition-colors"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn da MAGE"
+          >
+            <Linkedin size={18} />
+          </a>
+        </div>
       </div>
     </aside>
   );

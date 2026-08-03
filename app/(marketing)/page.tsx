@@ -39,6 +39,7 @@ import { CookieConsent } from '@/src/components/CookieConsent';
 
 export default function MarketingPage() {
   const [activeTab, setActiveTab] = useState<string>('inicio');
+  const [selectedProjectType, setSelectedProjectType] = useState<string>('web');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
@@ -109,7 +110,7 @@ export default function MarketingPage() {
           )}
 
           {activeTab === 'servicos' && (
-            <ServicesPage />
+            <ServicesPage setActiveTab={setActiveTab} setSelectedProjectType={setSelectedProjectType} />
           )}
 
           {activeTab === 'processos' && (
@@ -121,7 +122,7 @@ export default function MarketingPage() {
           )}
 
           {activeTab === 'contato' && (
-            <ContactPage />
+            <ContactPage defaultProjectType={selectedProjectType} />
           )}
 
           {activeTab === 'privacidade' && (

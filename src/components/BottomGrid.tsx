@@ -9,16 +9,17 @@ export function BottomGrid() {
         {/* Metrics & Purpose Box */}
         <div className="col-span-1 md:col-span-4 lg:col-span-4 bg-white/[0.02] border border-white/5 rounded-xl p-6 md:p-8 backdrop-blur-sm flex flex-col md:flex-row justify-between items-stretch gap-8 hover:border-white/10 transition-all duration-300">
           
-          {/* Left: Purpose */}
+          {/* Left: Title & Purpose */}
           <div className="flex-1 flex flex-col justify-between relative">
             <div>
-              <div className="flex justify-between items-center">
-                <span className="font-mono text-[10px] text-slate-500 tracking-wider uppercase">// nosso propósito</span>
-                {/* Code icon brackets */}
-                <span className="font-mono text-xs text-slate-600 select-none">&lt;/&gt;</span>
+              <div className="w-fit flex items-center gap-2 md:gap-3 bg-white/5 border border-white/5 rounded-full pl-2.5 pr-3.5 py-1.5 md:pl-3 md:pr-5 md:py-2 backdrop-blur-sm overflow-hidden">
+                <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" /> 
+                <span className="text-[10px] md:text-xs font-mono text-slate-300 truncate max-w-[110px] sm:max-w-[150px] md:max-w-xs">
+                  NOSSAS SOLUÇÕES
+                </span>
               </div>
               <h4 className="text-lg md:text-xl font-medium text-white tracking-tight mt-4 md:mt-6 leading-relaxed max-w-[320px]">
-                Menos ruído. Mais clareza.<br />Melhores experiências.
+                A estrutura digital para o próximo ciclo de crescimento da sua empresa.
               </h4>
             </div>
           </div>
@@ -26,22 +27,18 @@ export function BottomGrid() {
           {/* Divider */}
           <div className="hidden md:block w-[1px] bg-white/5 self-stretch my-2"></div>
 
-          {/* Right: Metrics Grid */}
-          <div className="flex-1 flex flex-col justify-center">
-            <div className="grid grid-cols-3 gap-2 sm:gap-4">
-              <div>
-                <div className="text-xl sm:text-2xl font-medium text-white mb-2">+30</div>
-                <div className="text-[9px] sm:text-[10px] text-slate-400 uppercase tracking-wider font-light leading-snug">Projetos entregues</div>
-              </div>
-              <div>
-                <div className="text-xl sm:text-2xl font-medium text-white mb-2">12</div>
-                <div className="text-[9px] sm:text-[10px] text-slate-400 uppercase tracking-wider font-light leading-snug">Clientes parceiros</div>
-              </div>
-              <div>
-                <div className="text-xl sm:text-2xl font-medium text-white mb-2">98%</div>
-                <div className="text-[9px] sm:text-[10px] text-slate-400 uppercase tracking-wider font-light leading-snug">Satisfação média</div>
-              </div>
-            </div>
+          {/* Right: Description & Button */}
+          <div className="flex-1 flex flex-col justify-between relative">
+            <p className="text-sm text-slate-400 tracking-wide mt-4 md:mt-6 leading-relaxed max-w-[320px]">
+              Tecnologia, comunicação e estratégia integradas para resolver os desafios que impedem empresas de escalar.
+            </p>
+            <button 
+              onClick={() => console.log('Projetos')}
+              className="mt-4 text-slate-400 hover:text-white transition-colors duration-300 text-[11px] font-medium flex items-center gap-1 cursor-pointer self-start"
+            >
+                Conheça todos os serviços
+               <ArrowUpRight size={16} className="inline" />
+            </button>
           </div>
         </div>
 

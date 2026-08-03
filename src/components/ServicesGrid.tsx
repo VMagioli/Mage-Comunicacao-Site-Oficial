@@ -6,29 +6,29 @@ import { PROJECTS } from '../data/projects';
 const SERVICES = [
   {
     icon: Compass,
-    title: 'ESTRATÉGIA',
-    description: 'Transformamos ideias em planos digitais sólidos e escaláveis.',
+    title: 'ESTRUTURA',
+    description: 'Organizamos a base digital da empresa para que o crescimento aconteça com mais eficiência e menos retrabalho.',
     lineClass: 'bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]',
     iconContainerClass: 'border-blue-500/20 bg-blue-500/5 text-blue-400'
   },
   {
     icon: Palette,
-    title: 'DESIGN',
-    description: 'Interfaces intuitivas que comunicam e criam conexão.',
+    title: 'COMUNICAÇÃO',
+    description: 'Posicionamento digital para atrair, educar e gerar demanda qualificada.',
     lineClass: 'bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.5)]',
     iconContainerClass: 'border-purple-500/20 bg-purple-500/5 text-purple-400'
   },
   {
     icon: Cpu,
     title: 'TECNOLOGIA',
-    description: 'Soluções modernas, seguras e feitas para performance.',
+    description: 'Desenvolvemos soluções sob medida que automatizam processos, conectam operações e sustentam a escala do negócio.',
     lineClass: 'bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]',
     iconContainerClass: 'border-cyan-500/20 bg-cyan-500/5 text-cyan-400'
   },
   {
     icon: Sparkles,
-    title: 'EXPERIÊNCIA',
-    description: 'Criamos experiências digitais que deixam marcas reais.',
+    title: 'CRESCIMENTO',
+    description: 'Cada solução é construída para fortalecer a operação, aumentar a capacidade da empresa e preparar o próximo nível de crescimento.',
     lineClass: 'bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]',
     iconContainerClass: 'border-emerald-500/20 bg-emerald-500/5 text-emerald-400'
   }
@@ -87,7 +87,7 @@ export function ServicesGrid({ setActiveTab }: ServicesGridProps) {
           {lastProject ? (
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 my-4">
               <div className="flex-1">
-                <span className="text-blue-400 text-[9px] font-mono tracking-wider block mb-1 uppercase font-medium">Último Caso</span>
+                <span className="text-blue-400 text-[9px] font-mono tracking-wider block mb-1 uppercase font-medium">Último Case</span>
                 <h4 className="text-lg md:text-xl font-medium text-white mb-2 leading-snug">{lastProject.title}</h4>
                 <p className="text-slate-400 text-xs leading-relaxed font-light tracking-wide line-clamp-3">
                   {lastProject.description}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Menu, Instagram, Linkedin, MessageSquare } from 'lucide-react';
 import type { Session } from '@supabase/supabase-js';
 
@@ -9,29 +9,6 @@ interface TopBarProps {
 }
 
 export function TopBar({ onMenuToggle, userSession = null }: TopBarProps) {
-  const [time, setTime] = useState<string>(() =>
-    new Date().toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true,
-    }),
-  );
-
-  /* ───────────────── relógio “vivo” ───────────────── */
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(
-        new Date().toLocaleTimeString('en-US', {
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: true,
-        }),
-      );
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-
   return (
     <header className="flex items-center justify-between py-4 px-4 md:py-6 md:px-8 gap-4 relative z-20">
       <div className="flex items-center gap-2">
@@ -47,7 +24,7 @@ export function TopBar({ onMenuToggle, userSession = null }: TopBarProps) {
         {/* Badge */}
         <div className="flex items-center gap-2 md:gap-3 bg-white/5 border border-white/5 rounded-full pl-2.5 pr-3.5 py-1.5 md:pl-3 md:pr-5 md:py-2 backdrop-blur-sm overflow-hidden">
           <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-          <span className="text-[10px] md:text-xs font-mono text-slate-300 truncate max-w-[150px] sm:max-w-xs">
+          <span className="text-[10px] md:text-xs font-mono text-slate-300 truncate max-w-[110px] sm:max-w-[150px] md:max-w-xs">
             Conectando ideias. Criando experiências.
           </span>
         </div>
@@ -55,7 +32,7 @@ export function TopBar({ onMenuToggle, userSession = null }: TopBarProps) {
 
       <div className="flex items-center gap-4 md:gap-6 shrink-0">
         {/* Redes sociais */}
-        <div className="flex items-center gap-3 mr-2">
+        <div className="hidden md:flex items-center gap-3 mr-2">
           <a
             href="https://www.instagram.com/magecomunicacao/"
             className="text-slate-400 hover:text-white p-1 transition-colors"
@@ -75,8 +52,6 @@ export function TopBar({ onMenuToggle, userSession = null }: TopBarProps) {
             <Linkedin size={18} />
           </a>
         </div>
-
-        <span className="text-xs md:text-sm font-mono text-slate-400">{time}</span>
 
         <a
           href="https://wa.me/5500000000000?text=Olá!%20Gostaria%20de%20iniciar%20um%20projeto."

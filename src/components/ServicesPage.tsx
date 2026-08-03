@@ -4,73 +4,92 @@ import { Compass, Palette, Cpu, Sparkles, CheckCircle2, ArrowRight } from 'lucid
 const DETAILED_SERVICES = [
   {
     icon: Compass,
-    title: 'Estratégia Digital',
-    description: 'A base de qualquer projeto de sucesso. Alinhamos sua visão de negócios a dados concretos para definir o escopo ideal.',
+    title: 'Comunicação e Conteúdo',
+    description: 'Gestão de redes sociais, criação de conteúdo estratégico e gestão de tráfego pago para posicionamento digital.',
     deliverables: [
-      'Análise de viabilidade técnica',
-      'Mapeamento de jornada do usuário',
-      'Arquitetura de informação e sitemaps',
-      'Planejamento de roadmap de produto'
+      'Gestão de Instagram',
+      'Estratégia de Conteúdo',
+      'Estudo de Marca e Posicionamento',
+      'Direção Criativa',
+      'Calendário Editorial',
+      'Gestão de Tráfego Pago'
     ],
     borderClass: 'border-blue-500/10 hover:border-blue-500/30',
     iconColor: 'text-blue-400',
-    bgIcon: 'bg-blue-500/5'
+    bgIcon: 'bg-blue-500/5',
+    projectTypeId: 'branding'
   },
   {
     icon: Palette,
-    title: 'Design de Experiência (UI/UX)',
-    description: 'Criamos interfaces que contam histórias. Focamos no minimalismo, usabilidade e estéticas futuristas que encantam.',
+    title: 'Sites e Tecnologia',
+    description: 'Desenvolvimento de soluções digitais para tornar empresas mais eficientes e preparadas para crescer.',
     deliverables: [
-      'Protótipos interativos de alta fidelidade',
-      'Direção de arte e identidade visual',
-      'Micro-interações e animações fluidas',
-      'Sistemas de design (Design Systems) escaláveis'
+      'Sites Institucionais',
+      'Landing Pages',
+      'Página de vendas',
+      'Agentes de IA',
+      'Blog',
+      'Integrações entre plataformas',
+      'Automações',
+      'Manutenção de Sites'
     ],
     borderClass: 'border-purple-500/10 hover:border-purple-500/30',
     iconColor: 'text-purple-400',
-    bgIcon: 'bg-purple-500/5'
+    bgIcon: 'bg-purple-500/5',
+    projectTypeId: 'web'
   },
   {
     icon: Cpu,
-    title: 'Desenvolvimento Web Premium',
-    description: 'Código de alto desempenho. Usamos as ferramentas mais modernas do mercado para entregar velocidade, segurança e robustez.',
+    title: 'Comercial',
+    description: 'Estruturamos processos que ajudam empresas a vender melhor.',
     deliverables: [
-      'Aplicações escaláveis com Next.js & React',
-      'Sites institucionais focados em conversão',
-      'Integrações de APIs de terceiros e microsserviços',
-      'Otimização extrema para Web Vitals'
+      'Estratégia de Vendas',
+      'Otimização de Processos',
+      'Treinamento de Equipe Comercial',
+      'Automação Comercial',
+      'Agentes de IA para Atendimento e Vendas',
+      'Canais de Comunicação com IA (WhatsApp, Telegram, etc)',
+      'CRM e Funis de Vendas'
     ],
     borderClass: 'border-cyan-500/10 hover:border-cyan-500/30',
     iconColor: 'text-cyan-400',
-    bgIcon: 'bg-cyan-500/5'
+    bgIcon: 'bg-cyan-500/5',
+    projectTypeId: 'commercial'
   },
   {
     icon: Sparkles,
-    title: 'SEO & Performance',
-    description: 'Não basta ser bonito, precisa ser encontrado. Otimizamos todos os aspectos para que você domine os resultados do Google.',
+    title: 'Gestão',
+    description: 'Organizamos processos para sustentar o crescimento da empresa.',
     deliverables: [
-      'Auditoria completa de SEO técnico',
-      'Otimização de tempo de carregamento (LCP, FID, CLS)',
-      'Estruturação de dados rich snippets',
-      'Monitoramento com Google Search Console'
+      'Mapeamento e Padronização de Processos',
+      'Consultoria em Estrutura Digital',
+      'Organização Operacional',
+      'Implantação de Ferramentas',
+      'Dashboards e Indicadores'
     ],
     borderClass: 'border-emerald-500/10 hover:border-emerald-500/30',
     iconColor: 'text-emerald-400',
-    bgIcon: 'bg-emerald-500/5'
+    bgIcon: 'bg-emerald-500/5',
+    projectTypeId: 'management'
   }
 ];
 
-export function ServicesPage() {
+interface ServicesPageProps {
+  setActiveTab?: (tab: string) => void;
+  setSelectedProjectType?: (type: string) => void;
+}
+
+export function ServicesPage({ setActiveTab, setSelectedProjectType }: ServicesPageProps) {
   return (
     <section className="px-4 md:px-8 py-8 md:py-10 relative z-20">
       {/* Page Header */}
       <div className="mb-12">
-        <span className="text-slate-500 text-[10px] font-mono tracking-widest uppercase">// soluções sob medida</span>
+        <span className="text-slate-500 text-[10px] font-mono tracking-widest uppercase">Soluções sob medida</span>
         <h2 className="text-3xl sm:text-4xl font-medium text-white tracking-tight mt-2">
           Nossos Serviços
         </h2>
-        <p className="text-slate-400 font-light mt-4 max-w-2xl text-sm md:text-base">
-          Combinamos criatividade de ponta com excelência técnica para projetar, desenvolver e otimizar aplicações web digitais que geram impacto real.
+        <p className="text-slate-400 mt-4 max-w-2xl text-sm md:text-base">
+          Toda solução existe para resolver um limite de crescimento. <br/>Conheça as frentes que utilizamos para estruturar empresas, fortalecer operações e acelerar resultados.
         </p>
       </div>
 
@@ -110,9 +129,18 @@ export function ServicesPage() {
               {/* Bottom indicator */}
               <div className="pt-4 border-t border-white/5 flex justify-between items-center text-xs font-mono text-slate-500">
                 <span>Mage Service #{index + 1}</span>
-                <span className="flex items-center gap-1 hover:text-white transition-colors cursor-pointer">
-                  Saber mais <ArrowRight size={12} />
-                </span>
+                <button
+                  onClick={() => {
+                    if (service.projectTypeId) {
+                      setSelectedProjectType?.(service.projectTypeId);
+                    }
+                    setActiveTab?.('contato');
+                    document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="flex items-center gap-1 hover:text-white transition-colors cursor-pointer bg-transparent border-none p-0 text-xs font-mono text-slate-500"
+                >
+                  Solicitar Orçamento <ArrowRight size={12} />
+                </button>
               </div>
             </div>
           );

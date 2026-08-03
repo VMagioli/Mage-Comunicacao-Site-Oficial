@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Mail, MessageSquare, Phone, Send, ExternalLink } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -20,7 +20,11 @@ const ContactSchema = z.object({
 
 type ContactFormInputs = z.infer<typeof ContactSchema>;
 
-export function ContactPage() {
+interface ContactPageProps {
+  defaultProjectType?: string;
+}
+
+export function ContactPage({ defaultProjectType = 'web' }: ContactPageProps) {
   /* ---------------------------  RHF – inicialização --------------------------- */
   const {
     register,
@@ -35,7 +39,7 @@ export function ContactPage() {
       name: '',
       email: '',
       phone: '',
-      projectType: 'web',
+      projectType: defaultProjectType,
       budget: 'R$ 5k - R$ 15k',
       message: '',
     },
@@ -45,11 +49,34 @@ export function ContactPage() {
   const projectType = watch('projectType');
   const budget = watch('budget');
 
+  useEffect(() => {
+    if (defaultProjectType) {
+      setValue('projectType', defaultProjectType);
+    }
+  }, [defaultProjectType, setValue]);
+
   /* ---------------------------  Submissão assíncrona -------------------------- */
   const onSubmit = async (data: ContactFormInputs) => {
-    console.log('✅ Form data (validação passou):', data);
-    setSubmitted(true);
-    reset();                            // limpa formulário
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Erro ao enviar mensagem.');
+      }
+
+      setSubmitted(true);
+      reset();                            // limpa formulário
+    } catch (error: any) {
+      console.error('❌ Erro no formulário de contato:', error);
+      alert(error?.message || 'Ocorreu um erro ao enviar sua mensagem. Por favor, tente novamente.');
+    }
   };
 
   const whatsappNumber = '5500000000000'; // Placeholder
@@ -59,12 +86,12 @@ export function ContactPage() {
     <section className="px-4 md:px-8 py-8 md:py-10 relative z-20">
       {/* Header */}
       <div className="mb-12">
-        <span className="text-slate-500 text-[10px] font-mono uppercase tracking-widest">// start a conversation</span>
+        <span className="text-slate-500 text-[10px] font-mono uppercase tracking-widest">Ficou interessado em nossos serviços?</span>
         <h2 className="text-3xl sm:text-4xl font-medium text-white tracking-tight mt-2">
           Entre em Contato
         </h2>
         <p className="text-slate-400 font-light mt-4 max-w-2xl text-sm md:text-base">
-          Tem uma ideia de projeto ou precisa de ajuda técnica e visual para seu produto digital? Escreva abaixo ou mande mensagem direta.
+          O próximo salto da sua empresa começa com a estrutura certa. <br/>Conte-nos onde você quer chegar. Nós desenhamos o caminho digital para isso. Escreva abaixo ou mande mensagem via WhatsApp.
         </p>
       </div>
 
@@ -142,10 +169,10 @@ export function ContactPage() {
                 <label className="block text-xs font-mono text-slate-400 uppercase tracking-wide">Tipo de Projeto</label>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {[
-                    { id: 'web', label: 'Plataforma Web' },
-                    { id: 'design', label: 'Design UI/UX' },
-                    { id: 'landing', label: 'Landing Page' },
-                    { id: 'branding', label: 'Identidade Visual' },
+                    { id: 'web', label: 'Sites e Tecnologia' },
+                    { id: 'branding', label: 'Comunicação e Conteúdo' },
+                    { id: 'commercial', label: 'Comercial' },
+                    { id: 'management', label: 'Gestão' },
                     { id: 'other', label: 'Outro' },
                   ].map((type) => (
                     <button
@@ -206,7 +233,7 @@ export function ContactPage() {
                 disabled={isSubmitting}
                 className="w-full sm:w-auto px-8 py-3 bg-blue-500/10 border border-blue-500/30 text-blue-300 hover:bg-blue-500/20 hover:border-blue-400/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] rounded-lg font-medium text-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50"
               >
-                {isSubmitting ? 'Enviando...' : 'Enviar Briefing'}
+                {isSubmitting ? 'Enviando...' : 'Enviar'}
                 <Send size={14} />
               </button>
             </form>
@@ -236,7 +263,7 @@ export function ContactPage() {
 
           {/* Info Extra */}
           <div className="bg-[#111923]/40 border border-white/5 rounded-2xl p-6 md:p-8 space-y-6">
-            <h4 className="text-white font-mono text-xs uppercase tracking-wider">// Informações Adicionais</h4>
+            <h4 className="text-white font-mono text-xs uppercase tracking-wider">Informações Adicionais</h4>
 
             <div className="space-y-4">
               <div className="flex items-start gap-4">

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Instagram, Linkedin } from 'lucide-react';
 
 interface FooterProps {
   setActiveTab: (tab: string) => void;
@@ -7,10 +8,32 @@ interface FooterProps {
 export function Footer({ setActiveTab }: FooterProps) {
   return (
     <footer className="mt-auto py-8 px-4 md:px-8 border-t border-white/5 bg-[#0B0F14]/40 backdrop-blur-sm relative z-20">
-      <div className="max-w-6xl w-full mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="max-w-6xl w-full mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Left Side: Copyright */}
-        <div className="text-[11px] font-mono text-slate-500 tracking-wider">
+        <div className="text-[11px] font-mono text-slate-500 tracking-wider text-center md:text-left">
           © {new Date().getFullYear()} MAGE COMUNICAÇÃO. TODOS OS DIREITOS RESERVADOS.
+        </div>
+
+        {/* Center Side: Social Networks */}
+        <div className="flex items-center gap-4">
+          <a
+            href="https://www.instagram.com/magecomunicacao/"
+            className="text-slate-500 hover:text-white p-1 transition-colors"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram da MAGE"
+          >
+            <Instagram size={16} />
+          </a>
+          <a
+            href="https://linkedin.com/"
+            className="text-slate-500 hover:text-white p-1 transition-colors"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn da MAGE"
+          >
+            <Linkedin size={16} />
+          </a>
         </div>
 
         {/* Right Side: Links */}
