@@ -79,7 +79,7 @@ export function ContactPage({ defaultProjectType = 'web' }: ContactPageProps) {
     }
   };
 
-  const whatsappNumber = '5500000000000'; // Placeholder
+  const whatsappNumber = '5521993963503';
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Olá!%20Gostaria%20de%20solicitar%20um%20orçamento%20de%20projeto.`;
 
   return (

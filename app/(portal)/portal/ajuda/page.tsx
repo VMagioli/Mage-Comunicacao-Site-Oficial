@@ -289,7 +289,7 @@ export default function HelpPage() {
                 </div>
               </div>
               <a 
-                href="https://wa.me/5531999999999" 
+                href="https://wa.me/5521993963503" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-xs text-emerald-400 hover:text-emerald-300 hover:underline flex items-center gap-1 cursor-pointer"

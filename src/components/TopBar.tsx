@@ -54,7 +54,7 @@ export function TopBar({ onMenuToggle, userSession = null }: TopBarProps) {
         </div>
 
         <a
-          href="https://wa.me/5500000000000?text=Olá!%20Gostaria%20de%20iniciar%20um%20projeto."
+          href="https://wa.me/5521993963503?text=Olá!%20Gostaria%20de%20iniciar%20um%20projeto."
           target="_blank"
           rel="noopener noreferrer"
           className="px-3 py-1.5 md:px-4 md:py-2 bg-blue-500/10 border border-blue-500/20 hover:border-blue-500/40 text-blue-300 hover:text-blue-200 rounded-lg text-xs md:text-sm font-medium transition-all flex items-center gap-2"

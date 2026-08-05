@@ -1041,7 +1041,7 @@ export default function DashboardPortal() {
                     Suporte por E-mail
                   </a>
                   <a 
-                    href="https://wa.me/5531999999999"
+                    href="https://wa.me/5521993963503"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="py-2.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 rounded-xl text-center text-xs font-semibold text-emerald-400 transition flex items-center justify-center gap-2"

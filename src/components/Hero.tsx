@@ -27,7 +27,7 @@ export function Hero({ setActiveTab }: HeroProps) {
           </button>
           
           <a 
-            href="https://wa.me/5500000000000?text=Olá!%20Gostaria%20de%20falar%20com%20o%20time%20da%20MAGE."
+            href="https://wa.me/5521993963503?text=Olá!%20Gostaria%20de%20falar%20com%20o%20time%20da%20MAGE."
             target="_blank"
             rel="noopener noreferrer"
             className="group flex items-center justify-center gap-3 text-slate-300 hover:text-white transition-colors duration-300 font-medium py-2 cursor-pointer"
