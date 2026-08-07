@@ -36,6 +36,8 @@ const TermsPage = dynamic(() => import('@/src/components/TermsPage').then(mod =>
 // Import Global Footer and Cookie Consent
 import { Footer } from '@/src/components/Footer';
 import { CookieConsent } from '@/src/components/CookieConsent';
+import { FaqSection } from '@/src/components/seo/FaqSection';
+import { GeoComparisonTable } from '@/src/components/seo/GeoComparisonTable';
 
 export default function MarketingPage() {
   const [activeTab, setActiveTab] = useState<string>('inicio');
@@ -101,6 +103,8 @@ export default function MarketingPage() {
             <>
               <Hero setActiveTab={setActiveTab} />
               <ServicesGrid setActiveTab={setActiveTab} />
+              <GeoComparisonTable />
+              <FaqSection />
               <BottomGrid />
             </>
           )}

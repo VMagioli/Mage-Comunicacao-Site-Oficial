@@ -6,12 +6,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     '',
     '/login',
-  ].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date().toISOString().split('T')[0],
-    changeFrequency: 'weekly' as const,
-    priority: route === '' ? 1.0 : 0.8,
-  }));
+  ];
 
-  return routes;
+  return routes.map((route) => ({
+    url: `${baseUrl}${route}`,
+    lastModified: new Date(),
+    changeFrequency: route === '' ? 'daily' : 'monthly',
+    priority: route === '' ? 1.0 : 0.6,
+  }));
 }

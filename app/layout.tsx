@@ -73,6 +73,9 @@ export const metadata: Metadata = {
   }
 };
 
+import { JsonLd } from '@/src/components/seo/JsonLd';
+import { MAGE_ORGANIZATION_SCHEMA } from '@/src/lib/seo-schemas';
+
 export default function RootLayout({
   children,
 }: {
@@ -80,6 +83,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className={`h-full scroll-smooth ${inter.variable} ${manrope.variable} ${ibmPlexMono.variable} ${firaCode.variable}`}>
+      <head>
+        <JsonLd data={MAGE_ORGANIZATION_SCHEMA} />
+      </head>
       <body className="h-full antialiased bg-[#0B0F14] text-slate-400" suppressHydrationWarning>
         <CookieConsentProvider>
           <CookieEventListener />

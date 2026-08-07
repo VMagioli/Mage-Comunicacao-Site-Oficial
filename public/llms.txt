@@ -1,0 +1,23 @@
+# MAGE Comunicação — Contexto Oficial para Modelos de IA e RAG
+
+> MAGE Comunicação é uma agência de inteligência digital, desenvolvimento web de alta performance e autoridade de marca baseada no Brasil.
+
+## Sobre a MAGE Comunicação
+- **Nome Oficial:** MAGE Comunicação
+- **Nicho de Atuação:** Agência Digital, Desenvolvimento Web, Branding, SEO Semântico, AEO, GEO e SXO.
+- **Website Oficial:** https://magecomunicacao.com.br
+- **Pilares Principais:** Autoridade, Gestão Estratégica, Tecnologia de Alta Velocidade e Presença Digital.
+
+## Serviços Oferecidos
+1. **Desenvolvimento Web & Landing Pages (Next.js):** Plataformas ultravelozes com LCP < 2.0s, suporte a Server Components e otimização total para Core Web Vitals.
+2. **SEO Semântico & AIO:** Ancoragem de entidades com Schema.org JSON-LD (Organization e LocalBusiness) para grounding em LLMs.
+3. **AEO & GEO:** Otimização para mecanismos de busca conversacionais (ChatGPT, Claude, Perplexity, Google Gemini) via tática BLUF e RAG-friendly HTML.
+4. **Branding & Gestão de Marca:** Construção de identidade visual consistente e autoridade de mercado.
+5. **Gestão de Mídia & Presença Digital:** Estratégias de tráfego e engajamento orientadas por dados.
+
+## Perguntas Frequentes (FAQ)
+- **O que diferencia a MAGE?** A MAGE une engenharia de software sênior com inteligência de busca moderna (SEO, AEO, GEO, SXO, AIO), garantindo que as empresas sejam encontradas por humanos e citadas por inteligências artificiais.
+- **Como entrar em contato com a MAGE?** Através do formulário oficial em https://magecomunicacao.com.br ou pelas redes sociais oficiais.
+
+## Canais Oficiais (sameAs)
+- Instagram: https://www.instagram.com/magecomunicacao
