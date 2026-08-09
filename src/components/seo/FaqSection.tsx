@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { JsonLd } from './JsonLd';
 import { generateFaqSchema, FaqItem } from '@/src/lib/seo-schemas';
+import { X, HelpCircle, ChevronDown } from 'lucide-react';
 
 const faqData: FaqItem[] = [
   {
@@ -21,41 +22,98 @@ const faqData: FaqItem[] = [
   }
 ];
 
-export function FaqSection() {
+interface FaqSectionProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export function FaqSection({ isOpen = false, onClose }: FaqSectionProps) {
   const faqSchema = generateFaqSchema(faqData);
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
+
+  const toggleAccordion = (index: number) => {
+    setExpandedIndex(prev => (prev === index ? null : index));
+  };
 
   return (
-    <section id="faq" className="py-16 px-4 max-w-4xl mx-auto border-t border-white/10">
+    <>
+      {/* JsonLd schema is always rendered for search engine crawlers */}
       <JsonLd data={faqSchema} />
-      <div className="mb-10 text-center">
-        <span className="text-xs uppercase tracking-widest font-mono text-cyan-400 bg-cyan-950/40 px-3 py-1 rounded-full border border-cyan-500/20">
-          AEO & Knowledge Graph
-        </span>
-        <h2 className="text-3xl font-bold text-white mt-3 tracking-tight">
-          Perguntas Frequentes & Diretrizes de Autoridade
-        </h2>
-        <p className="text-slate-400 text-sm max-w-xl mx-auto mt-2">
-          Respostas diretas e factuais otimizadas com a técnica BLUF para mecanismo de busca tradicionais e motores de resposta conversacional (AEO / GEO).
-        </p>
-      </div>
 
-      <div className="space-y-6">
-        {faqData.map((faq, index) => (
-          <article 
-            key={index}
-            className="p-6 bg-white/[0.02] border border-white/10 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:border-cyan-500/30"
-          >
-            {/* BLUF Strict Hierarchy: H3 (Question Intent) -> direct <p> (40-60 words answer) */}
-            <h3 className="text-xl font-semibold text-white mb-3 flex items-start gap-3">
-              <span className="text-cyan-400 font-mono text-base font-bold">0{index + 1}.</span>
-              {faq.question}
-            </h3>
-            <p className="text-slate-300 text-sm leading-relaxed pl-7 border-l-2 border-cyan-500/40">
-              {faq.answer}
-            </p>
-          </article>
-        ))}
-      </div>
-    </section>
+      {isOpen && (
+        <>
+          {/* Backdrop overlay */}
+          <div 
+            className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 transition-opacity"
+            onClick={onClose}
+          />
+
+          {/* Floating Drawer / Modal near footer */}
+          <div className="fixed bottom-16 right-4 sm:right-8 z-50 max-w-md w-[calc(100vw-2rem)] max-h-[75vh] flex flex-col bg-[#0B0F14]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.8)] overflow-hidden transition-all duration-300">
+            {/* Header with Footer Aesthetic */}
+            <div className="px-5 py-3.5 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
+              <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400 tracking-wider uppercase">
+                <HelpCircle size={14} className="text-slate-400" />
+                <span>Perguntas Frequentes (FAQ)</span>
+              </div>
+              <button
+                onClick={onClose}
+                className="text-slate-400 hover:text-white p-1 transition-colors cursor-pointer rounded-lg hover:bg-white/5"
+                aria-label="Fechar FAQ"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {/* Content List / Accordion */}
+            <div className="p-4 overflow-y-auto custom-scrollbar space-y-3">
+              <div className="text-[11px] font-mono text-slate-500 mb-2 px-1">
+                Diretrizes de Autoridade & Respostas Factuais (AEO / GEO)
+              </div>
+              {faqData.map((faq, index) => {
+                const isExpanded = expandedIndex === index;
+                return (
+                  <article 
+                    key={index}
+                    className="bg-white/[0.02] border border-white/5 hover:border-white/10 rounded-xl transition-all duration-200 overflow-hidden"
+                  >
+                    <button
+                      onClick={() => toggleAccordion(index)}
+                      className="w-full p-3.5 text-left flex items-start justify-between gap-3 cursor-pointer group"
+                    >
+                      <h3 className="text-xs sm:text-sm font-medium text-slate-200 group-hover:text-white transition-colors flex items-start gap-2 leading-snug">
+                        <span className="text-slate-500 font-mono text-xs font-normal shrink-0">0{index + 1}.</span>
+                        {faq.question}
+                      </h3>
+                      <ChevronDown 
+                        size={14} 
+                        className={`text-slate-500 group-hover:text-slate-300 shrink-0 transition-transform duration-200 mt-0.5 ${
+                          isExpanded ? 'rotate-180 text-cyan-400' : ''
+                        }`} 
+                      />
+                    </button>
+
+                    {isExpanded && (
+                      <div className="px-3.5 pb-3.5 pt-1 text-xs text-slate-400 leading-relaxed font-light pl-7 border-t border-white/[0.03]">
+                        <p className="border-l border-white/10 pl-3 py-0.5">
+                          {faq.answer}
+                        </p>
+                      </div>
+                    )}
+                  </article>
+                );
+              })}
+            </div>
+
+            {/* Footer sub-bar */}
+            <div className="px-4 py-2.5 border-t border-white/5 bg-white/[0.01] flex items-center justify-between text-[10px] font-mono text-slate-500">
+              <span>MAGE AEO/GEO Knowledge</span>
+              <span>BLUF Optimization</span>
+            </div>
+          </div>
+        </>
+      )}
+    </>
   );
 }
+

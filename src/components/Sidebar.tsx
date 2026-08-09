@@ -5,7 +5,7 @@ const NAV_ITEMS = [
   { id: 'inicio', label: 'Início', icon: Home },
   { id: 'projetos', label: 'Projetos', icon: Folder },
   { id: 'servicos', label: 'Serviços', icon: Layers },
-  { id: 'processos', label: 'Processos', icon: Activity },
+  // { id: 'processos', label: 'Processos', icon: Activity }, // Desativado temporariamente a pedido do usuário
   { id: 'sobre', label: 'Sobre nós', icon: Users },
   { id: 'contato', label: 'Contato', icon: Mail },
 ];
