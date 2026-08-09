@@ -1,7 +1,7 @@
 {
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/:path*",
       "headers": [
         {
           "key": "Content-Security-Policy",
@@ -34,7 +34,7 @@
       ]
     },
     {
-      "source": "/(fonts|images|.*\\.(png|jpg|jpeg|gif|webp|avif|svg|ico|woff|woff2))",
+      "source": "/:path*\\.(png|jpg|jpeg|gif|webp|avif|svg|ico|woff|woff2)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -57,3 +57,4 @@
     }
   ]
 }
+
