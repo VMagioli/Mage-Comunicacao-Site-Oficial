@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Inter, Manrope, IBM_Plex_Mono, Fira_Code } from 'next/font/google';
 import './globals.css';
 import { CookieConsentProvider, CookieEventListener } from '@/src/components/CookieConsent';
+import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -91,6 +92,7 @@ export default function RootLayout({
           <CookieEventListener />
           {children}
         </CookieConsentProvider>
+        <Analytics />
       </body>
     </html>
   );
