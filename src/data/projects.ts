@@ -41,8 +41,8 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 3,
-    url: 'reputacaodigital.laizeandreatta.vercel.app',
-    realUrl: 'https://reputacaodigital.laizeandreatta.vercel.app/',
+    url: 'reputacaodigital-laizeandreatta.vercel.app',
+    realUrl: 'https://reputacaodigital-laizeandreatta.vercel.app/',
     image: '/images/screencapture-reputacaodigital-laizeandreatta-vercel-app-2026-07-05-00_31_55.webp',
     label: 'PERSONAL BRANDING & INFLUENCE',
     title: 'Projeto Reputação Digital',
