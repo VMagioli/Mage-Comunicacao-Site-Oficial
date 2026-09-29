@@ -51,5 +51,18 @@ export const PROJECTS: Project[] = [
     colorClass: 'text-pink-400 border-pink-500/20 bg-pink-500/5 hover:border-pink-400/30 hover:shadow-[0_0_12px_rgba(236,72,153,0.15)]',
     tagColorClass: 'text-pink-400/90 bg-pink-500/10 border-pink-500/20 shadow-[0_0_10px_rgba(236,72,153,0.05)]',
     accentColor: 'text-pink-400'
+  },
+  {
+    id: 4,
+    url: 'patriciagavazza.com.br',
+    realUrl: 'https://www.patriciagavazzapsicologa.com.br/',
+    image: '/images/site_patricia-gavazza.webp',
+    label: 'CLINICAL PSYCHOLOGY & BRANDING',
+    title: 'Posicionamento & Plataforma Patrícia Gavazza',
+    description: 'Desenvolvimento de landing page de alta conversão, posicionamento de autoridade para atendimento de psicologia clínica e estrutura estratégica de captação.',
+    tags: ['Psychology', 'Strategy', 'Branding', 'React'],
+    colorClass: 'text-amber-400 border-amber-500/20 bg-amber-500/5 hover:border-amber-400/30 hover:shadow-[0_0_12px_rgba(245,158,11,0.15)]',
+    tagColorClass: 'text-amber-400/90 bg-amber-500/10 border-amber-500/20 shadow-[0_0_10px_rgba(245,158,11,0.05)]',
+    accentColor: 'text-amber-400'
   }
 ];
