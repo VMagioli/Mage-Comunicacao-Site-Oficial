@@ -3,6 +3,7 @@ import { Mail, MessageSquare, Phone, Send, ExternalLink } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { event } from '@/src/lib/gtag';
 
 const BUDGET_RANGES = ['Até R$ 5k', 'R$ 5k - R$ 15k', 'R$ 15k - R$ 30k', 'R$ 30k+'];
 
@@ -72,6 +73,12 @@ export function ContactPage({ defaultProjectType = 'web' }: ContactPageProps) {
       }
 
       setSubmitted(true);
+      event({
+        action: 'generate_lead',
+        category: 'Contact Form',
+        label: data.projectType,
+        budget: data.budget,
+      });
       reset();                            // limpa formulário
     } catch (error: any) {
       console.error('❌ Erro no formulário de contato:', error);

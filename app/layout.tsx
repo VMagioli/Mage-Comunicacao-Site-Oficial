@@ -75,6 +75,7 @@ export const metadata: Metadata = {
 
 import { JsonLd } from '@/src/components/seo/JsonLd';
 import { MAGE_ORGANIZATION_SCHEMA } from '@/src/lib/seo-schemas';
+import { GoogleAnalytics } from '@/src/components/GoogleAnalytics';
 
 export default function RootLayout({
   children,
@@ -87,6 +88,7 @@ export default function RootLayout({
         <JsonLd data={MAGE_ORGANIZATION_SCHEMA} />
       </head>
       <body className="h-full antialiased bg-[#0B0F14] text-slate-400" suppressHydrationWarning>
+        <GoogleAnalytics />
         <CookieConsentProvider>
           <CookieEventListener />
           {children}

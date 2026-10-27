@@ -36,6 +36,7 @@ const TermsPage = dynamic(() => import('@/src/components/TermsPage').then(mod =>
 // Import Global Footer and Cookie Consent
 import { Footer } from '@/src/components/Footer';
 import { CookieConsent } from '@/src/components/CookieConsent';
+import { event } from '@/src/lib/gtag';
 
 export default function MarketingPage() {
   const [activeTab, setActiveTab] = useState<string>('inicio');
@@ -50,6 +51,18 @@ export default function MarketingPage() {
       setIsSidebarCollapsed(true);
     }
   }, []);
+
+  // Rastreia visualização das seções/abas no Google Analytics
+  useEffect(() => {
+    if (activeTab) {
+      event({
+        action: 'view_section',
+        category: 'Navigation',
+        label: activeTab,
+        section_name: activeTab,
+      });
+    }
+  }, [activeTab]);
 
   const toggleSidebar = () => {
     setIsSidebarCollapsed(prev => {

@@ -121,8 +121,23 @@ export function CookieConsent({ setActiveTab }: CookieConsentProps) {
 /* Componente auxiliar de escuta rodando no cliente */
 export function CookieEventListener() {
   useEffect(() => {
+    // Sincroniza escolha prévia caso já exista no localStorage
+    const saved = localStorage.getItem('mage-cookie-consent');
+    if (saved && typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+      (window as any).gtag('consent', 'update', {
+        analytics_storage: saved === 'accepted' ? 'granted' : 'denied',
+      });
+    }
+
     const handler = (e: CustomEvent<'accepted' | 'declined'>) => {
-      console.log('cookie choice:', e.detail); // plug analytics aqui
+      if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+        (window as any).gtag('consent', 'update', {
+          analytics_storage: e.detail === 'accepted' ? 'granted' : 'denied',
+        });
+        (window as any).gtag('event', 'cookie_consent', {
+          consent_status: e.detail,
+        });
+      }
     };
     window.addEventListener('mage-cookie-consent', handler as any);
     return () => window.removeEventListener('mage-cookie-consent', handler as any);
