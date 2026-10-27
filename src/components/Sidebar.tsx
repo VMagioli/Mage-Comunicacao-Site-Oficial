@@ -1,5 +1,6 @@
 import React from 'react';
-import { Home, Folder, Layers, Activity, Users, Mail, ChevronLeft, ChevronRight, X, Instagram, Linkedin } from 'lucide-react';
+import { Home, Folder, Layers, Activity, Users, Mail, ChevronLeft, ChevronRight, X, Instagram } from 'lucide-react';
+import { ThreadsIcon } from '@/src/components/icons/ThreadsIcon';
 
 const NAV_ITEMS = [
   { id: 'inicio', label: 'Início', icon: Home },
@@ -135,13 +136,13 @@ export function Sidebar({
             <Instagram size={18} />
           </a>
           <a
-            href="https://linkedin.com/"
+            href="https://www.threads.com/@magecomunicacao"
             className="text-slate-500 hover:text-white p-1 transition-colors"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="LinkedIn da MAGE"
+            aria-label="Threads da MAGE"
           >
-            <Linkedin size={18} />
+            <ThreadsIcon size={18} />
           </a>
         </div>
       </div>

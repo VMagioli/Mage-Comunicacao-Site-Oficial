@@ -42,6 +42,13 @@ function TrackRouteChangeAndInteractions() {
           label: 'Instagram',
           link_url: href,
         });
+      } else if (href.includes('threads.com') || href.includes('threads.net')) {
+        event({
+          action: 'click_social',
+          category: 'Social',
+          label: 'Threads',
+          link_url: href,
+        });
       } else if (href.includes('linkedin.com')) {
         event({
           action: 'click_social',

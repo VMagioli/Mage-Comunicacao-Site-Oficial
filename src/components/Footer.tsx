@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Instagram, Linkedin, HelpCircle } from 'lucide-react';
+import { Instagram, HelpCircle } from 'lucide-react';
+import { ThreadsIcon } from '@/src/components/icons/ThreadsIcon';
 import { FaqSection } from '@/src/components/seo/FaqSection';
 
 interface FooterProps {
@@ -30,13 +31,13 @@ export function Footer({ setActiveTab }: FooterProps) {
               <Instagram size={16} />
             </a>
             <a
-              href="https://linkedin.com/"
+              href="https://www.threads.com/@magecomunicacao"
               className="text-slate-500 hover:text-white p-1 transition-colors"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="LinkedIn da MAGE"
+              aria-label="Threads da MAGE"
             >
-              <Linkedin size={16} />
+              <ThreadsIcon size={16} />
             </a>
           </div>
 

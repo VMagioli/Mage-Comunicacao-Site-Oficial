@@ -34,7 +34,7 @@ export const MAGE_ORGANIZATION_SCHEMA = {
       ],
       sameAs: [
         'https://www.instagram.com/magecomunicacao',
-        'https://www.linkedin.com/company/magecomunicacao',
+        'https://www.threads.com/@magecomunicacao',
         'https://github.com/VMagioli/Mage-Comunicacao-Site-Oficial'
       ],
       contactPoint: {

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Menu, Instagram, Linkedin, MessageSquare } from 'lucide-react';
+import { Menu, Instagram, MessageSquare } from 'lucide-react';
+import { ThreadsIcon } from '@/src/components/icons/ThreadsIcon';
 import type { Session } from '@supabase/supabase-js';
 
 interface TopBarProps {
@@ -43,13 +44,13 @@ export function TopBar({ onMenuToggle, userSession = null }: TopBarProps) {
             <Instagram size={18} />
           </a>
           <a
-            href="https://linkedin.com/"
+            href="https://www.threads.com/@magecomunicacao"
             className="text-slate-400 hover:text-white p-1 transition-colors"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="LinkedIn da MAGE"
+            aria-label="Threads da MAGE"
           >
-            <Linkedin size={18} />
+            <ThreadsIcon size={18} />
           </a>
         </div>
 
