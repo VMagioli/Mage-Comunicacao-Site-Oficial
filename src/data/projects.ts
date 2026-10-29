@@ -64,5 +64,18 @@ export const PROJECTS: Project[] = [
     colorClass: 'text-amber-400 border-amber-500/20 bg-amber-500/5 hover:border-amber-400/30 hover:shadow-[0_0_12px_rgba(245,158,11,0.15)]',
     tagColorClass: 'text-amber-400/90 bg-amber-500/10 border-amber-500/20 shadow-[0_0_10px_rgba(245,158,11,0.05)]',
     accentColor: 'text-amber-400'
+  },
+  {
+    id: 5,
+    url: 'alexandresaviourologista.vercel.app',
+    realUrl: 'https://alexandresaviourologista.vercel.app/',
+    image: '/images/full-page-dr-alexandre-savio-urologista.webp',
+    label: 'HEALTHCARE & MEDICAL BRANDING',
+    title: 'Dr. Alexandre Sávio | Urologista',
+    description: 'Plataforma médica de alto padrão e alta conversão para o Dr. Alexandre Sávio, especialista com mais de 30 anos de experiência em urologia clínica e cirúrgica.',
+    tags: ['Healthcare', 'Strategy', 'Conversion', 'React'],
+    colorClass: 'text-cyan-400 border-cyan-500/20 bg-cyan-500/5 hover:border-cyan-400/30 hover:shadow-[0_0_12px_rgba(6,182,212,0.15)]',
+    tagColorClass: 'text-cyan-400/90 bg-cyan-500/10 border-cyan-500/20 shadow-[0_0_10px_rgba(6,182,212,0.05)]',
+    accentColor: 'text-cyan-400'
   }
 ];

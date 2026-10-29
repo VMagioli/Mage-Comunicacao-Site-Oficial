@@ -114,7 +114,7 @@ export default function MarketingPage() {
             <>
               <Hero setActiveTab={setActiveTab} />
               <ServicesGrid setActiveTab={setActiveTab} />
-              <BottomGrid />
+              <BottomGrid setActiveTab={setActiveTab} />
             </>
           )}
 

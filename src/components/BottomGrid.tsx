@@ -1,7 +1,11 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 
-export function BottomGrid() {
+interface BottomGridProps {
+  setActiveTab?: (tab: string) => void;
+}
+
+export function BottomGrid({ setActiveTab }: BottomGridProps) {
   return (
     <section className="px-4 md:px-8 mt-6 mb-12 relative z-20">
       <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6">
@@ -33,11 +37,14 @@ export function BottomGrid() {
               Tecnologia, comunicação e estratégia integradas para resolver os desafios que impedem empresas de escalar.
             </p>
             <button 
-              onClick={() => console.log('Projetos')}
-              className="mt-4 text-slate-400 hover:text-white transition-colors duration-300 text-[11px] font-medium flex items-center gap-1 cursor-pointer self-start"
+              onClick={() => {
+                setActiveTab?.('servicos');
+                document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="mt-4 text-slate-400 hover:text-white transition-colors duration-300 text-[11px] font-medium flex items-center gap-1 cursor-pointer self-start group"
             >
-                Conheça todos os serviços
-               <ArrowUpRight size={16} className="inline" />
+              Conheça todos os serviços
+              <ArrowUpRight size={16} className="inline transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </button>
           </div>
         </div>
