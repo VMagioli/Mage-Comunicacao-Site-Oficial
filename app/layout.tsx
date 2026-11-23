@@ -1,22 +1,22 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { Inter, IBM_Plex_Mono } from 'next/font/google';
+import { Plus_Jakarta_Sans, IBM_Plex_Mono } from 'next/font/google';
 import './globals.css';
 import { CookieConsentProvider, CookieEventListener } from '@/src/components/CookieConsent';
 import { JsonLd } from '@/src/components/seo/JsonLd';
 import { MAGE_ORGANIZATION_SCHEMA } from '@/src/lib/seo-schemas';
 import { GoogleAnalytics } from '@/src/components/GoogleAnalytics';
 
-const inter = Inter({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-inter',
+  variable: '--font-jakarta',
   display: 'swap',
 });
 
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
+  weight: ['400', '500', '600'],
   variable: '--font-ibm-plex-mono',
   display: 'swap',
 });
@@ -88,7 +88,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`h-full scroll-smooth ${inter.variable} ${ibmPlexMono.variable}`}
+      className={`h-full scroll-smooth ${plusJakartaSans.variable} ${ibmPlexMono.variable}`}
     >
       <head>
         <JsonLd data={MAGE_ORGANIZATION_SCHEMA} />

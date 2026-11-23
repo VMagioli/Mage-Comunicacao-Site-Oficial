@@ -64,7 +64,7 @@ export default function MarketingHomePage() {
         className="px-4 md:px-8 mt-10 relative z-20"
         aria-labelledby="tese-ecossistema-heading"
       >
-        <div className="bg-[#111923]/55 border border-white/5 rounded-2xl p-6 md:p-8 backdrop-blur-md">
+        <div className="bg-[#111923]/80 border border-white/5 rounded-2xl p-6 md:p-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7 space-y-4">
               <span className="text-blue-400 font-mono text-[11px] uppercase tracking-widest inline-flex items-center gap-2">
@@ -125,7 +125,7 @@ export default function MarketingHomePage() {
       >
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
           <div>
-            <span className="text-slate-500 text-[11px] font-mono tracking-widest uppercase">
+            <span className="text-slate-400 text-[11px] font-mono tracking-widest uppercase">
               Portfólio Selecionado
             </span>
             <h2
@@ -161,6 +161,7 @@ export default function MarketingHomePage() {
                     src={project.image}
                     alt={`Projeto ${project.title} desenvolvido pela MAGE Comunicação`}
                     fill
+                    quality={75}
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover object-top opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
                   />
@@ -215,7 +216,7 @@ export default function MarketingHomePage() {
       >
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
           <div>
-            <span className="text-slate-500 text-[11px] font-mono tracking-widest uppercase">
+            <span className="text-slate-400 text-[11px] font-mono tracking-widest uppercase">
               Como Operamos
             </span>
             <h2
@@ -241,7 +242,7 @@ export default function MarketingHomePage() {
           {MAGE_METHOD_SUMMARY.map((item) => (
             <div
               key={item.letter}
-              className="bg-[#111923]/45 border border-white/5 hover:border-white/15 rounded-2xl p-5 backdrop-blur-sm transition-all duration-300"
+              className="bg-[#111923]/80 border border-white/5 hover:border-white/15 rounded-2xl p-5 transition-all duration-300"
             >
               <span
                 className={`w-9 h-9 rounded-xl border inline-flex items-center justify-center font-mono font-bold text-base mb-4 ${item.badgeClass}`}

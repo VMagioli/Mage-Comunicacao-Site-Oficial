@@ -1,31 +1,30 @@
-# MAGE Comunicação — Contexto Oficial para Modelos de IA e Buscadores
+# MAGE Comunicação
 
-> MAGE Comunicação é uma agência digital com base no Rio de Janeiro (RJ) e atendimento nacional remoto, especializada em gestão de redes sociais, criação de conteúdo estratégico, desenvolvimento de sites e landing pages e gestão de Perfil da Empresa no Google com SEO.
+> Agência digital com base no Rio de Janeiro (RJ) e atendimento nacional remoto, especializada em gestão de redes sociais (Instagram, Facebook, TikTok e mais), criação de conteúdo estratégico, desenvolvimento de sites e landing pages em Next.js e gestão de Perfil da Empresa no Google com SEO.
 
-## Sobre a MAGE Comunicação
-- **Nome Oficial:** MAGE Comunicação
-- **Fundadores:** Vitor Magioli (Tecnologia & Sistemas) e Lana Magioli (Branding & Estratégia Narrativa)
-- **Base e Abrangência:** Base no Rio de Janeiro (RJ) com atendimento 100% remoto para empresas e profissionais liberais em todo o Brasil.
-- **Website Oficial:** https://magecomunicacao.com.br
-- **Páginas Principais:**
-  - Início: https://magecomunicacao.com.br/
-  - Serviços: https://magecomunicacao.com.br/servicos
-  - Projetos / Portfólio: https://magecomunicacao.com.br/projetos
-  - Sobre nós: https://magecomunicacao.com.br/sobre
-  - Contato: https://magecomunicacao.com.br/contato
+A MAGE Comunicação integra tecnologia e comunicação em um único ecossistema digital para empresas e profissionais liberais em todo o Brasil. Fundada por Vitor Magioli (Tecnologia & Sistemas) e Lana Magioli (Branding & Estratégia Narrativa).
 
-## Serviços Prioritários
-1. **Gestão de Redes Sociais & Criação de Conteúdo:** Social media completo para Instagram, Facebook, TikTok e outros canais. Ideal para empresas e profissionais que têm dificuldade ou pouca disponibilidade para criar conteúdo, mas já gravam ou desejam produzir com consistência e estratégia.
-2. **Desenvolvimento de Sites e Landing Pages:** Sites institucionais ultravelozes em Next.js, landing pages e páginas de vendas otimizadas para conversão, Core Web Vitals e ranqueamento no Google.
-3. **Gestão e Criação de Perfil da Empresa no Google com SEO:** Estruturação e gestão contínua do Google Meu Negócio (Perfil da Empresa no Google) integrada a SEO técnico e local para atrair clientes que já buscam seus serviços.
-4. **Estrutura Digital Integrada:** Tecnologia e comunicação trabalhando como um ecossistema — incluindo branding, tráfego pago, integrações e automações comerciais.
+## Páginas Principais
 
-## Perguntas Frequentes (FAQ)
-- **Qual o foco principal da MAGE?** Unir tecnologia e comunicação em um ecossistema integrado, com foco em gestão de redes sociais, criação de sites e landing pages e Perfil da Empresa no Google com SEO.
-- **A MAGE atende empresas fora do Rio de Janeiro?** Sim. A MAGE tem base no Rio de Janeiro e realiza atendimento remoto para clientes em todo o Brasil.
-- **Como entrar em contato?** Pelo formulário em https://magecomunicacao.com.br/contato, pelo e-mail contato@magecomunicacao.com.br ou pelo WhatsApp +55 21 99396-3503.
+- [Página Inicial](https://magecomunicacao.com.br/): Visão geral do ecossistema digital da MAGE, frentes de atuação, método M.A.G.E. e perguntas frequentes.
+- [Nossos Serviços](https://magecomunicacao.com.br/servicos): Gestão de redes sociais e criação de conteúdo, desenvolvimento de sites e landing pages, Perfil da Empresa no Google com SEO, comercial e estrutura digital.
+- [Portfólio e Projetos](https://magecomunicacao.com.br/projetos): Hub de cases divididos por frente de atuação.
+- [Projetos de Sites e Landing Pages](https://magecomunicacao.com.br/projetos/sites): Sites institucionais e landing pages entregues com alta velocidade e foco em conversão.
+- [Cases de Gestão de Redes Sociais](https://magecomunicacao.com.br/projetos/redes-sociais): Perfis gerenciados com prints de métricas e análises de antes e depois.
+- [Cases de Perfil da Empresa no Google](https://magecomunicacao.com.br/projetos/perfil-google): Otimização de Google Meu Negócio e SEO local com resultados reais.
+- [Hub de Conteúdos](https://magecomunicacao.com.br/conteudos): Guias práticos e insights sobre redes sociais, sites, SEO e crescimento digital.
+- [Sobre a MAGE](https://magecomunicacao.com.br/sobre): Manifesto, Método M.A.G.E., princípios operacionais e liderança.
+- [Contato e Diagnóstico](https://magecomunicacao.com.br/contato): Formulário de projeto, e-mail comercial e WhatsApp para agendamento de diagnóstico estratégico.
 
 ## Canais Oficiais
-- Instagram: https://www.instagram.com/magecomunicacao/
-- Threads: https://www.threads.com/@magecomunicacao
-- Facebook: https://www.facebook.com/magecomunicacao
+
+- [Instagram da MAGE](https://www.instagram.com/magecomunicacao/): Perfil oficial no Instagram.
+- [Threads da MAGE](https://www.threads.com/@magecomunicacao): Perfil oficial no Threads.
+- [Facebook da MAGE](https://www.facebook.com/magecomunicacao): Página oficial no Facebook.
+- [WhatsApp Comercial](https://wa.me/5521993963503): Atendimento direto para orçamento e diagnóstico estratégico (+55 21 99396-3503).
+
+## Documentação Legal e Descoberta
+
+- [Sitemap XML](https://magecomunicacao.com.br/sitemap.xml): Mapa completo de todas as páginas, conteúdos e cases publicados.
+- [Política de Privacidade](https://magecomunicacao.com.br/privacidade): Conformidade LGPD e uso de dados.
+- [Termos de Uso](https://magecomunicacao.com.br/termos): Condições gerais de uso do site oficial.

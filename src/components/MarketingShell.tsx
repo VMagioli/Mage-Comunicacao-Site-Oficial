@@ -41,10 +41,11 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
       {/* Background Image & Overlay */}
       <div className="fixed inset-0 z-0" aria-hidden="true">
         <Image
-          src="/background-image.png"
+          src="/background-image.webp"
           alt=""
           fill
           priority
+          quality={70}
           sizes="100vw"
           className="object-cover"
         />

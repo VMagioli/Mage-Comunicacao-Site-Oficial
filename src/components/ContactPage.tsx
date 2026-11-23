@@ -95,7 +95,7 @@ export function ContactPage({ defaultProjectType = 'web' }: ContactPageProps) {
     <section className="px-4 md:px-8 py-8 md:py-10 relative z-20">
       {/* Header */}
       <div className="mb-12">
-        <span className="text-slate-500 text-[10px] font-mono uppercase tracking-widest">Ficou interessado em nossos serviços?</span>
+        <span className="text-slate-400 text-[10px] font-mono uppercase tracking-widest">Ficou interessado em nossos serviços?</span>
         <h1 className="text-3xl sm:text-4xl font-medium text-white tracking-tight mt-2">
           Entre em Contato
         </h1>

@@ -33,7 +33,7 @@ export function Sidebar({
   return (
     <aside
       aria-label="Navegação principal"
-      className={`fixed inset-y-0 left-0 z-50 lg:static flex flex-col justify-between py-8 px-5 shrink-0 bg-[#0B0F14]/95 lg:bg-[#0B0F14]/80 backdrop-blur-md border-r border-white/5 transition-all duration-300 ease-in-out
+      className={`fixed inset-y-0 left-0 z-50 lg:static flex flex-col justify-between py-8 px-5 shrink-0 bg-[#0B0F14]/95 border-r border-white/5 transition-all duration-300 ease-in-out
         ${isCollapsed ? 'w-64 lg:w-[76px]' : 'w-64'} 
         ${isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}
@@ -130,11 +130,11 @@ export function Sidebar({
       >
         <div className="flex items-center gap-2 mb-4">
           <div className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="animate-ping motion-reduce:animate-none absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
           </div>
           <span
-            className={`text-xs font-mono text-emerald-500/80 tracking-wider uppercase whitespace-nowrap ${
+            className={`text-xs font-mono text-emerald-400 tracking-wider uppercase whitespace-nowrap ${
               isCollapsed ? 'lg:hidden' : ''
             }`}
           >
@@ -145,13 +145,13 @@ export function Sidebar({
         {/* Visual Frequency Indicator */}
         <div
           aria-hidden="true"
-          className={`flex items-end gap-[2px] h-6 opacity-30 mb-4 ${isCollapsed ? 'lg:hidden' : ''}`}
+          className={`flex items-end gap-[2px] h-6 opacity-35 mb-4 ${isCollapsed ? 'lg:hidden' : ''}`}
         >
           {[40, 70, 45, 90, 65, 30, 80, 50, 85, 35, 60, 40].map((height, i) => (
             <div
               key={i}
-              className="w-1 bg-emerald-400 rounded-t-sm transition-all duration-500 animate-pulse"
-              style={{ height: `${height}%`, animationDelay: `${i * 0.1}s` }}
+              className="w-1 bg-emerald-400 rounded-t-sm"
+              style={{ height: `${height}%` }}
             />
           ))}
         </div>
@@ -164,7 +164,7 @@ export function Sidebar({
         >
           <a
             href="https://www.instagram.com/magecomunicacao/"
-            className="text-slate-500 hover:text-white p-1 transition-colors"
+            className="text-slate-400 hover:text-white p-1 transition-colors"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram da MAGE"
@@ -173,7 +173,7 @@ export function Sidebar({
           </a>
           <a
             href="https://www.threads.com/@magecomunicacao"
-            className="text-slate-500 hover:text-white p-1 transition-colors"
+            className="text-slate-400 hover:text-white p-1 transition-colors"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Threads da MAGE"
@@ -182,7 +182,7 @@ export function Sidebar({
           </a>
           <a
             href="https://www.facebook.com/magecomunicacao"
-            className="text-slate-500 hover:text-white p-1 transition-colors"
+            className="text-slate-400 hover:text-white p-1 transition-colors"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Facebook da MAGE"

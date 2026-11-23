@@ -45,7 +45,7 @@ export function FaqSection() {
       <JsonLd data={faqSchema} />
 
       <div className="mb-8">
-        <span className="text-slate-500 text-[11px] font-mono tracking-widest uppercase inline-flex items-center gap-1.5">
+        <span className="text-slate-400 text-[11px] font-mono tracking-widest uppercase inline-flex items-center gap-1.5">
           <HelpCircle size={13} className="text-blue-400" />
           Dúvidas Frequentes
         </span>

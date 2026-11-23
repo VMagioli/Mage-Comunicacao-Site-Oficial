@@ -80,7 +80,7 @@ export function ServicesPage() {
     <section className="px-4 md:px-8 py-8 md:py-10 relative z-20">
       {/* Page Header */}
       <div className="mb-12">
-        <span className="text-slate-500 text-[10px] font-mono tracking-widest uppercase">
+        <span className="text-slate-400 text-[10px] font-mono tracking-widest uppercase">
           Soluções sob medida
         </span>
         <h1 className="text-3xl sm:text-4xl font-medium text-white tracking-tight mt-2">
@@ -129,7 +129,7 @@ export function ServicesPage() {
               </div>
 
               {/* Bottom indicator */}
-              <div className="pt-4 border-t border-white/5 flex justify-between items-center text-xs font-mono text-slate-500">
+              <div className="pt-4 border-t border-white/5 flex justify-between items-center text-xs font-mono text-slate-400">
                 <span>Mage Service #{index + 1}</span>
                 <Link
                   href={`/contato?tipo=${service.projectTypeId}`}

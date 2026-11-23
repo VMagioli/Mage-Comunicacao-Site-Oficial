@@ -122,7 +122,7 @@ export function PortfolioGrid({ counts }: PortfolioHubProps) {
   return (
     <div className="px-4 md:px-8 py-8 md:py-10 relative z-20 space-y-12">
       <header className="space-y-3">
-        <span className="text-slate-500 text-[10px] font-mono tracking-widest uppercase">
+        <span className="text-slate-400 text-[10px] font-mono tracking-widest uppercase">
           Portfólio & Cases de Resultado
         </span>
         <h1 className="text-3xl sm:text-4xl font-medium text-white tracking-tight">

@@ -89,7 +89,7 @@ export function ServicesGrid() {
     <section className="px-4 md:px-8 mt-14 relative z-20" aria-labelledby="frentes-atuacao-heading">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
         <div>
-          <span className="text-slate-500 text-[11px] font-mono tracking-widest uppercase">
+          <span className="text-slate-400 text-[11px] font-mono tracking-widest uppercase">
             Nossas Frentes de Atuação
           </span>
           <h2
@@ -117,7 +117,7 @@ export function ServicesGrid() {
           return (
             <article
               key={service.title}
-              className="bg-[#111923]/50 border border-white/5 hover:border-white/15 rounded-2xl p-6 md:p-7 backdrop-blur-sm flex flex-col justify-between transition-all duration-300 group"
+              className="bg-[#111923]/80 border border-white/5 hover:border-white/15 rounded-2xl p-6 md:p-7 flex flex-col justify-between transition-all duration-300 group"
             >
               <div>
                 <div className="flex items-center justify-between gap-3 mb-5">

@@ -39,14 +39,14 @@ export function Footer() {
 
         {/* Bottom Row: Copyright, Socials & Legal */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="text-[11px] font-mono text-slate-500 tracking-wider text-center md:text-left">
+          <div className="text-[11px] font-mono text-slate-400 tracking-wider text-center md:text-left">
             © {new Date().getFullYear()} MAGE COMUNICAÇÃO. TODOS OS DIREITOS RESERVADOS.
           </div>
 
           <div className="flex items-center gap-4">
             <a
               href="https://www.instagram.com/magecomunicacao/"
-              className="text-slate-500 hover:text-white p-1 transition-colors"
+              className="text-slate-400 hover:text-white p-1 transition-colors"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram da MAGE"
@@ -55,7 +55,7 @@ export function Footer() {
             </a>
             <a
               href="https://www.threads.com/@magecomunicacao"
-              className="text-slate-500 hover:text-white p-1 transition-colors"
+              className="text-slate-400 hover:text-white p-1 transition-colors"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Threads da MAGE"
@@ -64,7 +64,7 @@ export function Footer() {
             </a>
             <a
               href="https://www.facebook.com/magecomunicacao"
-              className="text-slate-500 hover:text-white p-1 transition-colors"
+              className="text-slate-400 hover:text-white p-1 transition-colors"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook da MAGE"
@@ -76,22 +76,22 @@ export function Footer() {
           <div className="flex items-center gap-5 sm:gap-6 text-[11px] font-mono flex-wrap justify-center">
             <Link
               href="/#faq"
-              className="text-slate-500 hover:text-white transition-colors flex items-center gap-1.5"
+              className="text-slate-400 hover:text-white transition-colors flex items-center gap-1.5"
             >
-              <HelpCircle size={13} className="text-slate-500" />
+              <HelpCircle size={13} className="text-slate-400" />
               <span>FAQ / Dúvidas</span>
             </Link>
 
             <Link
               href="/privacidade"
-              className="text-slate-500 hover:text-white transition-colors"
+              className="text-slate-400 hover:text-white transition-colors"
             >
               Política de Privacidade
             </Link>
 
             <Link
               href="/termos"
-              className="text-slate-500 hover:text-white transition-colors"
+              className="text-slate-400 hover:text-white transition-colors"
             >
               Termos de Uso
             </Link>

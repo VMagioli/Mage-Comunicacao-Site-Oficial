@@ -152,7 +152,7 @@ export function AboutPage() {
       {/* SEÇÃO 3: O SIGNIFICADO DE M.A.G.E (O Nosso Método) */}
       <div>
         <div className="mb-8">
-          <span className="text-slate-500 font-mono text-xs uppercase tracking-widest">O PILAR OPERACIONAL</span>
+          <span className="text-slate-400 font-mono text-xs uppercase tracking-widest">O PILAR OPERACIONAL</span>
           <h2 className="text-2xl sm:text-3xl font-medium text-white tracking-tight mt-2">
             Construído com método. Sustentado por resultados.
           </h2>
@@ -187,7 +187,7 @@ export function AboutPage() {
       {/* SEÇÃO 4: A LIDERANÇA (A Colisão de Forças) */}
       <div>
         <div className="mb-8">
-          <span className="text-slate-500 font-mono text-xs uppercase tracking-widest">QUEM CONSTRÓI A MAGE</span>
+          <span className="text-slate-400 font-mono text-xs uppercase tracking-widest">QUEM CONSTRÓI A MAGE</span>
           <h2 className="text-2xl sm:text-3xl font-medium text-white tracking-tight mt-2">
             A Colisão de Forças.
           </h2>
@@ -235,7 +235,7 @@ export function AboutPage() {
       {/* SEÇÃO 5: NOSSOS PRINCÍPIOS (Como Operamos) */}
       <div>
         <div className="mb-8">
-          <span className="text-slate-500 font-mono text-xs uppercase tracking-widest">CULTURA & PADRÃO DE ENTREGA</span>
+          <span className="text-slate-400 font-mono text-xs uppercase tracking-widest">CULTURA & PADRÃO DE ENTREGA</span>
           <h2 className="text-2xl sm:text-3xl font-medium text-white tracking-tight mt-2">
             O que você encontra na MAGE:
           </h2>

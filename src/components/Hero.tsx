@@ -93,9 +93,9 @@ export function Hero() {
               {'}'}
             </code>
           </pre>
-          <div className="mt-6 pt-4 border-t border-white/5 flex justify-between items-center text-xs font-mono text-slate-500">
+          <div className="mt-6 pt-4 border-t border-white/5 flex justify-between items-center text-xs font-mono text-slate-400">
             <span>Mage Ecosystem</span>
-            <span className="text-emerald-400/80">RJ → Brasil</span>
+            <span className="text-emerald-400">RJ → Brasil</span>
           </div>
         </div>
       </div>

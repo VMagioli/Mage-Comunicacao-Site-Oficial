@@ -1,8 +1,7 @@
-@import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,600,700,900&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Satoshi", var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-ibm-plex-mono), monospace;
 }
 
