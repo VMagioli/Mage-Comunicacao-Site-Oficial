@@ -8,13 +8,13 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/portal/', '/admin/', '/api/private/'],
+        disallow: ['/portal/', '/admin/', '/api/', '/auth/'],
       },
       // Allow AI Bots explicit access for GEO & AIO discovery
       {
         userAgent: ['GPTBot', 'ClaudeBot', 'PerplexityBot', 'Bytespider', 'CCBot', 'Google-Extended', 'Cohere-ai'],
         allow: '/',
-        disallow: ['/portal/', '/admin/'],
+        disallow: ['/portal/', '/admin/', '/api/', '/auth/'],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,

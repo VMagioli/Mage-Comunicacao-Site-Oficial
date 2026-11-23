@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Instagram, MessageSquare } from 'lucide-react';
+import { Menu, Instagram, Facebook, MessageSquare } from 'lucide-react';
 import { ThreadsIcon } from '@/src/components/icons/ThreadsIcon';
 import type { Session } from '@supabase/supabase-js';
 
@@ -51,6 +51,15 @@ export function TopBar({ onMenuToggle, userSession = null }: TopBarProps) {
             aria-label="Threads da MAGE"
           >
             <ThreadsIcon size={18} />
+          </a>
+          <a
+            href="https://www.facebook.com/magecomunicacao"
+            className="text-slate-400 hover:text-white p-1 transition-colors"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook da MAGE"
+          >
+            <Facebook size={18} />
           </a>
         </div>
 

@@ -1,4 +1,13 @@
 import React from 'react';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Portal do Cliente',
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function PortalLayout({
   children,

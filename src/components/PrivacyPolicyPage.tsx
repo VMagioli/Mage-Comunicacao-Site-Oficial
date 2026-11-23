@@ -7,9 +7,9 @@ export function PrivacyPolicyPage() {
       {/* Page Header */}
       <div className="mb-12">
         <span className="text-slate-500 text-[10px] font-mono tracking-widest uppercase">// transparência & conformidade</span>
-        <h2 className="text-3xl sm:text-4xl font-medium text-white tracking-tight mt-2">
+        <h1 className="text-3xl sm:text-4xl font-medium text-white tracking-tight mt-2">
           Política de Privacidade
-        </h2>
+        </h1>
         <p className="text-slate-400 font-light mt-4 max-w-2xl text-sm md:text-base">
           Esta Política de Privacidade descreve como a MAGE coleta, usa, armazena e protege as informações e dados pessoais dos usuários obtidos através deste website.
         </p>

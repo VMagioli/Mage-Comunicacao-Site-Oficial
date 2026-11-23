@@ -7,9 +7,9 @@ export function TermsPage() {
       {/* Page Header */}
       <div className="mb-12">
         <span className="text-slate-500 text-[10px] font-mono tracking-widest uppercase">// regras da plataforma & serviços</span>
-        <h2 className="text-3xl sm:text-4xl font-medium text-white tracking-tight mt-2">
+        <h1 className="text-3xl sm:text-4xl font-medium text-white tracking-tight mt-2">
           Termos de Uso
-        </h2>
+        </h1>
         <p className="text-slate-400 font-light mt-4 max-w-2xl text-sm md:text-base">
           Bem-vindo ao website oficial da MAGE. Ao acessar nossa plataforma ou interagir com nossos formulários, você concorda em cumprir e respeitar os seguintes Termos de Uso.
         </p>
@@ -65,10 +65,10 @@ export function TermsPage() {
         <div className="space-y-3">
           <h3 className="text-base font-semibold text-white">5. Jurisdição e Resolução de Conflitos</h3>
           <p className="text-xs font-light leading-relaxed text-slate-400">
-            Para dirimir quaisquer eventuais controvérsias oriundas da navegação ou uso da plataforma da MAGE, fica eleito como foro competente o Foro da Comarca de Belo Horizonte, Minas Gerais, com exclusão de qualquer outro por mais privilegiado que seja.
+            Para dirimir quaisquer eventuais controvérsias oriundas da navegação ou uso da plataforma da MAGE, fica eleito como foro competente o Foro da Comarca do Rio de Janeiro, RJ, com exclusão de qualquer outro por mais privilegiado que seja.
           </p>
           <p className="text-[10px] font-mono text-slate-500 pt-4 border-t border-white/5">
-            Última modificação: 05 de Julho de 2026.
+            Última modificação: 23 de Novembro de 2026.
           </p>
         </div>
 

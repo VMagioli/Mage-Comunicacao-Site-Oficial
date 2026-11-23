@@ -1,77 +1,59 @@
 import React from 'react';
-import { ArrowUpRight } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowRight, MessageSquare } from 'lucide-react';
 
-interface BottomGridProps {
-  setActiveTab?: (tab: string) => void;
-}
+const WHATSAPP_CTA_URL =
+  'https://wa.me/5521993963503?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20um%20diagn%C3%B3stico%20estrat%C3%A9gico%20com%20a%20MAGE.';
 
-export function BottomGrid({ setActiveTab }: BottomGridProps) {
+export function BottomGrid() {
   return (
-    <section className="px-4 md:px-8 mt-6 mb-12 relative z-20">
-      <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6">
-        
-        {/* Metrics & Purpose Box */}
-        <div className="col-span-1 md:col-span-4 lg:col-span-4 bg-white/[0.02] border border-white/5 rounded-xl p-6 md:p-8 backdrop-blur-sm flex flex-col md:flex-row justify-between items-stretch gap-8 hover:border-white/10 transition-all duration-300">
-          
-          {/* Left: Title & Purpose */}
-          <div className="flex-1 flex flex-col justify-between relative">
-            <div>
-              <div className="w-fit flex items-center gap-2 md:gap-3 bg-white/5 border border-white/5 rounded-full pl-2.5 pr-3.5 py-1.5 md:pl-3 md:pr-5 md:py-2 backdrop-blur-sm overflow-hidden">
-                <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" /> 
-                <span className="text-[10px] md:text-xs font-mono text-slate-300 truncate max-w-[110px] sm:max-w-[150px] md:max-w-xs">
-                  NOSSAS SOLUÇÕES
-                </span>
-              </div>
-              <h4 className="text-lg md:text-xl font-medium text-white tracking-tight mt-4 md:mt-6 leading-relaxed max-w-[320px]">
-                A estrutura digital para o próximo ciclo de crescimento da sua empresa.
-              </h4>
-            </div>
-          </div>
+    <section className="px-4 md:px-8 mt-16 mb-14 relative z-20" aria-labelledby="cta-final-heading">
+      <div className="relative rounded-2xl border border-blue-500/20 bg-gradient-to-r from-blue-950/40 via-[#111923]/90 to-emerald-950/30 p-8 md:p-12 overflow-hidden shadow-2xl">
+        <div
+          aria-hidden="true"
+          className="absolute -top-24 -right-24 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute -bottom-24 -left-24 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"
+        />
 
-          {/* Divider */}
-          <div className="hidden md:block w-[1px] bg-white/5 self-stretch my-2"></div>
+        <div className="relative z-10 max-w-3xl space-y-5">
+          <span className="text-emerald-400 font-mono text-xs uppercase tracking-widest block">
+            Próximo Passo
+          </span>
 
-          {/* Right: Description & Button */}
-          <div className="flex-1 flex flex-col justify-between relative">
-            <p className="text-sm text-slate-400 tracking-wide mt-4 md:mt-6 leading-relaxed max-w-[320px]">
-              Tecnologia, comunicação e estratégia integradas para resolver os desafios que impedem empresas de escalar.
-            </p>
-            <button 
-              onClick={() => {
-                setActiveTab?.('servicos');
-                document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="mt-4 text-slate-400 hover:text-white transition-colors duration-300 text-[11px] font-medium flex items-center gap-1 cursor-pointer self-start group"
+          <h2
+            id="cta-final-heading"
+            className="text-2xl sm:text-3xl md:text-4xl font-medium text-white tracking-tight leading-tight"
+          >
+            Pronto para ter uma estrutura digital à altura da sua empresa?
+          </h2>
+
+          <p className="text-slate-300 text-sm md:text-base font-light leading-relaxed max-w-2xl">
+            Agende um diagnóstico estratégico gratuito. Vamos analisar suas redes sociais, seu site e sua presença no Google para desenhar o plano ideal para o seu próximo ciclo de crescimento.
+          </p>
+
+          <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+            <a
+              href={WHATSAPP_CTA_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 text-white font-medium rounded-xl shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all duration-300 text-sm md:text-base group"
             >
-              Conheça todos os serviços
-              <ArrowUpRight size={16} className="inline transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </button>
+              <MessageSquare size={18} className="text-white" />
+              <span>Agendar pelo WhatsApp</span>
+              <ArrowRight size={17} className="group-hover:translate-x-1 transition-transform" />
+            </a>
+
+            <Link
+              href="/contato"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-white/20 text-slate-200 hover:text-white font-medium rounded-xl transition-all duration-300 text-sm md:text-base"
+            >
+              Preencher formulário de projeto
+            </Link>
           </div>
         </div>
-
-        {/* CTA Box (Próximo Passo) */}
-        <a 
-          href="https://wa.me/5521993963503?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20MAGE."
-          target="_blank"
-          rel="noopener noreferrer"
-          className="col-span-1 md:col-span-4 lg:col-span-2 bg-white/[0.02] border border-white/5 rounded-xl p-6 md:p-8 backdrop-blur-sm flex flex-col justify-between min-h-[160px] relative overflow-hidden group cursor-pointer hover:border-blue-500/20 transition-all duration-300 block text-left"
-        >
-          <div>
-            <span className="text-slate-500 text-[10px] font-semibold tracking-widest uppercase">Próximo passo</span>
-          </div>
-          
-          <div className="flex items-end justify-between mt-6 gap-4">
-            <h4 className="text-slate-200 text-sm md:text-base font-medium leading-relaxed max-w-[180px] group-hover:text-white transition-colors duration-300">
-              Vamos construir algo incrível juntos?
-            </h4>
-            
-            {/* Glowing button with Arrow */}
-            <div className="w-11 h-11 shrink-0 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all duration-300 group-hover:bg-blue-500 group-hover:text-white group-hover:shadow-[0_0_25px_rgba(59,130,246,0.5)]">
-              <ArrowUpRight size={18} />
-            </div>
-          </div>
-        </a>
-
       </div>
     </section>
   );

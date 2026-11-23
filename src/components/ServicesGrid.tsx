@@ -1,136 +1,169 @@
 import React from 'react';
-import Image from 'next/image';
-import { Compass, Palette, Cpu, Sparkles, ArrowUpRight } from 'lucide-react';
-import { PROJECTS } from '../data/projects';
+import Link from 'next/link';
+import {
+  Share2,
+  Globe,
+  MapPin,
+  Cpu,
+  CheckCircle2,
+  ArrowUpRight,
+} from 'lucide-react';
 
-const SERVICES = [
+const HOME_SERVICES = [
   {
-    icon: Compass,
-    title: 'ESTRUTURA',
-    description: 'Organizamos a base digital da empresa para que o crescimento aconteça com mais eficiência e menos retrabalho.',
-    lineClass: 'bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]',
-    iconContainerClass: 'border-blue-500/20 bg-blue-500/5 text-blue-400'
+    icon: Share2,
+    badge: 'Foco Principal',
+    title: 'Gestão de Redes Sociais & Conteúdo',
+    description:
+      'Presença estratégica no Instagram, Facebook, TikTok e outros canais. Estruturado especialmente para quem tem dificuldade ou pouca disponibilidade para criar conteúdo — mesmo que já grave ou queira começar a gravar com direcionamento.',
+    deliverables: [
+      'Gestão completa de Instagram, Facebook, TikTok e mais',
+      'Roteiros, edição e apoio para quem já grava ou quer gravar',
+      'Posicionamento de marca e calendário editorial estratégico',
+      'Gestão de tráfego pago orientada à demanda qualificada',
+    ],
+    href: '/contato?tipo=branding',
+    accentLine: 'bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]',
+    iconClass: 'border-blue-500/20 bg-blue-500/10 text-blue-400',
+    badgeClass: 'bg-blue-500/10 text-blue-300 border-blue-500/20',
+    checkClass: 'text-blue-400',
   },
   {
-    icon: Palette,
-    title: 'COMUNICAÇÃO',
-    description: 'Posicionamento digital para atrair, educar e gerar demanda qualificada.',
-    lineClass: 'bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.5)]',
-    iconContainerClass: 'border-purple-500/20 bg-purple-500/5 text-purple-400'
+    icon: Globe,
+    badge: 'Foco Principal',
+    title: 'Sites & Landing Pages',
+    description:
+      'Desenvolvemos sites institucionais rápidos em Next.js e landing pages desenhadas para converter visitantes em leads e elevar a percepção de valor da sua empresa.',
+    deliverables: [
+      'Sites institucionais modernos de alta velocidade',
+      'Landing pages e páginas de vendas de alta conversão',
+      'Design exclusivo pensado para celular e desktop',
+      'Integrações com WhatsApp, formulários e manutenção contínua',
+    ],
+    href: '/contato?tipo=web',
+    accentLine: 'bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.5)]',
+    iconClass: 'border-purple-500/20 bg-purple-500/10 text-purple-400',
+    badgeClass: 'bg-purple-500/10 text-purple-300 border-purple-500/20',
+    checkClass: 'text-purple-400',
+  },
+  {
+    icon: MapPin,
+    badge: 'Foco Principal',
+    title: 'Perfil da Empresa no Google & SEO',
+    description:
+      'Criamos, otimizamos e gerenciamos seu Perfil da Empresa no Google (Google Meu Negócio) junto ao SEO técnico para sua empresa aparecer para quem já busca o seu serviço.',
+    deliverables: [
+      'Criação e otimização completa do Perfil da Empresa no Google',
+      'Gestão contínua de categorias, fotos, postagens e reputação',
+      'SEO técnico, local e semântico para Google e buscadores com IA',
+      'Estrutura de páginas voltada para atrair tráfego orgânico',
+    ],
+    href: '/contato?tipo=web',
+    accentLine: 'bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]',
+    iconClass: 'border-emerald-500/20 bg-emerald-500/10 text-emerald-400',
+    badgeClass: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/20',
+    checkClass: 'text-emerald-400',
   },
   {
     icon: Cpu,
-    title: 'TECNOLOGIA',
-    description: 'Desenvolvemos soluções sob medida que automatizam processos, conectam operações e sustentam a escala do negócio.',
-    lineClass: 'bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]',
-    iconContainerClass: 'border-cyan-500/20 bg-cyan-500/5 text-cyan-400'
+    badge: 'Escala & Processos',
+    title: 'Comercial, IA & Estrutura Digital',
+    description:
+      'Para negócios prontos para o próximo estágio, integramos seus canais digitais a funis comerciais, CRM, automações e organização operacional.',
+    deliverables: [
+      'Estruturação de CRM, funis de vendas e automação comercial',
+      'Agentes de IA para atendimento e qualificação de leads',
+      'Mapeamento de processos e implantação de ferramentas',
+      'Dashboards e indicadores para decisões baseadas em dados',
+    ],
+    href: '/contato?tipo=commercial',
+    accentLine: 'bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]',
+    iconClass: 'border-cyan-500/20 bg-cyan-500/10 text-cyan-400',
+    badgeClass: 'bg-cyan-500/10 text-cyan-300 border-cyan-500/20',
+    checkClass: 'text-cyan-400',
   },
-  {
-    icon: Sparkles,
-    title: 'CRESCIMENTO',
-    description: 'Cada solução é construída para fortalecer a operação, aumentar a capacidade da empresa e preparar o próximo nível de crescimento.',
-    lineClass: 'bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]',
-    iconContainerClass: 'border-emerald-500/20 bg-emerald-500/5 text-emerald-400'
-  }
 ];
 
-interface ServicesGridProps {
-  setActiveTab: (tab: string) => void;
-}
-
-export function ServicesGrid({ setActiveTab }: ServicesGridProps) {
-  // Get the last project inserted
-  const lastProject = PROJECTS.length > 0 ? PROJECTS[PROJECTS.length - 1] : null;
-
+export function ServicesGrid() {
   return (
-    <section className="px-4 md:px-8 mt-4 relative z-20">
-      <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6">
-        {SERVICES.map((service, index) => {
+    <section className="px-4 md:px-8 mt-14 relative z-20" aria-labelledby="frentes-atuacao-heading">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+        <div>
+          <span className="text-slate-500 text-[11px] font-mono tracking-widest uppercase">
+            Nossas Frentes de Atuação
+          </span>
+          <h2
+            id="frentes-atuacao-heading"
+            className="text-2xl sm:text-3xl font-medium text-white tracking-tight mt-2"
+          >
+            Do conteúdo nas redes sociais ao topo do Google
+          </h2>
+          <p className="text-slate-400 text-sm md:text-base font-light mt-2 max-w-2xl">
+            Atuamos nas frentes que trazem visibilidade real, autoridade e conversão — tudo conectado sob o mesmo padrão técnico e criativo.
+          </p>
+        </div>
+
+        <Link
+          href="/servicos"
+          className="text-xs font-mono text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1 shrink-0"
+        >
+          Ver todos os serviços <ArrowUpRight size={14} />
+        </Link>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {HOME_SERVICES.map((service) => {
           const Icon = service.icon;
           return (
-            <div 
-              key={index}
-              className="col-span-1 md:col-span-2 lg:col-span-1 bg-white/[0.02] border border-white/5 rounded-xl p-6 backdrop-blur-sm flex flex-col justify-between min-h-[280px] md:min-h-[300px] relative group hover:border-white/10 transition-all duration-300"
+            <article
+              key={service.title}
+              className="bg-[#111923]/50 border border-white/5 hover:border-white/15 rounded-2xl p-6 md:p-7 backdrop-blur-sm flex flex-col justify-between transition-all duration-300 group"
             >
               <div>
-                <div className={`w-12 h-12 rounded-full border flex items-center justify-center mb-6 ${service.iconContainerClass}`}>
-                  <Icon size={20} strokeWidth={1.5} />
+                <div className="flex items-center justify-between gap-3 mb-5">
+                  <div
+                    className={`w-11 h-11 rounded-xl border flex items-center justify-center ${service.iconClass}`}
+                  >
+                    <Icon size={20} strokeWidth={1.6} />
+                  </div>
+                  <span
+                    className={`text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-full border ${service.badgeClass}`}
+                  >
+                    {service.badge}
+                  </span>
                 </div>
-                <h3 className="text-xs font-semibold text-white tracking-widest uppercase mb-4">{service.title}</h3>
-                <p className="text-slate-400 text-xs tracking-wide leading-relaxed font-light">
+
+                <h3 className="text-lg md:text-xl font-medium text-white tracking-tight mb-3">
+                  {service.title}
+                </h3>
+
+                <p className="text-slate-400 text-sm leading-relaxed font-light mb-5">
                   {service.description}
                 </p>
+
+                <ul className="space-y-2 mb-6">
+                  {service.deliverables.map((item) => (
+                    <li key={item} className="flex items-start gap-2.5 text-xs text-slate-300 font-light">
+                      <CheckCircle2 size={14} className={`${service.checkClass} shrink-0 mt-0.5`} />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              
-              <div className="mt-6">
-                <div className={`w-12 h-[2.5px] rounded-full ${service.lineClass}`}></div>
+
+              <div className="pt-4 border-t border-white/5 flex items-center justify-between">
+                <div className={`w-10 h-[2.5px] rounded-full ${service.accentLine}`} />
+                <Link
+                  href={service.href}
+                  className="text-xs font-mono text-slate-400 hover:text-white transition-colors flex items-center gap-1"
+                >
+                  Solicitar orçamento <ArrowUpRight size={13} />
+                </Link>
               </div>
-            </div>
+            </article>
           );
         })}
-
-        {/* Featured Project Card (Projetos em Destaque) */}
-        <div className="col-span-1 md:col-span-4 lg:col-span-2 bg-white/[0.02] border border-white/5 rounded-xl p-6 md:p-8 backdrop-blur-sm flex flex-col justify-between min-h-[300px] relative group hover:border-white/10 transition-all duration-300">
-          
-          {/* Header Row */}
-          <div className="flex items-center justify-between">
-            <span className="text-slate-500 text-[10px] font-semibold tracking-widest uppercase">PROJETO EM DESTAQUE</span>
-            <button 
-              onClick={() => setActiveTab('projetos')}
-              className="text-slate-400 hover:text-white transition-colors duration-300 text-[11px] font-medium flex items-center gap-1 cursor-pointer"
-            >
-              Ver todos <ArrowUpRight size={14} className="inline" />
-            </button>
-          </div>
-
-          {/* Center Row: Split into Title/Description and Image */}
-          {lastProject ? (
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 my-4">
-              <div className="flex-1">
-                <span className="text-blue-400 text-[9px] font-mono tracking-wider block mb-1 uppercase font-medium">Último Case</span>
-                <h4 className="text-lg md:text-xl font-medium text-white mb-2 leading-snug">{lastProject.title}</h4>
-                <p className="text-slate-400 text-xs leading-relaxed font-light tracking-wide line-clamp-3">
-                  {lastProject.description}
-                </p>
-              </div>
-              
-              {/* Image Container with Hover Effect */}
-              <a 
-                href={lastProject.realUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="relative w-full sm:w-36 h-36 sm:h-24 shrink-0 rounded-lg overflow-hidden border border-white/10 group-hover:border-white/20 transition-colors duration-300 block"
-              >
-                <Image 
-                  src={lastProject.image} 
-                  alt={lastProject.title} 
-                  fill
-                  sizes="(max-width: 640px) 100vw, 144px"
-                  className="object-cover object-top opacity-75 group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                
-                {/* Overlapping arrow button on image */}
-                <div className="absolute bottom-1.5 right-1.5 w-6 h-6 rounded-full border border-blue-500/30 bg-blue-950/80 text-blue-400 flex items-center justify-center shadow-[0_0_10px_rgba(59,130,246,0.3)] transition-all duration-300 hover:bg-blue-500 hover:text-white">
-                  <ArrowUpRight size={12} />
-                </div>
-              </a>
-            </div>
-          ) : (
-            <div className="my-4 text-slate-500 font-mono text-xs">Nenhum projeto cadastrado.</div>
-          )}
-
-          {/* Footer Indicators */}
-          <div className="flex gap-1.5 items-center">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]"></span>
-            <span className="w-1.5 h-1.5 rounded-full bg-white/10"></span>
-            <span className="w-1.5 h-1.5 rounded-full bg-white/10"></span>
-            <span className="w-1.5 h-1.5 rounded-full bg-white/10"></span>
-          </div>
-
-        </div>
       </div>
     </section>
   );
 }
-

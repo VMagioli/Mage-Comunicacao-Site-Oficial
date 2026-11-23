@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase-client';
-import { Lock, Mail, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { Lock, Mail, AlertCircle, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -13,6 +14,13 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('error') === 'unauthorized') {
+      setError('Esta conta não possui permissão administrativa para acessar o MAGE Studio.');
+    }
+  }, []);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) return;
@@ -20,46 +28,52 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
-    // Development bypass for demo purposes
-    if (email === 'cliente@mage.com' && password === 'mage123') {
-      document.cookie = "mage_mock_session=true; path=/";
-      router.refresh();
-      router.push('/portal');
-      return;
-    }
-
     const supabase = createClient();
     const { error: authError } = await supabase.auth.signInWithPassword({
-      email,
+      email: email.trim(),
       password,
     });
 
     if (authError) {
-      setError(authError.message === 'Invalid login credentials' 
-        ? 'Credenciais inválidas. Verifique seu e-mail e senha.' 
-        : authError.message);
+      setError(
+        authError.message === 'Invalid login credentials'
+          ? 'Credenciais inválidas. Verifique seu e-mail e senha.'
+          : authError.message
+      );
       setLoading(false);
-    } else {
-      router.refresh();
-      const searchParams = new URLSearchParams(window.location.search);
-      const nextPath = searchParams.get('next') || '/portal';
-      router.push(nextPath);
+      return;
     }
+
+    router.refresh();
+    const searchParams = new URLSearchParams(window.location.search);
+    const nextPath = searchParams.get('next');
+    router.push(nextPath && nextPath.startsWith('/admin') ? nextPath : '/admin');
   };
 
   return (
     <div className="min-h-screen bg-[#0B0F19] flex items-center justify-center px-4 relative overflow-hidden font-sans">
-      {/* Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none"></div>
-      
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
+
       <div className="max-w-md w-full relative z-10">
+        <div className="mb-6">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-500 hover:text-slate-200 transition-colors"
+          >
+            <ArrowLeft size={13} />
+            Voltar para o site
+          </Link>
+        </div>
+
         {/* Brand Header */}
         <div className="text-center mb-8">
           <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-emerald-500 text-white font-bold text-xl tracking-wider shadow-[0_0_20px_rgba(59,130,246,0.3)] mb-4">
             M
           </div>
-          <h2 className="text-2xl font-medium text-white tracking-tight">Portal do Cliente</h2>
-          <p className="text-xs text-slate-400 font-light mt-2">// Acesse com as credenciais enviadas por e-mail</p>
+          <h1 className="text-2xl font-medium text-white tracking-tight">MAGE Studio</h1>
+          <p className="text-xs text-slate-400 font-light mt-2">
+            // Acesso administrativo para gestão de conteúdos do site
+          </p>
         </div>
 
         {/* Card Box */}
@@ -73,13 +87,19 @@ export default function LoginPage() {
             )}
 
             <div className="space-y-1.5">
-              <label className="text-[10px] text-slate-400 font-mono uppercase tracking-wider block">E-mail Corporativo</label>
+              <label
+                htmlFor="login-email"
+                className="text-[10px] text-slate-400 font-mono uppercase tracking-wider block"
+              >
+                E-mail Administrativo
+              </label>
               <div className="relative">
-                <input 
-                  type="email" 
+                <input
+                  id="login-email"
+                  type="email"
                   value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  placeholder="seu@email.com"
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="seu@magecomunicacao.com.br"
                   required
                   className="w-full bg-[#0B0F19]/60 border border-white/5 focus:border-blue-500/30 rounded-xl pl-10 pr-4 py-3 text-xs text-white placeholder-slate-600 focus:outline-none transition duration-200"
                 />
@@ -88,20 +108,27 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-[10px] text-slate-400 font-mono uppercase tracking-wider block">Senha de Acesso</label>
+              <label
+                htmlFor="login-password"
+                className="text-[10px] text-slate-400 font-mono uppercase tracking-wider block"
+              >
+                Senha de Acesso
+              </label>
               <div className="relative">
-                <input 
-                  type={showPassword ? "text" : "password"} 
+                <input
+                  id="login-password"
+                  type={showPassword ? 'text' : 'password'}
                   value={password}
-                  onChange={e => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
                   className="w-full bg-[#0B0F19]/60 border border-white/5 focus:border-blue-500/30 rounded-xl pl-10 pr-10 py-3 text-xs text-white placeholder-slate-600 focus:outline-none transition duration-200"
                 />
                 <Lock size={14} className="text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                <button 
+                <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
                   className="text-slate-500 hover:text-white absolute right-3.5 top-1/2 -translate-y-1/2 focus:outline-none cursor-pointer p-0.5 transition"
                 >
                   {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
@@ -109,24 +136,23 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <button 
+            <button
               type="submit"
               disabled={loading}
               className="w-full py-3 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 hover:border-blue-500/40 text-blue-300 hover:text-blue-200 rounded-xl text-xs font-semibold tracking-wider transition duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(59,130,246,0.1)]"
             >
               {loading ? (
-                <div className="w-4 h-4 border-2 border-blue-500/20 border-t-blue-300 rounded-full animate-spin"></div>
+                <div className="w-4 h-4 border-2 border-blue-500/20 border-t-blue-300 rounded-full animate-spin" />
               ) : (
-                'ENTRAR NO PORTAL'
+                'ENTRAR NO MAGE STUDIO'
               )}
             </button>
           </form>
         </div>
 
-        {/* Footer info */}
         <div className="text-center mt-6">
           <p className="text-[10px] text-slate-500 font-mono">
-            MAGE © {new Date().getFullYear()} • Todos os direitos reservados.
+            MAGE © {new Date().getFullYear()} • Gestão Interna
           </p>
         </div>
       </div>

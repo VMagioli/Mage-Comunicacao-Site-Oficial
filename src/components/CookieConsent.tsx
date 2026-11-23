@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, createContext, useContext } from 'react';
+import Link from 'next/link';
 import { ShieldCheck, X } from 'lucide-react';
 
 /* ─────────── Contexto simples para toda a app ─────────── */
@@ -29,10 +30,7 @@ export const CookieConsentProvider: React.FC<{ children: React.ReactNode }> = ({
 };
 
 /* ────────────────── Componente banner ─────────────────── */
-interface CookieConsentProps {
-  setActiveTab: (tab: string) => void;
-}
-export function CookieConsent({ setActiveTab }: CookieConsentProps) {
+export function CookieConsent() {
   const { status, setStatus } = useCookieConsent();
   const [visible, setVisible] = useState(false);
 
@@ -86,16 +84,13 @@ export function CookieConsent({ setActiveTab }: CookieConsentProps) {
           </div>
 
           <p className="text-xs text-slate-400 leading-relaxed">
-            Usamos cookies para melhorar sua experiência […] Veja nossa{' '}
-            <button
-              onClick={() => {
-                setActiveTab('privacidade');
-                document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
+            Usamos cookies para melhorar sua experiência e analisar o desempenho do site. Veja nossa{' '}
+            <Link
+              href="/privacidade"
               className="text-blue-400 hover:underline font-medium"
             >
               Política de Privacidade
-            </button>.
+            </Link>.
           </p>
 
           <div className="flex justify-end gap-3 pt-2">

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from 'react';
 import { Mail, MessageSquare, Phone, Send, ExternalLink } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -94,9 +96,9 @@ export function ContactPage({ defaultProjectType = 'web' }: ContactPageProps) {
       {/* Header */}
       <div className="mb-12">
         <span className="text-slate-500 text-[10px] font-mono uppercase tracking-widest">Ficou interessado em nossos serviços?</span>
-        <h2 className="text-3xl sm:text-4xl font-medium text-white tracking-tight mt-2">
+        <h1 className="text-3xl sm:text-4xl font-medium text-white tracking-tight mt-2">
           Entre em Contato
-        </h2>
+        </h1>
         <p className="text-slate-400 font-light mt-4 max-w-2xl text-sm md:text-base">
           O próximo salto da sua empresa começa com a estrutura certa. <br/>Conte-nos onde você quer chegar. Nós desenhamos o caminho digital para isso. Escreva abaixo ou mande mensagem via WhatsApp.
         </p>
@@ -279,7 +281,12 @@ export function ContactPage({ defaultProjectType = 'web' }: ContactPageProps) {
                 </div>
                 <div>
                   <div className="text-[10px] font-mono text-slate-500 uppercase tracking-wide">E-mail Comercial</div>
-                  <div className="text-sm text-slate-300 mt-0.5">contato@magecomunicacao.com.br</div>
+                  <a
+                    href="mailto:agencia.magecomunicacao@gmail.com"
+                    className="text-sm text-slate-300 hover:text-white transition-colors mt-0.5 inline-block"
+                  >
+                    agencia.magecomunicacao@gmail.com
+                  </a>
                 </div>
               </div>
 
@@ -289,7 +296,7 @@ export function ContactPage({ defaultProjectType = 'web' }: ContactPageProps) {
                 </div>
                 <div>
                   <div className="text-[10px] font-mono text-slate-500 uppercase tracking-wide">Horário de Atendimento</div>
-                  <div className="text-sm text-slate-300 mt-0.5">Segunda à Sexta, das 09h às 18h</div>
+                  <div className="text-sm text-slate-300 mt-0.5">Segunda à Sexta, das 09h às 20h</div>
                 </div>
               </div>
             </div>

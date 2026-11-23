@@ -1,13 +1,10 @@
 import React from 'react';
+import { MarketingShell } from '@/src/components/MarketingShell';
 
 export default function MarketingLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="relative min-h-screen w-full overflow-x-hidden">
-      {children}
-    </div>
-  );
+  return <MarketingShell>{children}</MarketingShell>;
 }

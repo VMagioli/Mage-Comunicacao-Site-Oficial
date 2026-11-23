@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, Suspense } from 'react';
+import React, { useEffect, useRef, Suspense } from 'react';
 import Script from 'next/script';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { GA_TRACKING_ID, pageview, event } from '@/src/lib/gtag';
@@ -8,12 +8,17 @@ import { GA_TRACKING_ID, pageview, event } from '@/src/lib/gtag';
 function TrackRouteChangeAndInteractions() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const isFirstRender = useRef(true);
 
-  // Rastreia mudanças de página e rotas
+  // Rastreia mudanças de página e rotas (evita duplicar o primeiro pageview já disparado pelo gtag config)
   useEffect(() => {
     if (!pathname) return;
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     const url = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : '');
-    pageview(url);
+    pageview(url, typeof document !== 'undefined' ? document.title : undefined);
   }, [pathname, searchParams]);
 
   // Rastreamento automático de cliques essenciais (WhatsApp, Redes Sociais, E-mail)
@@ -47,6 +52,13 @@ function TrackRouteChangeAndInteractions() {
           action: 'click_social',
           category: 'Social',
           label: 'Threads',
+          link_url: href,
+        });
+      } else if (href.includes('facebook.com')) {
+        event({
+          action: 'click_social',
+          category: 'Social',
+          label: 'Facebook',
           link_url: href,
         });
       } else if (href.includes('linkedin.com')) {
