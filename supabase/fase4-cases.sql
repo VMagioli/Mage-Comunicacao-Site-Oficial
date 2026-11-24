@@ -51,6 +51,9 @@ create trigger trg_cases_updated_at
 -- 2. Segurança RLS (leitura pública apenas para cases publicados; escrita via Service Role no /admin)
 alter table public.cases enable row level security;
 
+grant usage on schema public to anon, authenticated;
+grant select on public.cases to anon, authenticated;
+
 drop policy if exists "Public can read published cases" on public.cases;
 create policy "Public can read published cases"
   on public.cases

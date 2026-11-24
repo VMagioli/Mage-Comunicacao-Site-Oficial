@@ -47,6 +47,9 @@ create trigger trg_posts_updated_at
 -- 2. Segurança RLS (leitura pública apenas de posts publicados; escrita via Service Role no /admin)
 alter table public.posts enable row level security;
 
+grant usage on schema public to anon, authenticated;
+grant select on public.posts to anon, authenticated;
+
 drop policy if exists "Public can read published posts" on public.posts;
 create policy "Public can read published posts"
   on public.posts
